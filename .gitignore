@@ -1,0 +1,28 @@
+# ===== ความลับ: ห้าม commit เด็ดขาด (เผื่อมีใครวางไฟล์เซิร์ฟเวอร์ไว้ในโฟลเดอร์นี้) =====
+market_server.ini
+market_token.txt
+market_keys.json
+market.db
+market.db-*
+*.sqlite
+*.sqlite-*
+backups/
+logs/
+*.log
+.env
+*.secret
+
+# ===== ไฟล์ที่สร้างตอนรันจริง (รหัส LVKA ของผู้ใช้อยู่ในนี้) =====
+settings.ini
+LavkaMarket/settings.ini
+LavkaMarket/market_db.json
+LavkaMarket/logs/
+.stamp
+LavkaMarket/web/.stamp
+
+# ===== ของระบบ/เครื่องมือ =====
+.venv/
+__pycache__/
+*.pyc
+Thumbs.db
+.DS_Store
