@@ -1,0 +1,111 @@
+{
+ "version": "0.4.5",
+ "files": [
+  {
+   "path": "LavkaMarket.lua",
+   "size": 271545,
+   "adler": 1039110610,
+   "url": "https://raw.githubusercontent.com/saradaken/LavkaMarket/main/dist/LavkaMarket.lua"
+  }
+ ],
+ "notes": [
+  {
+   "v": "0.4.5",
+   "date": "2026-11-20",
+   "th": [
+    "ย้ายการอัปเดตมาที่ GitHub เป็นหลัก (ทั้งตัวสคริปต์และตารางไอเทม) โหลดเร็วและเสถียรขึ้น ถ้าโหลดจาก GitHub ไม่ได้จะใช้เซิร์ฟเวอร์กองกลางเป็นสำรองให้เอง",
+    "โค้ดฝั่งไคลเอนต์เปิดเป็นโอเพนซอร์สแล้วที่ github.com/saradaken/LavkaMarket ตรวจสอบได้ว่าแชร์แค่ข้อมูลตลาด"
+   ],
+   "ru": [
+    "Обновления теперь идут через GitHub (и скрипт, и таблица предметов) — быстрее и стабильнее; если GitHub недоступен, используется пул-сервер как резерв",
+    "Клиент стал открытым: github.com/saradaken/LavkaMarket — можно проверить, что передаются только рыночные данные"
+   ],
+   "en": [
+    "Updates now go through GitHub (both the script and the item table) — faster and more reliable; falls back to the pool server if GitHub is unreachable",
+    "The client is now open source at github.com/saradaken/LavkaMarket — you can verify it shares market data only"
+   ]
+  },
+  {
+   "v": "0.4.4",
+   "date": "2026-11-20",
+   "th": [
+    "ติดตั้งใหม่: ไม่แสดงราคาเองทันทีแล้ว กด \"เริ่มดึงข้อมูล\" ก่อน มีอนิเมชันระหว่างดึง และบอกจำนวนร้านที่ได้",
+    "กดวงนับถอยหลัง (มุมล่างซ้าย) เพื่อดึงข้อมูลใหม่ได้ทันที"
+   ],
+   "ru": [
+    "Новая установка: цены больше не появляются сами — нажмите «Загрузить данные», с анимацией и счётчиком полученных лавок",
+    "Нажмите на кольцо отсчёта (слева внизу), чтобы обновить данные сразу"
+   ],
+   "en": [
+    "Fresh install: prices no longer appear on their own — press \"Start pulling data\", with an animation and a count of shops received",
+    "Click the countdown ring (bottom left) to pull fresh data right away"
+   ]
+  },
+  {
+   "v": "0.4.3",
+   "date": "2026-11-20",
+   "th": [
+    "ความเป็นส่วนตัว: รหัส LVKA ไม่อยู่ใน URL แล้ว (ส่งแบบซ่อนใน header) จึงไม่ติดอยู่ในล็อกของเซิร์ฟเวอร์หรือพร็อกซีใด ๆ"
+   ],
+   "ru": [
+    "Приватность: ключ LVKA больше не передаётся в адресе запроса (теперь в заголовке) и не попадает в логи серверов и прокси"
+   ],
+   "en": [
+    "Privacy: your LVKA key is no longer sent in request URLs (it goes in a header now), so it never lands in server or proxy logs"
+   ]
+  },
+  {
+   "v": "0.4.2",
+   "date": "2026-11-20",
+   "th": [
+    "หน้าต่างอัปเดตใหม่: บอกว่ามีอะไรใหม่ก่อนกดอัปเดต และแสดงความคืบหน้าทีละไฟล์",
+    "ป้ายจำนวนร้านแสดงแค่ไอคอนกับตัวเลข และนับร้านที่ใช้แสดงจริง",
+    "วงนับถอยหลังไม่เริ่มใหม่ตอนรีโหลดสคริปต์หรือสลับเซิร์ฟไปมา",
+    "แจกเป็นไฟล์เดียว: ตารางไอเทม (ชื่อ/หมวด) โหลดจากเซิร์ฟและอัปเดตเองอัตโนมัติ",
+    "เข้าเกมด้วย IP หรือชื่อเซิร์ฟ นับเป็นเซิร์ฟเดียวกันแล้ว (ข้อมูลไม่แยกกันอีก)"
+   ],
+   "ru": [
+    "Новое окно обновления: список изменений до установки и прогресс по каждому файлу",
+    "Счётчик лавок теперь только иконка и число, считает все показанные лавки",
+    "Таймер обновления не сбрасывается при перезагрузке скрипта и переключении серверов",
+    "Один файл для установки: таблица предметов загружается и обновляется с сервера автоматически",
+    "Вход по IP и по имени сервера теперь считается одним сервером (данные больше не разделяются)"
+   ],
+   "en": [
+    "New update window: see what's new before updating, with per-file progress",
+    "Shop counter is now just an icon and a number, counting every shop shown",
+    "The refresh countdown no longer resets on script reload or when switching servers",
+    "Single-file install: the item table downloads and updates from the server automatically",
+    "Joining by IP or by server name now counts as the same server (data no longer splits)"
+   ]
+  },
+  {
+   "v": "0.4.1",
+   "date": "2026-11-20",
+   "th": [
+    "ไฟล์ทั้งหมดของสคริปต์ย้ายมาอยู่ในโฟลเดอร์ moonloader/LavkaMarket ที่เดียว (ย้ายให้อัตโนมัติ)",
+    "อัปเดตสคริปต์ได้ในเกม: ☰ → อัปเดต",
+    "สลับดูตลาดของเซิร์ฟอื่นได้ที่ป้ายชื่อเซิร์ฟด้านบน",
+    "ดึงข้อมูลทุก 10 นาที พร้อมวงนับถอยหลัง",
+    "เก็บจำนวนรับซื้อของแผงคนอื่น และรายการตั้งขาย/รับซื้อของแผงตัวเองครบ",
+    "แก้หมวดหมู่ของเครื่องประดับชุดใหม่ (พังก์ / เมสัน / ฯลฯ)"
+   ],
+   "ru": [
+    "Все файлы скрипта теперь в одной папке moonloader/LavkaMarket (перенос автоматический)",
+    "Обновление прямо в игре: ☰ → Обновить",
+    "Можно смотреть рынок других серверов — нажмите на название сервера сверху",
+    "Обновление данных каждые 10 минут с кольцом обратного отсчёта",
+    "Учитывается кол-во скупки в чужих лавках и все товары/скупки вашей лавки",
+    "Исправлены категории новых аксессуаров (панк / масонский и др.)"
+   ],
+   "en": [
+    "All script files now live in one folder, moonloader/LavkaMarket (moved automatically)",
+    "Update in game: ☰ → Update",
+    "View other servers' markets from the server chip at the top",
+    "Data refreshes every 10 minutes with a countdown ring",
+    "Buy-order counts from other stalls and your own stall's sell/buy lists are now tracked",
+    "Fixed categories for new accessory sets (punk / masonic, etc.)"
+   ]
+  }
+ ]
+}

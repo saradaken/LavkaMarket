@@ -14,7 +14,7 @@
 
 script_name('LavkaMarket')
 script_author('LavkaMarket')
-script_version('0.4.4')
+script_version('0.4.5')
 
 local okEffil, effil = pcall(require, 'effil')
 local okFFI, ffi     = pcall(require, 'ffi')
@@ -23,6 +23,7 @@ local DISCORD_INVITE = 'https://discord.gg/NUEMsrCT'    -- ลิงก์เช
 -- url เซิร์ฟเวอร์กองกลาง: ใส่ตรงนี้ทีเดียว คนที่รับสคริปต์ไปจะต่อได้เลยไม่ต้องพิมพ์ /market url
 -- เช่น quick tunnel = 'https://xxxx.trycloudflare.com' (เปลี่ยนทุกครั้ง)  หรือโดเมนตัวเอง = 'https://api.yourdomain.xyz' (คงที่)
 local DEFAULT_URL = 'https://arz.lavkamarket.shop'
+local GH_RAW = 'https://raw.githubusercontent.com/saradaken/LavkaMarket/main/dist'   -- อัปเดตหลักผ่าน GitHub (ไฟล์เดียว) · ถ้าโหลดไม่ได้ค่อยใช้เซิร์ฟกองกลางเป็นสำรอง
 local function openUrl(u)
     if okFFI then
         pcall(function()
@@ -81,7 +82,7 @@ pcall(migrateOld)
 
 -- แจกไฟล์เดียว: ตัว release ฝังไฟล์หน้าเว็บไว้ในสคริปต์ (publish.py เติมแทนบรรทัด EMBED ข้างล่าง)
 -- เปิดครั้งแรก/เปลี่ยนรุ่น -> เขียนออกไปที่ LavkaMarket\web\ ; ตัวพัฒนา (EMBED = nil) ข้ามไป ใช้ไฟล์ที่มีอยู่
-local EMBED = { stamp = "0.4.4-2d24e67b", files = {
+local EMBED = { stamp = "0.4.5-2d24e67b", files = {
   ["app.js"] = [=[
 /* LavkaMarket CEF UI  (window.LVM)
    หน้าเว็บที่ฝังเข้า CEF ของเกม: หน้าล็อกอิน Discord + หน้าราคา
@@ -2582,11 +2583,19 @@ local function updStep()
     if not upd or url == '' or code == '' then return end
     if upd.stage == 'manifest' then
         upd.stage = 'wait'
-        httpCall('GET', url .. '/update/manifest?v=' .. tostring(thisScript().version or '0'), nil, function(ok, codeN, text)
+        upd.msrc = upd.msrc or 1   -- แหล่ง manifest: 1 = GitHub (หลัก), 2 = เซิร์ฟกองกลาง (สำรอง)
+        local murl = (upd.msrc == 1) and (GH_RAW .. '/manifest.json')
+            or (url .. '/update/manifest?v=' .. tostring(thisScript().version or '0'))
+        httpCall('GET', murl, nil, function(ok, codeN, text)
             if not upd then return end   -- ผู้ใช้กดยกเลิกระหว่างรอ
             local okj, d = false, nil
             if ok and codeN == 200 and text then okj, d = pcall(decodeJson, text) end
-            if not okj or type(d) ~= 'table' or type(d.files) ~= 'table' then return updFail('manifest') end
+            if not okj or type(d) ~= 'table' or type(d.files) ~= 'table' then
+                if upd.msrc == 1 then   -- GitHub ไม่ได้ -> ลองเซิร์ฟกองกลางแทน
+                    upd.msrc = 2; upd.stage = 'manifest'; pcall(updLog, 'manifest: github พลาด -> ลองเซิร์ฟสำรอง'); return
+                end
+                return updFail('manifest')
+            end
             if not verNewer(d.version, thisScript().version) then upd = nil; updUi('latest'); msg('updnone'); return end
             for _, f in ipairs(d.files) do
                 if not updTarget(f.path) or not tonumber(f.size) or not tonumber(f.adler) then return updFail('bad file ' .. tostring(f.path)) end
@@ -2602,7 +2611,9 @@ local function updStep()
         local f = upd.files[upd.i]
         if not f then upd.stage = 'apply'; updUi('apply', #upd.files, #upd.files); return end
         upd.stage = 'wait'
-        httpCall('GET', url .. '/update/file?path=' .. f.path, nil, function(ok, codeN, text)
+        -- โหลดไฟล์จาก url ใน manifest ถ้ามี (GitHub) ไม่งั้นจากเซิร์ฟกองกลาง
+        local furl = (type(f.url) == 'string' and f.url ~= '') and f.url or (url .. '/update/file?path=' .. f.path)
+        httpCall('GET', furl, nil, function(ok, codeN, text)
             if not (ok and codeN == 200 and text) then return updFail('download ' .. f.path) end
             if #text ~= tonumber(f.size) or adler32(text) ~= tonumber(f.adler) then return updFail('checksum ' .. f.path) end
             upd.data[f.path] = text; upd.i = upd.i + 1; upd.stage = 'file'
@@ -2627,21 +2638,29 @@ local function updStep()
         lua_thread.create(function() wait(1600); thisScript():reload() end)   -- ให้เห็นหน้าต่าง "เสร็จแล้ว" ครู่หนึ่ง
     end
 end
--- ตารางไอเทม (web/items.json) ไม่ฝังในสคริปต์: โหลดจากเซิร์ฟเองตอนไม่มีไฟล์ หรือ /config บอกว่ามีรุ่นใหม่ (adler ไม่ตรง)
-local wantItems, itemsReload, lastItemsTry, itemsAdler = false, false, -1e9, nil
+-- ตารางไอเทม (web/items.json) ไม่ฝังในสคริปต์: โหลดผ่าน GitHub เป็นหลัก (เหมือนตัวสคริปต์) เซิร์ฟ /items เป็นสำรอง
+-- ทริกเกอร์: ไม่มีไฟล์ หรือ /config บอกว่ามีรุ่นใหม่ (adler ไม่ตรง) · ไฟล์บน GitHub = ไฟล์เดียวกับที่เซิร์ฟแจก adler จึงตรงกัน
+local wantItems, itemsReload, lastItemsTry, itemsAdler, itemsSrc = false, false, -1e9, nil, 1   -- itemsSrc: 1=GitHub, 2=เซิร์ฟสำรอง
 local function readAll(p) local f = io.open(p, 'rb'); if not f then return nil end; local s = f:read('*a'); f:close(); return s end
 local function doItems()
-    local url = srvUrl(); if url == '' then return end
+    local url = srvUrl()
+    local src = itemsSrc
+    if src == 2 and url == '' then itemsSrc = 1; return end         -- ไม่มีเซิร์ฟสำรอง: กลับไปใช้ GitHub
+    local iurl = (src == 1) and (GH_RAW .. '/items.json') or (url .. '/items')
     local expect = wantItems
-    httpCall('GET', url .. '/items', nil, function(ok, codeN, text)
-        if not (ok and codeN == 200 and text and #text > 1000 and text:sub(1, 1) == '{') then return end
-        if type(expect) == 'number' and adler32(text) ~= expect then return end   -- โหลดมาไม่ครบ/เพี้ยน: รอบหน้าลองใหม่
+    httpCall('GET', iurl, nil, function(ok, codeN, text)
+        local bad = not (ok and codeN == 200 and text and #text > 1000 and text:sub(1, 1) == '{')
+        if not bad and type(expect) == 'number' and adler32(text) ~= expect then bad = true end   -- โหลดมาไม่ครบ/เพี้ยน
+        if bad then
+            if src == 1 then itemsSrc = 2; lastItemsTry = -1e9 else itemsSrc = 1 end   -- GitHub พลาด -> ลองเซิร์ฟทันที
+            return
+        end
         local okj, t = pcall(decodeJson, text)
         if not okj or type(t) ~= 'table' then return end
         mkdir(BASE); mkdir(BASE .. '\\web')
         local fo = io.open(ITEMS_RES .. '.new', 'wb'); if not fo then return end
         fo:write(text); fo:close(); os.remove(ITEMS_RES); os.rename(ITEMS_RES .. '.new', ITEMS_RES)
-        wantItems = false; itemsReload = true
+        wantItems = false; itemsReload = true; itemsSrc = 1
     end)
 end
 local function doConfig()
