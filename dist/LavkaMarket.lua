@@ -14,7 +14,7 @@
 
 script_name('LavkaMarket')
 script_author('LavkaMarket')
-script_version('0.4.5')
+script_version('0.4.6')
 
 local okEffil, effil = pcall(require, 'effil')
 local okFFI, ffi     = pcall(require, 'ffi')
@@ -82,7 +82,7 @@ pcall(migrateOld)
 
 -- แจกไฟล์เดียว: ตัว release ฝังไฟล์หน้าเว็บไว้ในสคริปต์ (publish.py เติมแทนบรรทัด EMBED ข้างล่าง)
 -- เปิดครั้งแรก/เปลี่ยนรุ่น -> เขียนออกไปที่ LavkaMarket\web\ ; ตัวพัฒนา (EMBED = nil) ข้ามไป ใช้ไฟล์ที่มีอยู่
-local EMBED = { stamp = "0.4.5-2d24e67b", files = {
+local EMBED = { stamp = "0.4.6-d9d27592", files = {
   ["app.js"] = [=[
 /* LavkaMarket CEF UI  (window.LVM)
    หน้าเว็บที่ฝังเข้า CEF ของเกม: หน้าล็อกอิน Discord + หน้าราคา
@@ -1014,7 +1014,8 @@ local EMBED = { stamp = "0.4.5-2d24e67b", files = {
   // ข้อมูลไอเทมจากหน้าต่าง "ИНФОРМАЦИЯ О ПРЕДМЕТЕ" ของเกม: เก็บเป็นบรรทัดดิบ แล้วจัดหมวดที่นี่
   function infoOf(r) {
     // ระดับดาว (~tN) ข้อมูลต่างกัน = ใช้ของระดับนั้นตรง ๆ; ตีบวก (+N) ใช้ของ id หลัก
-    var I = S.info || {}, v = S.detail ? curLv() : vidOf(r), mt = /~t(\d+)/.exec(v), raw = I[mt ? r.base + '~t' + mt[1] : r.base];
+    var I = S.info || {}, v = S.detail ? curLv() : vidOf(r), mt = /~t(\d+)/.exec(v);
+    var raw = I[v] || (mt ? I[r.base + '~t' + mt[1]] : null) || I[r.base];   // เกรดตรงตัวก่อน แล้ว fallback ดาวล้วน / ตัวหลัก
     if (raw && !raw.count && I[r.base] && I[r.base].count) raw = { lines: raw.lines, upmax: raw.upmax, count: I[r.base].count, plus: I[r.base].plus };
     var nm = String(r.name || '').replace(/\s+/g, ' ').trim().toLowerCase(), lastTx = false;
     if (!raw || !raw.lines || (!raw.lines.length && !raw.count)) return null;
@@ -1027,7 +1028,7 @@ local EMBED = { stamp = "0.4.5-2d24e67b", files = {
       if (!/^\*/.test(t)) t = t.replace(/^[-–—•\s]+/, '');
       var m;
       if (m = /на сервере:\s*([\d\s.,]+\+?)/i.exec(t)) { out.count = out.count || m[1].replace(/[^\d]/g, ''); continue; }
-      if (/^(Покупка предмета|Продажа предмета|Введите|В наличии|У вас|Стоимость|Осталось|Улучшение|Принадлежн|Верность|Класс качества|Владел|Срок|Прочност|Характеристики|Цена|Ваш)/i.test(t)) continue;   // ค่าของชิ้นที่ถือ ไม่ใช่ของไอเทม
+      if (/^(Покупка предмета|Продажа предмета|Введите|В наличии|У вас|Стоимость|Осталось|Уровень улучшения|Улучшение|Установлен|Принадлежн|Верность|Класс качества|Владел|Срок|Прочност|Характеристики|Цена|Ваш)/i.test(t)) continue;   // ค่าของชิ้นที่ถือ/เฉพาะชิ้น ไม่ใช่ของไอเทม
       if (/^Предмет:/i.test(t)) continue;
       if (/^(?:(?:RU|EN|UA|KZ)\s+)?(?:(?:КУПИТЬ|ПРОДАТЬ|ОТМЕНА|ЗАКРЫТЬ|ВЫБРАТЬ|НАЗАД|ОК|ДА|НЕТ)\s*)+$/i.test(t)) continue;   // ปุ่มของหน้าต่าง   // แค่ชื่อไอเทม (มีบนหัวอยู่แล้ว)
       if (m = /дополнительно да[её]т\s*(.+)$/i.exec(t)) { out.bonus.push(m[1]); continue; }
@@ -2445,7 +2446,7 @@ end
 local INFO_JS = [[(function(){if(window.__lvmInf6)return;window.__lvmInf6=1;
 var cId='',cT=0,hId='',cC='',hC='',tile=null,last='',tm=0,K='на сервере';
 function cols(el){var o=[],q=[el],d=0;while(q.length&&o.length<8&&d<40){var e=q.shift();d++;try{var s=getComputedStyle(e),t=(s.backgroundColor||'')+' '+(s.backgroundImage||''),m,re=/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/g;while(m=re.exec(t)){if(m[4]===undefined||+m[4]>0.3)o.push(m[1]+'.'+m[2]+'.'+m[3]);}}catch(x){}for(var i=0;i<e.children.length&&i<6;i++)if(e.children[i].tagName!=='IMG')q.push(e.children[i]);}return o.join(',');}
-var DROP=/^(Покупка предмета|Продажа предмета|Введите|В наличии|У вас|Стоимость|Осталось|Улучшение|Принадлежн|Верность|Класс качества|Владел|Срок|Прочност|Характеристики|Цена|Ваш|Вы )/i;
+var DROP=/^(Покупка предмета|Продажа предмета|Введите|В наличии|У вас|Стоимость|Осталось|Уровень улучшения|Улучшение|Установлен|Принадлежн|Верность|Класс качества|Владел|Срок|Прочност|Характеристики|Цена|Ваш|Вы )/i;
 var HEAD={'ИНФОРМАЦИЯ О ПРЕДМЕТЕ':1,'ВЫХОД':1,'ЗАКРЫТЬ':1};
 function idAt(t){tile=null;var n=t;for(var i=0;i<6&&n&&n.querySelectorAll;i++,n=n.parentElement){if(n.id==='lvmRoot')return '';var a=n.getAttribute&&n.getAttribute('alt'),m=a&&/ID:(\d+)/.exec(a);if(m){tile=n.parentElement;return m[1];}var im=n.querySelectorAll('img[alt*="ID:"]');if(im.length===1){m=/ID:(\d+)/.exec(im[0].getAttribute('alt')||'');tile=n;return m?m[1]:'';}if(im.length>1)return '';}return '';}
 document.addEventListener('mousedown',function(e){var v=idAt(e.target);if(v){cId=v;cT=Date.now();cC=tile?cols(tile):'';}},true);
@@ -2456,7 +2457,7 @@ if(!hit)return;var box=hit;
 for(var i=0;i<12&&box.parentElement&&box.parentElement!==document.body;i++){var q=box.parentElement;if(q.querySelectorAll('img').length>2||(q.innerText||'').length>6000)break;box=q;}
 var t=box.innerText||'';if(t===last)return;last=t;
 var L=t.split('\n'),out=[];
-for(var j=0;j<L.length;j++){var s=L[j].replace(/\s+/g,' ').trim(),b=s.replace(/^[-–—•\s]+/,'');if(HEAD[s.toUpperCase()])continue;var um=/^Улучшение:\s*\d+\s*\/\s*(\d+)/.exec(b);if(um){out.push('#upmax:'+um[1]);continue;}if(b&&(DROP.test(b)||/^\d+\.\s/.test(b)))continue;out.push(s);}
+for(var j=0;j<L.length;j++){var s=L[j].replace(/\s+/g,' ').trim(),b=s.replace(/^[-–—•\s]+/,'');if(HEAD[s.toUpperCase()])continue;var um=/^Улучшение:\s*\d+\s*\/\s*(\d+)/.exec(b);if(um){out.push('#upmax:'+um[1]);continue;}var ul=/Уровень улучшения:\s*\+?(\d+)\s*\/\s*(\d+)/.exec(b);if(ul){out.push('#lvl:'+ul[1]);out.push('#upmax:'+ul[2]);continue;}if(b&&(DROP.test(b)||/^\d+\.\s/.test(b)))continue;out.push(s);}
 var fresh=Date.now()-cT<15000,c=fresh?cId:'';
 var msg=encodeURIComponent(c+'\u0001'+hId+'\u0001'+(fresh?cC:'')+'\u0001'+hC+'\u0001'+out.join('\n')),N=Math.ceil(msg.length/3000);
 for(var k=0;k<N;k++){try{window.cef.SendMessage('lvm|inf:'+(k+1)+'/'+N+':'+msg.substr(k*3000,3000),0);}catch(e){}}}
@@ -2472,7 +2473,7 @@ end
 local INFO_JS_A = asciiJs(INFO_JS)
 local infBuf, wantInfo, infoSent = {}, nil, {}
 local function urlDecode(s) return (s:gsub('%%(%x%x)', function(h) return string.char(tonumber(h, 16)) end)) end
-local INFO_DROP = { 'ПОКУПКА ПРЕДМЕТА', 'ПРОДАЖА ПРЕДМЕТА', 'Покупка предмета', 'Продажа предмета', 'Введите','В наличии', 'У вас', 'Стоимость', 'Осталось', 'Улучшение', 'Принадлежн', 'Верность', 'Класс качества', 'Владел', 'Срок', 'Прочност', 'Характеристики', 'Цена', 'Ваш' }
+local INFO_DROP = { 'ПОКУПКА ПРЕДМЕТА', 'ПРОДАЖА ПРЕДМЕТА', 'Покупка предмета', 'Продажа предмета', 'Введите','В наличии', 'У вас', 'Стоимость', 'Осталось', 'Уровень улучшения', 'Улучшение', 'Установлен', 'Принадлежн', 'Верность', 'Класс качества', 'Владел', 'Срок', 'Прочност', 'Характеристики', 'Цена', 'Ваш' }
 local function doInfo(raw)
     if tonumber(cfg.main.share) ~= 1 then return end
     local url, code = srvUrl(), tostring(cfg.main.code or '')
@@ -2480,15 +2481,19 @@ local function doInfo(raw)
     local cId, hId, cC, hC, text = raw:match('^(%d*)\1(%d*)\1([%d.,]*)\1([%d.,]*)\1(.*)$')
     if not text then return end
     local nick = myNick() or ''
-    local lines, name = {}, nil
+    local lines, name, en = {}, nil, nil
     for ln in (text .. '\n'):gmatch('(.-)\n') do
-        local bare = ln:gsub('^[%s%-–—•]+', '')
-        local drop = (nick ~= '' and ln:find(nick, 1, true)) or bare:match('^%d+%.%s')
-        if not drop then for _, p in ipairs(INFO_DROP) do if bare:sub(1, #p) == p then drop = true; break end end end
-        if not drop then
-            lines[#lines + 1] = ln
-            -- ชื่อ = บรรทัดแรกที่มีตัวหนังสือ: "Одежда: Cash" -> Cash, หรือ "Shawn Blue" ทั้งบรรทัด
-            if not name and ln:match('%S') and ln:sub(1, 1) ~= '#' then name = ln:match(':%s*(.-)%s*$') or ln:match('^%s*(.-)%s*$') end
+        local el = ln:match('^#lvl:(%d+)$')
+        if el then en = tonumber(el)   -- ระดับตีบวกของชิ้นนี้: ใช้แยกเกรด ไม่เก็บเป็นคำอธิบาย
+        else
+            local bare = ln:gsub('^[%s%-–—•]+', '')
+            local drop = (nick ~= '' and ln:find(nick, 1, true)) or bare:match('^%d+%.%s')
+            if not drop then for _, p in ipairs(INFO_DROP) do if bare:sub(1, #p) == p then drop = true; break end end end
+            if not drop then
+                lines[#lines + 1] = ln
+                -- ชื่อ = บรรทัดแรกที่มีตัวหนังสือ: "Одежда: Cash" -> Cash, หรือ "Shawn Blue" ทั้งบรรทัด
+                if not name and ln:match('%S') and ln:sub(1, 1) ~= '#' then name = ln:match(':%s*(.-)%s*$') or ln:match('^%s*(.-)%s*$') end
+            end
         end
     end
     -- หาว่าเป็นไอเทมไหน: ชื่อในบรรทัดแรก ("Одежда: Cash" / "Предмет: Ларец") เทียบรายชื่อไอเทม + ช่องที่คลิก/ชี้อยู่
@@ -2528,6 +2533,10 @@ local function doInfo(raw)
         -- ต้องใกล้พอ และชนะอันดับสองชัดเจน ไม่งั้นไม่เก็บ (กันข้อมูลไปติดผิดระดับ)
         if not best or bestD > 45 or second - bestD < 20 then return end
         vid = best
+    end
+    -- ตีบวก (+N): แยกคำอธิบายตามระดับ -> ต่อ ~eN เข้ากับ vid (ดาว+ตีบวก = base~tTeN, ตีบวกล้วน = base~eN)
+    if en and en > 0 then
+        if vid:find('~t', 1, true) then vid = vid .. 'e' .. en else vid = base .. '~e' .. en end
     end
     local key = table.concat(lines, '\n')
     local prev = infoSent[vid]

@@ -1,14 +1,30 @@
 {
- "version": "0.4.5",
+ "version": "0.4.6",
  "files": [
   {
    "path": "LavkaMarket.lua",
-   "size": 271545,
-   "adler": 1039110610,
+   "size": 272675,
+   "adler": 3853441513,
    "url": "https://raw.githubusercontent.com/saradaken/LavkaMarket/main/dist/LavkaMarket.lua"
   }
  ],
  "notes": [
+  {
+   "v": "0.4.6",
+   "date": "2026-11-20",
+   "th": [
+    "ข้อมูลไอเทม (คำอธิบาย/สเตตัส) แยกตามเกรดแล้ว เลือกตีบวกไหนก็เห็นค่าของเกรดนั้น ไม่ปนกัน",
+    "ตัดบรรทัดเฉพาะชิ้น (ระดับตีบวก/อุปกรณ์ที่ใส่) ออกจากคำอธิบาย ไม่ให้ขึ้นผิดเกรด"
+   ],
+   "ru": [
+    "Инфо о предмете (описание/характеристики) теперь раздельно по грейдам: выбрав прокачку, видишь данные именно этого грейда",
+    "Из описания убраны строки конкретного экземпляра (уровень прокачки/установленный обвес), чтобы не показывались в чужом грейде"
+   ],
+   "en": [
+    "Item info (description/stats) is now split per grade — pick an upgrade level and you see that grade's own data, not mixed",
+    "Per-piece lines (upgrade level / installed attachment) are stripped from the description so they don't show on the wrong grade"
+   ]
+  },
   {
    "v": "0.4.5",
    "date": "2026-11-20",
