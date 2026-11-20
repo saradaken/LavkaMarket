@@ -1,14 +1,27 @@
 {
- "version": "0.5.0",
+ "version": "0.5.1",
  "files": [
   {
    "path": "LavkaMarket.lua",
-   "size": 274857,
-   "adler": 3113019128,
+   "size": 274860,
+   "adler": 4115918213,
    "url": "https://raw.githubusercontent.com/saradaken/LavkaMarket/main/dist/LavkaMarket.lua"
   }
  ],
  "notes": [
+  {
+   "v": "0.5.1",
+   "date": "2026-11-21",
+   "th": [
+    "เส้นรับซื้อ (เขียว) ในกราฟหักค่าธรรมเนียม 2% แล้ว = ราคาที่ได้รับจริงเวลาขายคืน"
+   ],
+   "ru": [
+    "Зелёная линия скупки теперь с вычетом комиссии 2% — реальная сумма при продаже"
+   ],
+   "en": [
+    "The green buy line now subtracts the 2% fee — the real amount you get when selling back"
+   ]
+  },
   {
    "v": "0.5.0",
    "date": "2026-11-21",

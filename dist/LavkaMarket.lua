@@ -14,7 +14,7 @@
 
 script_name('LavkaMarket')
 script_author('LavkaMarket')
-script_version('0.5.0')
+script_version('0.5.1')
 
 local okEffil, effil = pcall(require, 'effil')
 local okFFI, ffi     = pcall(require, 'ffi')
@@ -82,7 +82,7 @@ pcall(migrateOld)
 
 -- แจกไฟล์เดียว: ตัว release ฝังไฟล์หน้าเว็บไว้ในสคริปต์ (publish.py เติมแทนบรรทัด EMBED ข้างล่าง)
 -- เปิดครั้งแรก/เปลี่ยนรุ่น -> เขียนออกไปที่ LavkaMarket\web\ ; ตัวพัฒนา (EMBED = nil) ข้ามไป ใช้ไฟล์ที่มีอยู่
-local EMBED = { stamp = "0.5.0-adc23b3e", files = {
+local EMBED = { stamp = "0.5.1-5973427a", files = {
   ["app.js"] = [=[
 /* LavkaMarket CEF UI  (window.LVM)
    หน้าเว็บที่ฝังเข้า CEF ของเกม: หน้าล็อกอิน Discord + หน้าราคา
@@ -100,7 +100,7 @@ local EMBED = { stamp = "0.5.0-adc23b3e", files = {
   S.mode = 'buy';
   // ฝั่งร้านรับซื้อ: ปิดไว้ก่อน (ยังรับ/เก็บข้อมูลตามปกติที่หลังบ้าน แค่ไม่แสดง) — เปิดกลับ = true
   var SELL_ON = false;
-  var BUY_FEE = 0;   // ค่าธรรมเนียมฝั่งรับซื้อ (0..1) เช่น 0.1 = หัก 10% — ตั้งตามจริงของเซิร์ฟ (0 = ไม่หัก)
+  var BUY_FEE = 0.02;   // ค่าธรรมเนียมฝั่งรับซื้อ 2% (ตามจริงของเซิร์ฟ) — เส้นเขียว = ราคารับซื้อ × 0.98
   // หมวดไอเทมตามประเภทของเกม (ITEM_TYPE_* จากหน้า UI ของเกม) รวมเป็นกลุ่มแบบในเกม
   var CATS = [
     { id: 'acc', ico: 'acc', ty: [3, 6, 73, 75], n: { th: 'อุปกรณ์เสริม', ru: 'Аксессуары', en: 'Accessories' } },
