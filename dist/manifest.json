@@ -1,14 +1,27 @@
 {
- "version": "0.4.8",
+ "version": "0.4.9",
  "files": [
   {
    "path": "LavkaMarket.lua",
-   "size": 273730,
-   "adler": 2818507850,
+   "size": 275961,
+   "adler": 740139186,
    "url": "https://raw.githubusercontent.com/saradaken/LavkaMarket/main/dist/LavkaMarket.lua"
   }
  ],
  "notes": [
+  {
+   "v": "0.4.9",
+   "date": "2026-11-21",
+   "th": [
+    "เพิ่มหน้า \"ประวัติเวอร์ชัน\" ในเมนู ☰ ดูการเปลี่ยนแปลงย้อนหลังทุกเวอร์ชันได้"
+   ],
+   "ru": [
+    "Добавлена «История версий» в меню ☰ — можно посмотреть изменения по всем прошлым версиям"
+   ],
+   "en": [
+    "Added a \"Version history\" page in the ☰ menu — browse changes from every past version"
+   ]
+  },
   {
    "v": "0.4.8",
    "date": "2026-11-20",
