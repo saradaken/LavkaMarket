@@ -14,7 +14,7 @@
 
 script_name('LavkaMarket')
 script_author('LavkaMarket')
-script_version('0.4.7')
+script_version('0.4.8')
 
 local okEffil, effil = pcall(require, 'effil')
 local okFFI, ffi     = pcall(require, 'ffi')
@@ -1069,7 +1069,9 @@ local function updStep()
             end
             local fl = {}
             for _, f in ipairs(d.files) do fl[#fl + 1] = { path = tostring(f.path), size = tonumber(f.size) } end
-            updMeta = { ver = tostring(d.version), notes = type(d.notes) == 'table' and d.notes or {}, files = fl }
+            local cur, nn = thisScript().version, {}   -- หน้าต่างอัปเดต: โชว์เฉพาะเวอร์ชันที่ใหม่กว่าของที่มีอยู่ (ไม่ยาว)
+            if type(d.notes) == 'table' then for _, e in ipairs(d.notes) do if type(e) == 'table' and e.v and verNewer(tostring(e.v), cur) then nn[#nn + 1] = e end end end
+            updMeta = { ver = tostring(d.version), notes = nn, files = fl }
             upd.ver, upd.files, upd.i, upd.data = tostring(d.version), d.files, 1, {}
             if upd.ask then upd.stage = 'ask'; updUi('ask')   -- รอผู้ใช้กด "อัปเดตเลย" ในหน้าต่าง
             else upd.stage = 'file'; updUi('dl', 1, #d.files) end

@@ -1,14 +1,27 @@
 {
- "version": "0.4.7",
+ "version": "0.4.8",
  "files": [
   {
    "path": "LavkaMarket.lua",
-   "size": 273354,
-   "adler": 3212330857,
+   "size": 273730,
+   "adler": 2818507850,
    "url": "https://raw.githubusercontent.com/saradaken/LavkaMarket/main/dist/LavkaMarket.lua"
   }
  ],
  "notes": [
+  {
+   "v": "0.4.8",
+   "date": "2026-11-20",
+   "th": [
+    "หน้าต่างอัปเดตโชว์เฉพาะการเปลี่ยนแปลงที่ใหม่กว่าเวอร์ชันที่ใช้อยู่ ไม่ยาวเกินไป"
+   ],
+   "ru": [
+    "Окно обновления показывает только изменения новее вашей версии — больше не длинный список"
+   ],
+   "en": [
+    "The update window now shows only changes newer than your version — no more long list"
+   ]
+  },
   {
    "v": "0.4.7",
    "date": "2026-11-20",
