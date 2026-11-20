@@ -2712,7 +2712,6 @@ local function doServers()
     end)
 end
 local wantServers = false
-local wantCfg = false       -- เปิดเมนู = ขอเช็กเวอร์ชันล่าสุดทันที (ไม่ต้องรอรอบ 30 นาที/รีโหลด)
 -- เก็บข้อมูลกองกลางล่าสุด + เวลาที่ดึงลงไฟล์: รีโหลดสคริปต์แล้วไม่ต้องดึงใหม่ วงนับถอยหลังนับต่อจากเดิม
 local POOLC = BASE .. '\\pool_cache.json'
 local poolMem = {}   -- [key] = { shops, t }: สลับเซิร์ฟไป-กลับภายใน 10 นาทีไม่ต้องดึงใหม่ วงนับไม่เริ่มใหม่
@@ -2883,7 +2882,7 @@ function onSendPacket(id, bs)
         else local c = 0; for _ in pairs(mergedShops()) do c = c + 1 end; pushPull('ok', c) end   -- กดรัว: ไม่ยิงซ้ำ
         return false
     elseif str == 'lvm|srvlist' then wantServers = true; return false
-    elseif str == 'lvm|cfgcheck' then wantCfg = true; return false   -- เปิดเมนู: เช็กเวอร์ชันใหม่สด ๆ
+    elseif str == 'lvm|cfgcheck' then lastCfg = -1e9; return false   -- เปิดเมนู: บังคับเช็กเวอร์ชันรอบถัดไปทันที (ไม่เพิ่ม upvalue ให้ main)
 
     elseif str:sub(1, 8) == 'lvm|srv:' then
         local k = str:sub(9):gsub('[^%w%.:%-]', ''):sub(1, 32)
@@ -3097,7 +3096,6 @@ function main()
         end
         if wantPull and not netBusy and tonumber(cfg.main.pulled) == 1 then wantPull = false; lastPull = os.clock(); pcall(doPull) end
         if wantServers and not netBusy then wantServers = false; pcall(doServers) end
-        if wantCfg and not netBusy then wantCfg = false; if os.clock() - lastCfg > 10 then lastCfg = os.clock(); pcall(doConfig) end end   -- เปิดเมนู = เช็กเวอร์ชันสด (กันยิงถี่ 10 วิ)
         if wantItems and not netBusy and os.clock() - lastItemsTry > 120 then lastItemsTry = os.clock(); pcall(doItems) end
         if itemsReload then itemsReload = false; itemsAdler = nil; pcall(loadItems); pcall(buildMarket); uiDirty = true end
         if upd and upd.stage ~= 'wait' and not netBusy then local okU, e = pcall(updStep); if not okU then updFail(tostring(e)) end end
