@@ -14,7 +14,7 @@
 
 script_name('LavkaMarket')
 script_author('LavkaMarket')
-script_version('0.4.9')
+script_version('0.5.0')
 
 local okEffil, effil = pcall(require, 'effil')
 local okFFI, ffi     = pcall(require, 'ffi')

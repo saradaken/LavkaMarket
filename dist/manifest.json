@@ -1,14 +1,27 @@
 {
- "version": "0.4.9",
+ "version": "0.5.0",
  "files": [
   {
    "path": "LavkaMarket.lua",
-   "size": 275961,
-   "adler": 740139186,
+   "size": 274857,
+   "adler": 3113019128,
    "url": "https://raw.githubusercontent.com/saradaken/LavkaMarket/main/dist/LavkaMarket.lua"
   }
  ],
  "notes": [
+  {
+   "v": "0.5.0",
+   "date": "2026-11-21",
+   "th": [
+    "กราฟประวัติราคาเป็นสองเส้น: เหลือง = ขายถูกสุด, เขียว = รับซื้อสูงสุด ในกราฟเดียว เห็นทั้งราคาซื้อและขายคืนพร้อมกัน"
+   ],
+   "ru": [
+    "График цены теперь в две линии: жёлтая — мин. продажа, зелёная — макс. скупка; видно и цену покупки, и выкуп сразу"
+   ],
+   "en": [
+    "Price history is now two lines: yellow = cheapest sell, green = highest buy — see both the buy price and the sell-back at once"
+   ]
+  },
   {
    "v": "0.4.9",
    "date": "2026-11-21",
