@@ -1,14 +1,27 @@
 {
- "version": "0.4.6",
+ "version": "0.4.7",
  "files": [
   {
    "path": "LavkaMarket.lua",
-   "size": 272675,
-   "adler": 3853441513,
+   "size": 273729,
+   "adler": 3595504314,
    "url": "https://raw.githubusercontent.com/saradaken/LavkaMarket/main/dist/LavkaMarket.lua"
   }
  ],
  "notes": [
+  {
+   "v": "0.4.7",
+   "date": "2026-11-20",
+   "th": [
+    "เปิดเมนู ☰ แล้วเช็กเวอร์ชันใหม่ให้สด ๆ ทันที ไม่ต้องรอรอบ 30 นาทีหรือรีโหลดสคริปต์อีกต่อไป"
+   ],
+   "ru": [
+    "При открытии меню ☰ сразу проверяется новая версия — больше не нужно ждать 30 минут или перезагружать скрипт"
+   ],
+   "en": [
+    "Opening the ☰ menu now checks for a new version instantly — no more waiting 30 minutes or reloading the script"
+   ]
+  },
   {
    "v": "0.4.6",
    "date": "2026-11-20",

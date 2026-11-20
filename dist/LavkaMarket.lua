@@ -14,7 +14,7 @@
 
 script_name('LavkaMarket')
 script_author('LavkaMarket')
-script_version('0.4.6')
+script_version('0.4.7')
 
 local okEffil, effil = pcall(require, 'effil')
 local okFFI, ffi     = pcall(require, 'ffi')
@@ -82,7 +82,7 @@ pcall(migrateOld)
 
 -- แจกไฟล์เดียว: ตัว release ฝังไฟล์หน้าเว็บไว้ในสคริปต์ (publish.py เติมแทนบรรทัด EMBED ข้างล่าง)
 -- เปิดครั้งแรก/เปลี่ยนรุ่น -> เขียนออกไปที่ LavkaMarket\web\ ; ตัวพัฒนา (EMBED = nil) ข้ามไป ใช้ไฟล์ที่มีอยู่
-local EMBED = { stamp = "0.4.6-d9d27592", files = {
+local EMBED = { stamp = "0.4.7-aa1058d3", files = {
   ["app.js"] = [=[
 /* LavkaMarket CEF UI  (window.LVM)
    หน้าเว็บที่ฝังเข้า CEF ของเกม: หน้าล็อกอิน Discord + หน้าราคา
@@ -1484,7 +1484,7 @@ local EMBED = { stamp = "0.4.6-d9d27592", files = {
     var a = document.getElementById('lvmAcc'); if (!a) return;
     if (on === undefined) on = !a.classList.contains('open');
     S.menuAsk = false;
-    if (on) paintMenu();
+    if (on) { paintMenu(); send('lvm|cfgcheck'); }   // เปิดเมนู = ให้ Lua เช็กเวอร์ชันล่าสุดสด ๆ
     a.classList.toggle('open', !!on);
   }
   function catNavs() {
@@ -1580,7 +1580,10 @@ local EMBED = { stamp = "0.4.6-d9d27592", files = {
     cfg: function (js) {
       var c; try { c = JSON.parse(js) || {}; } catch (e) { return; }
       var img = c.img || {}, ch = false, ov = {}, k;
-      if (c.latest) S.latest = String(c.latest);
+      if (c.latest && String(c.latest) !== S.latest) {   // เวอร์ชันล่าสุดเปลี่ยน -> รีเฟรชเมนูสดถ้าเปิดอยู่
+        S.latest = String(c.latest);
+        var am = document.getElementById('lvmAcc'); if (am && am.classList.contains('open')) paintMenu();
+      }
       if (/^https:\/\//.test(img.item || '') && img.item !== ICON) { ICON = img.item; ch = true; }
       if (/^https:\/\//.test(img.server || '') && img.server !== SRVICO) { SRVICO = img.server; ch = true; }
       for (k in (c.cat || {})) for (var ci = 0; ci < CATS.length; ci++) if (CATS[ci].id === c.cat[k]) ov[k] = c.cat[k];
@@ -2709,6 +2712,7 @@ local function doServers()
     end)
 end
 local wantServers = false
+local wantCfg = false       -- เปิดเมนู = ขอเช็กเวอร์ชันล่าสุดทันที (ไม่ต้องรอรอบ 30 นาที/รีโหลด)
 -- เก็บข้อมูลกองกลางล่าสุด + เวลาที่ดึงลงไฟล์: รีโหลดสคริปต์แล้วไม่ต้องดึงใหม่ วงนับถอยหลังนับต่อจากเดิม
 local POOLC = BASE .. '\\pool_cache.json'
 local poolMem = {}   -- [key] = { shops, t }: สลับเซิร์ฟไป-กลับภายใน 10 นาทีไม่ต้องดึงใหม่ วงนับไม่เริ่มใหม่
@@ -2879,6 +2883,8 @@ function onSendPacket(id, bs)
         else local c = 0; for _ in pairs(mergedShops()) do c = c + 1 end; pushPull('ok', c) end   -- กดรัว: ไม่ยิงซ้ำ
         return false
     elseif str == 'lvm|srvlist' then wantServers = true; return false
+    elseif str == 'lvm|cfgcheck' then wantCfg = true; return false   -- เปิดเมนู: เช็กเวอร์ชันใหม่สด ๆ
+
     elseif str:sub(1, 8) == 'lvm|srv:' then
         local k = str:sub(9):gsub('[^%w%.:%-]', ''):sub(1, 32)
         local own = serverKey()
@@ -3091,6 +3097,7 @@ function main()
         end
         if wantPull and not netBusy and tonumber(cfg.main.pulled) == 1 then wantPull = false; lastPull = os.clock(); pcall(doPull) end
         if wantServers and not netBusy then wantServers = false; pcall(doServers) end
+        if wantCfg and not netBusy then wantCfg = false; if os.clock() - lastCfg > 10 then lastCfg = os.clock(); pcall(doConfig) end end   -- เปิดเมนู = เช็กเวอร์ชันสด (กันยิงถี่ 10 วิ)
         if wantItems and not netBusy and os.clock() - lastItemsTry > 120 then lastItemsTry = os.clock(); pcall(doItems) end
         if itemsReload then itemsReload = false; itemsAdler = nil; pcall(loadItems); pcall(buildMarket); uiDirty = true end
         if upd and upd.stage ~= 'wait' and not netBusy then local okU, e = pcall(updStep); if not okU then updFail(tostring(e)) end end

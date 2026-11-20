@@ -1398,7 +1398,7 @@
     var a = document.getElementById('lvmAcc'); if (!a) return;
     if (on === undefined) on = !a.classList.contains('open');
     S.menuAsk = false;
-    if (on) paintMenu();
+    if (on) { paintMenu(); send('lvm|cfgcheck'); }   // เปิดเมนู = ให้ Lua เช็กเวอร์ชันล่าสุดสด ๆ
     a.classList.toggle('open', !!on);
   }
   function catNavs() {
@@ -1494,7 +1494,10 @@
     cfg: function (js) {
       var c; try { c = JSON.parse(js) || {}; } catch (e) { return; }
       var img = c.img || {}, ch = false, ov = {}, k;
-      if (c.latest) S.latest = String(c.latest);
+      if (c.latest && String(c.latest) !== S.latest) {   // เวอร์ชันล่าสุดเปลี่ยน -> รีเฟรชเมนูสดถ้าเปิดอยู่
+        S.latest = String(c.latest);
+        var am = document.getElementById('lvmAcc'); if (am && am.classList.contains('open')) paintMenu();
+      }
       if (/^https:\/\//.test(img.item || '') && img.item !== ICON) { ICON = img.item; ch = true; }
       if (/^https:\/\//.test(img.server || '') && img.server !== SRVICO) { SRVICO = img.server; ch = true; }
       for (k in (c.cat || {})) for (var ci = 0; ci < CATS.length; ci++) if (CATS[ci].id === c.cat[k]) ov[k] = c.cat[k];
