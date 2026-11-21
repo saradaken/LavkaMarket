@@ -8,19 +8,19 @@
       LavkaMarket.lua                 <- the script (MoonLoader loads it from here)
       LavkaMarket/                    <- everything else of ours lives in this one folder
         settings.ini  market_db.json  web/app.js  web/items.json  logs/*.log
-    commands:  /market        open / close the market window
-               /market key <code> | url <url> | share on|off | lang th|ru|en | sync | reload
+    commands:  /lm        open / close the market window
+               /lm key <code> | url <url> | share on|off | lang th|ru|en | sync | reload
 ]]
 
 script_name('LavkaMarket')
 script_author('LavkaMarket')
-script_version('0.5.1')
+script_version('0.5.2')
 
 local okEffil, effil = pcall(require, 'effil')
 local okFFI, ffi     = pcall(require, 'ffi')
 
 local DISCORD_INVITE = 'https://discord.gg/NUEMsrCT'    -- ลิงก์เชิญเซิร์ฟ LavkaMarket (ถาวร) - แก้ตรงนี้
--- url เซิร์ฟเวอร์กองกลาง: ใส่ตรงนี้ทีเดียว คนที่รับสคริปต์ไปจะต่อได้เลยไม่ต้องพิมพ์ /market url
+-- url เซิร์ฟเวอร์กองกลาง: ใส่ตรงนี้ทีเดียว คนที่รับสคริปต์ไปจะต่อได้เลยไม่ต้องพิมพ์ /lm url
 -- เช่น quick tunnel = 'https://xxxx.trycloudflare.com' (เปลี่ยนทุกครั้ง)  หรือโดเมนตัวเอง = 'https://api.yourdomain.xyz' (คงที่)
 local DEFAULT_URL = 'https://arz.lavkamarket.shop'
 local GH_RAW = 'https://raw.githubusercontent.com/saradaken/LavkaMarket/main/dist'   -- อัปเดตหลักผ่าน GitHub (ไฟล์เดียว) · ถ้าโหลดไม่ได้ค่อยใช้เซิร์ฟกองกลางเป็นสำรอง
@@ -99,6 +99,7 @@ local function extractEmbed()
     local fo = io.open(sf, 'wb'); if fo then fo:write(EMBED.stamp); fo:close() end
 end
 pcall(extractEmbed)
+local STATIC = (type(EMBED) == 'table' and EMBED.static == true)   -- เวอร์ชัน static (blast.hk): ไม่มีตัวอัปเดตในตัว + ฝัง items.json ครบ
 EMBED = nil   -- ไม่ต้องถือข้อมูล ~1 MB ไว้ในหน่วยความจำ
 
 -- ไฟล์ตั้งค่า ini แบบง่าย (มีแค่หมวด [main]) - ไม่พึ่ง inicfg เพราะ inicfg บังคับอยู่ใน moonloader\config
@@ -136,7 +137,7 @@ local function saveCfg() pcall(iniSave, cfg, INIF) end
 if cfg.main.pulled == nil then cfg.main.pulled = (tostring(cfg.main.code or '') ~= '') and 1 or 0 end
 local function pullOk() return tonumber(cfg.main.pulled) == 1 end
 -- แชร์ข้อมูลตลาดเปิดเป็นค่าเริ่มต้น (หน้าล็อกอินแจ้งแล้วว่าเชื่อมต่อ = ยินยอมแชร์เฉพาะข้อมูลตลาด)
--- เว้นแต่ผู้ใช้สั่งปิดเองด้วย /market share off (shareSet=1 = ผู้ใช้เลือกเองแล้ว ไม่ทับ)
+-- เว้นแต่ผู้ใช้สั่งปิดเองด้วย /lm share off (shareSet=1 = ผู้ใช้เลือกเองแล้ว ไม่ทับ)
 if tostring(cfg.main.shareSet or '') ~= '1' then cfg.main.share = 1 end
 local lang = ({ th = 1, ru = 1, en = 1 })[tostring(cfg.main.lang)] and tostring(cfg.main.lang) or 'th'
 
@@ -160,19 +161,19 @@ local profile   = { connected = (tostring(cfg.main.code or '') ~= '') }
 
 -- ===== chat i18n (หน้าเว็บมี i18n ของตัวเองใน app.js) =====
 local CL = {
-    th = { ready = 'พร้อม - /market เปิดหน้าตลาด · เดินเปิดดูร้านเพื่อเก็บข้อมูล', keysaved = 'บันทึกรหัสแล้ว',
+    th = { ready = 'พร้อม - /lm เปิดหน้าตลาด · เดินเปิดดูร้านเพื่อเก็บข้อมูล', keysaved = 'บันทึกรหัสแล้ว',
            urlset = 'ตั้ง url กองกลาง: %s', shareset = 'แชร์ข้อมูล: %s', langset = 'ภาษา: %s', on = 'เปิด', off = 'ปิด',
-           updavail = 'มีเวอร์ชันใหม่ %s - เปิด /market แล้วกด ☰ -> อัปเดต (หรือพิมพ์ /market update)', updnone = 'ใช้เวอร์ชันล่าสุดอยู่แล้ว',
+           updavail = 'มีเวอร์ชันใหม่ %s - เปิด /lm แล้วกด ☰ -> อัปเดต (หรือพิมพ์ /lm update)', updnone = 'ใช้เวอร์ชันล่าสุดอยู่แล้ว', upd_static = 'เวอร์ชันนี้อัปเดตผ่าน Discord/GitHub (ไม่มีตัวอัปเดตในตัว)',
            upddone = 'อัปเดตเป็นเวอร์ชัน %s แล้ว กำลังโหลดสคริปต์ใหม่...', upderr = 'อัปเดตไม่สำเร็จ (%s) ลองใหม่อีกครั้ง',
            reload = 'โหลดใหม่: %d ไอเทม', nores = 'ไม่พบไฟล์ LavkaMarket/web/app.js' },
-    ru = { ready = 'Готово - /market открыть рынок · открывайте лавки для сбора', keysaved = 'Код сохранён',
+    ru = { ready = 'Готово - /lm открыть рынок · открывайте лавки для сбора', keysaved = 'Код сохранён',
            urlset = 'Сервер пула: %s', shareset = 'Поделиться: %s', langset = 'Язык: %s', on = 'вкл', off = 'выкл',
-           updavail = 'Доступна версия %s - /market -> ☰ -> Обновить (или /market update)', updnone = 'У вас последняя версия',
+           updavail = 'Доступна версия %s - /lm -> ☰ -> Обновить (или /lm update)', updnone = 'У вас последняя версия', upd_static = 'Эта версия обновляется через Discord/GitHub (без встроенного апдейтера)',
            upddone = 'Обновлено до версии %s, перезагрузка скрипта...', upderr = 'Не удалось обновить (%s), попробуйте ещё раз',
            reload = 'Обновлено: %d предметов', nores = 'Нет файла LavkaMarket/web/app.js' },
-    en = { ready = 'ready - /market opens the market · open stalls to collect', keysaved = 'code saved',
+    en = { ready = 'ready - /lm opens the market · open stalls to collect', keysaved = 'code saved',
            urlset = 'pool server: %s', shareset = 'share: %s', langset = 'language: %s', on = 'on', off = 'off',
-           updavail = 'new version %s - open /market, then ☰ -> Update (or /market update)', updnone = 'you already have the latest version',
+           updavail = 'new version %s - open /lm, then ☰ -> Update (or /lm update)', updnone = 'you already have the latest version', upd_static = 'This version updates via Discord/GitHub (no built-in updater)',
            upddone = 'updated to version %s, reloading the script...', upderr = 'update failed (%s), please try again',
            reload = 'reloaded: %d items', nores = 'missing LavkaMarket/web/app.js' },
 }
@@ -704,6 +705,7 @@ local function pushProfile()
     -- โปรไฟล์ + ค่าที่เมนูในหน้าใช้ (เวอร์ชันสคริปต์ / แชร์ข้อมูลเปิดอยู่ไหม)
     local p = {}; for k, v in pairs(profile) do p[k] = v end
     p.ver = tostring(thisScript().version or ''); p.share = tonumber(cfg.main.share) == 1
+    if STATIC then p.static = 1 end   -- บอก UI ว่าเป็นเวอร์ชัน static (ซ่อนปุ่ม/หน้าอัปเดต)
     cefEval("if(window.LVM)LVM.profile('" .. jsText(encodeJson(p)) .. "')")
 end
 -- การ์ดเซิร์ฟเวอร์ในหน้า: ชื่อเซิร์ฟ (hostname, เอาแค่ตัวอักษรละติน) / จำนวนร้านในพูล / ดึงล่าสุดเมื่อไหร่
@@ -1046,6 +1048,7 @@ local function updFail(why)
     upd = nil; updUi('err', why); msg('upderr', why)
 end
 local function updStep()
+    if STATIC then upd = nil; msg('upd_static'); return end   -- เวอร์ชัน static: ไม่มีตัวอัปเดตในตัว (อัปเดตผ่าน Discord/GitHub)
     local url, code = srvUrl(), tostring(cfg.main.code or '')
     if not upd or url == '' or code == '' then return end
     if upd.stage == 'manifest' then
@@ -1112,6 +1115,7 @@ end
 local wantItems, itemsReload, lastItemsTry, itemsAdler, itemsSrc = false, false, -1e9, nil, 1   -- itemsSrc: 1=GitHub, 2=เซิร์ฟสำรอง
 local function readAll(p) local f = io.open(p, 'rb'); if not f then return nil end; local s = f:read('*a'); f:close(); return s end
 local function doItems()
+    if STATIC then return end   -- เวอร์ชัน static: items.json ฝังในไฟล์แล้ว ไม่ต้องโหลด
     local url = srvUrl()
     local src = itemsSrc
     if src == 2 and url == '' then itemsSrc = 1; return end         -- ไม่มีเซิร์ฟสำรอง: กลับไปใช้ GitHub
@@ -1133,6 +1137,7 @@ local function doItems()
     end)
 end
 local function doConfig()
+    if STATIC then return end   -- เวอร์ชัน static: ไม่ดึง /config (ไม่เตือนอัปเดต/ไม่โหลด items; ใช้ค่าในตัว)
     local url, code = srvUrl(), tostring(cfg.main.code or '')
     if url == '' or code == '' then return end
     httpCall('GET', url .. '/config?platform=pc', nil, function(ok, codeN, text)
@@ -1509,7 +1514,7 @@ function main()
     loadItems(); loadDB(); buildMarket()
     if not fileExists(ITEMS_RES) then wantItems = true end   -- ติดตั้งใหม่: โหลดตารางไอเทมจากเซิร์ฟ
 
-    sampRegisterChatCommand('market', function(arg)
+    local function lmCmd(arg)
         arg = tostring(arg or ''):gsub('^%s+', ''):gsub('%s+$', '')
         local cmd, rest = arg:match('^(%S+)%s*(.*)$')
         if cmd == 'reload' then loadItems(); loadDB(); buildMarket(); if panelOpen then pushRows() end; msg('reload', #MARKET)
@@ -1524,7 +1529,9 @@ function main()
         elseif cmd == 'sync' then doPull(); doSubmit()
         elseif cmd == 'update' then if not upd then upd = { stage = 'manifest' } end
         else panelToggle() end
-    end)
+    end
+    sampRegisterChatCommand('lm', lmCmd)       -- คำสั่งหลัก (สั้น ไม่ชนสคริปต์ตลาดเจ้าอื่น)
+    sampRegisterChatCommand('lavka', lmCmd)    -- alias จำง่าย (лавка)
 
     msg('ready')
 

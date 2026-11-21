@@ -1,14 +1,27 @@
 {
- "version": "0.5.1",
+ "version": "0.5.2",
  "files": [
   {
    "path": "LavkaMarket.lua",
-   "size": 274860,
-   "adler": 4115918213,
+   "size": 276347,
+   "adler": 3517394268,
    "url": "https://raw.githubusercontent.com/saradaken/LavkaMarket/main/dist/LavkaMarket.lua"
   }
  ],
  "notes": [
+  {
+   "v": "0.5.2",
+   "date": "2026-11-21",
+   "th": [
+    "เปลี่ยนคำสั่งเปิดเป็น /lm หรือ /lavka (เดิม /market) เพื่อกันชนกับสคริปต์ตลาดเจ้าอื่น"
+   ],
+   "ru": [
+    "Команда открытия теперь /lm или /lavka (вместо /market) — чтобы не конфликтовать с другими рыночными скриптами"
+   ],
+   "en": [
+    "The open command is now /lm or /lavka (was /market) — avoids clashing with other market scripts"
+   ]
+  },
   {
    "v": "0.5.1",
    "date": "2026-11-21",
