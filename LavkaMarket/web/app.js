@@ -1381,7 +1381,7 @@
       '<div class="lvmMI' + (upd ? ' hot' : '') + '"' + (upd ? ' data-act="update"' : '') + '><i>' + icon('upd') + '</i><span>' + esc(tr('m_ver')) + ' ' + esc(ver || '?') +
         '<small>' + esc(updLine(upd, lat)) + '</small></span>' + (upd && !(S.upd && /^(check|dl|done)$/.test(S.upd.s)) ? '<em>' + esc(tr('m_get')) + '</em>' : (upd ? '' : '<em class="ok">✓</em>')) + '</div>' +
       '<div class="lvmMI" data-act="sync"><i>' + icon('sync') + '</i><span>' + esc(tr('m_sync')) + '<small>' + esc(tr('m_sync_h')) + '</small></span></div>' +
-      (p.static ? '' : '<div class="lvmMI" data-act="changelog"><i>' + icon('upd') + '</i><span>' + esc(tr('m_history')) + '</span><em class="arr">›</em></div>') +
+      '<div class="lvmMI" data-act="changelog"><i>' + icon('upd') + '</i><span>' + esc(tr('m_history')) + '</span><em class="arr">›</em></div>' +
       '<div class="lvmMSec">' + esc(tr('m_sec_set')) + '</div>' +
       '<div class="lvmMI" data-act="share"><i>' + icon('share') + '</i><span>' + esc(tr('m_share')) + '<small>' + esc(tr('m_share_h')) + '</small></span><b class="lvmSw' + (p.share ? ' on' : '') + '"></b></div>' +
       '<div class="lvmMI" data-act="discord"><i>' + discordSvg('currentColor') + '</i><span>' + esc(tr('m_discord')) + '</span><em class="arr">›</em></div>' +

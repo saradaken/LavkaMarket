@@ -14,7 +14,7 @@
 
 script_name('LavkaMarket')
 script_author('LavkaMarket')
-script_version('0.5.2')
+script_version('0.5.3')
 
 local okEffil, effil = pcall(require, 'effil')
 local okFFI, ffi     = pcall(require, 'ffi')
@@ -82,7 +82,7 @@ pcall(migrateOld)
 
 -- แจกไฟล์เดียว: ตัว release ฝังไฟล์หน้าเว็บไว้ในสคริปต์ (publish.py เติมแทนบรรทัด EMBED ข้างล่าง)
 -- เปิดครั้งแรก/เปลี่ยนรุ่น -> เขียนออกไปที่ LavkaMarket\web\ ; ตัวพัฒนา (EMBED = nil) ข้ามไป ใช้ไฟล์ที่มีอยู่
-local EMBED = { stamp = "0.5.2-a2224237", files = {
+local EMBED = { stamp = "0.5.3-6ece3d79", files = {
   ["app.js"] = [=[
 /* LavkaMarket CEF UI  (window.LVM)
    หน้าเว็บที่ฝังเข้า CEF ของเกม: หน้าล็อกอิน Discord + หน้าราคา
@@ -1467,7 +1467,7 @@ local EMBED = { stamp = "0.5.2-a2224237", files = {
       '<div class="lvmMI' + (upd ? ' hot' : '') + '"' + (upd ? ' data-act="update"' : '') + '><i>' + icon('upd') + '</i><span>' + esc(tr('m_ver')) + ' ' + esc(ver || '?') +
         '<small>' + esc(updLine(upd, lat)) + '</small></span>' + (upd && !(S.upd && /^(check|dl|done)$/.test(S.upd.s)) ? '<em>' + esc(tr('m_get')) + '</em>' : (upd ? '' : '<em class="ok">✓</em>')) + '</div>' +
       '<div class="lvmMI" data-act="sync"><i>' + icon('sync') + '</i><span>' + esc(tr('m_sync')) + '<small>' + esc(tr('m_sync_h')) + '</small></span></div>' +
-      (p.static ? '' : '<div class="lvmMI" data-act="changelog"><i>' + icon('upd') + '</i><span>' + esc(tr('m_history')) + '</span><em class="arr">›</em></div>') +
+      '<div class="lvmMI" data-act="changelog"><i>' + icon('upd') + '</i><span>' + esc(tr('m_history')) + '</span><em class="arr">›</em></div>' +
       '<div class="lvmMSec">' + esc(tr('m_sec_set')) + '</div>' +
       '<div class="lvmMI" data-act="share"><i>' + icon('share') + '</i><span>' + esc(tr('m_share')) + '<small>' + esc(tr('m_share_h')) + '</small></span><b class="lvmSw' + (p.share ? ' on' : '') + '"></b></div>' +
       '<div class="lvmMI" data-act="discord"><i>' + discordSvg('currentColor') + '</i><span>' + esc(tr('m_discord')) + '</span><em class="arr">›</em></div>' +
@@ -1622,6 +1622,7 @@ local EMBED = { stamp = "0.5.2-a2224237", files = {
     }
   };
 })();
+
 ]=]
 } }
 local function extractEmbed()
@@ -1641,6 +1642,7 @@ local function extractEmbed()
 end
 pcall(extractEmbed)
 local STATIC = (type(EMBED) == 'table' and EMBED.static == true)   -- เวอร์ชัน static (blast.hk): ไม่มีตัวอัปเดตในตัว + ฝัง items.json ครบ
+local CLOG = (type(EMBED) == 'table') and EMBED.clog or nil        -- changelog ฝังในตัว (static) -> หน้าประวัติใช้ได้ออฟไลน์
 EMBED = nil   -- ไม่ต้องถือข้อมูล ~1 MB ไว้ในหน่วยความจำ
 
 -- ไฟล์ตั้งค่า ini แบบง่าย (มีแค่หมวด [main]) - ไม่พึ่ง inicfg เพราะ inicfg บังคับอยู่ใน moonloader\config
@@ -2246,8 +2248,8 @@ local function pushProfile()
     -- โปรไฟล์ + ค่าที่เมนูในหน้าใช้ (เวอร์ชันสคริปต์ / แชร์ข้อมูลเปิดอยู่ไหม)
     local p = {}; for k, v in pairs(profile) do p[k] = v end
     p.ver = tostring(thisScript().version or ''); p.share = tonumber(cfg.main.share) == 1
-    if STATIC then p.static = 1 end   -- บอก UI ว่าเป็นเวอร์ชัน static (ซ่อนปุ่ม/หน้าอัปเดต)
     cefEval("if(window.LVM)LVM.profile('" .. jsText(encodeJson(p)) .. "')")
+    if STATIC and CLOG then cefEval("if(window.LVM&&LVM.cfg)LVM.cfg('" .. jsText('{"clog":' .. CLOG .. '}') .. "')") end   -- ส่ง changelog ที่ฝังไว้ให้หน้าประวัติ
 end
 -- การ์ดเซิร์ฟเวอร์ในหน้า: ชื่อเซิร์ฟ (hostname, เอาแค่ตัวอักษรละติน) / จำนวนร้านในพูล / ดึงล่าสุดเมื่อไหร่
 local lastPullAt = 0

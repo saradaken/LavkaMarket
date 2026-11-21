@@ -14,7 +14,7 @@
 
 script_name('LavkaMarket')
 script_author('LavkaMarket')
-script_version('0.5.2')
+script_version('0.5.3')
 
 local okEffil, effil = pcall(require, 'effil')
 local okFFI, ffi     = pcall(require, 'ffi')
@@ -100,6 +100,7 @@ local function extractEmbed()
 end
 pcall(extractEmbed)
 local STATIC = (type(EMBED) == 'table' and EMBED.static == true)   -- เวอร์ชัน static (blast.hk): ไม่มีตัวอัปเดตในตัว + ฝัง items.json ครบ
+local CLOG = (type(EMBED) == 'table') and EMBED.clog or nil        -- changelog ฝังในตัว (static) -> หน้าประวัติใช้ได้ออฟไลน์
 EMBED = nil   -- ไม่ต้องถือข้อมูล ~1 MB ไว้ในหน่วยความจำ
 
 -- ไฟล์ตั้งค่า ini แบบง่าย (มีแค่หมวด [main]) - ไม่พึ่ง inicfg เพราะ inicfg บังคับอยู่ใน moonloader\config
@@ -705,8 +706,8 @@ local function pushProfile()
     -- โปรไฟล์ + ค่าที่เมนูในหน้าใช้ (เวอร์ชันสคริปต์ / แชร์ข้อมูลเปิดอยู่ไหม)
     local p = {}; for k, v in pairs(profile) do p[k] = v end
     p.ver = tostring(thisScript().version or ''); p.share = tonumber(cfg.main.share) == 1
-    if STATIC then p.static = 1 end   -- บอก UI ว่าเป็นเวอร์ชัน static (ซ่อนปุ่ม/หน้าอัปเดต)
     cefEval("if(window.LVM)LVM.profile('" .. jsText(encodeJson(p)) .. "')")
+    if STATIC and CLOG then cefEval("if(window.LVM&&LVM.cfg)LVM.cfg('" .. jsText('{"clog":' .. CLOG .. '}') .. "')") end   -- ส่ง changelog ที่ฝังไว้ให้หน้าประวัติ
 end
 -- การ์ดเซิร์ฟเวอร์ในหน้า: ชื่อเซิร์ฟ (hostname, เอาแค่ตัวอักษรละติน) / จำนวนร้านในพูล / ดึงล่าสุดเมื่อไหร่
 local lastPullAt = 0
