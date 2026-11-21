@@ -1,14 +1,27 @@
 {
- "version": "0.5.3",
+ "version": "0.5.4",
  "files": [
   {
    "path": "LavkaMarket.lua",
-   "size": 276571,
-   "adler": 1450412826,
+   "size": 276707,
+   "adler": 2774524900,
    "url": "https://raw.githubusercontent.com/saradaken/LavkaMarket/main/dist/LavkaMarket.lua"
   }
  ],
  "notes": [
+  {
+   "v": "0.5.4",
+   "date": "2026-11-21",
+   "th": [
+    "ติดตั้งใหม่เริ่มต้นเป็นภาษาอังกฤษ (เปลี่ยนภาษาได้จากธงมุมขวาบน หรือ /lm lang th|ru|en)"
+   ],
+   "ru": [
+    "Новая установка теперь по умолчанию на английском (язык меняется флажком справа вверху или /lm lang)"
+   ],
+   "en": [
+    "Fresh installs now default to English (change language via the flag top-right or /lm lang)"
+   ]
+  },
   {
    "v": "0.5.3",
    "date": "2026-11-21",
@@ -159,31 +172,6 @@
    ],
    "en": [
     "Privacy: your LVKA key is no longer sent in request URLs (it goes in a header now), so it never lands in server or proxy logs"
-   ]
-  },
-  {
-   "v": "0.4.2",
-   "date": "2026-11-20",
-   "th": [
-    "หน้าต่างอัปเดตใหม่: บอกว่ามีอะไรใหม่ก่อนกดอัปเดต และแสดงความคืบหน้าทีละไฟล์",
-    "ป้ายจำนวนร้านแสดงแค่ไอคอนกับตัวเลข และนับร้านที่ใช้แสดงจริง",
-    "วงนับถอยหลังไม่เริ่มใหม่ตอนรีโหลดสคริปต์หรือสลับเซิร์ฟไปมา",
-    "แจกเป็นไฟล์เดียว: ตารางไอเทม (ชื่อ/หมวด) โหลดจากเซิร์ฟและอัปเดตเองอัตโนมัติ",
-    "เข้าเกมด้วย IP หรือชื่อเซิร์ฟ นับเป็นเซิร์ฟเดียวกันแล้ว (ข้อมูลไม่แยกกันอีก)"
-   ],
-   "ru": [
-    "Новое окно обновления: список изменений до установки и прогресс по каждому файлу",
-    "Счётчик лавок теперь только иконка и число, считает все показанные лавки",
-    "Таймер обновления не сбрасывается при перезагрузке скрипта и переключении серверов",
-    "Один файл для установки: таблица предметов загружается и обновляется с сервера автоматически",
-    "Вход по IP и по имени сервера теперь считается одним сервером (данные больше не разделяются)"
-   ],
-   "en": [
-    "New update window: see what's new before updating, with per-file progress",
-    "Shop counter is now just an icon and a number, counting every shop shown",
-    "The refresh countdown no longer resets on script reload or when switching servers",
-    "Single-file install: the item table downloads and updates from the server automatically",
-    "Joining by IP or by server name now counts as the same server (data no longer splits)"
    ]
   }
  ]

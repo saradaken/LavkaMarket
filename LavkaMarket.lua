@@ -14,7 +14,7 @@
 
 script_name('LavkaMarket')
 script_author('LavkaMarket')
-script_version('0.5.3')
+script_version('0.5.4')
 
 local okEffil, effil = pcall(require, 'effil')
 local okFFI, ffi     = pcall(require, 'ffi')
@@ -131,7 +131,7 @@ end
 local BUY_T, SELL_T = 28, 13
 
 -- ===== config / state =====
-local cfg = iniLoad(INIF, { main = { code = '', url = '', share = 0, lang = 'th' } })
+local cfg = iniLoad(INIF, { main = { code = '', url = '', share = 0, lang = 'en' } })
 local function saveCfg() pcall(iniSave, cfg, INIF) end
 -- ติดตั้งใหม่: ยังไม่ดึงข้อมูลกองกลางเอง จนกว่าผู้ใช้กด "เริ่มดึงข้อมูล" ในหน้าแรก
 -- (ผู้ใช้เดิมที่ล็อกอินอยู่แล้ว = ถือว่ากดแล้ว ไม่ต้องเห็นหน้านี้)
@@ -140,7 +140,7 @@ local function pullOk() return tonumber(cfg.main.pulled) == 1 end
 -- แชร์ข้อมูลตลาดเปิดเป็นค่าเริ่มต้น (หน้าล็อกอินแจ้งแล้วว่าเชื่อมต่อ = ยินยอมแชร์เฉพาะข้อมูลตลาด)
 -- เว้นแต่ผู้ใช้สั่งปิดเองด้วย /lm share off (shareSet=1 = ผู้ใช้เลือกเองแล้ว ไม่ทับ)
 if tostring(cfg.main.shareSet or '') ~= '1' then cfg.main.share = 1 end
-local lang = ({ th = 1, ru = 1, en = 1 })[tostring(cfg.main.lang)] and tostring(cfg.main.lang) or 'th'
+local lang = ({ th = 1, ru = 1, en = 1 })[tostring(cfg.main.lang)] and tostring(cfg.main.lang) or 'en'   -- default สากล: ติดตั้งใหม่ = อังกฤษ (ผู้ใช้สลับภาษาได้)
 
 local ITEMNAME = {}
 local MKDB     = { shops = {} }
