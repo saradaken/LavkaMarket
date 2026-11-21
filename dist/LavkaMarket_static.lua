@@ -14,7 +14,7 @@
 
 script_name('LavkaMarket')
 script_author('LavkaMarket')
-script_version('0.5.4')
+script_version('0.5.5')
 
 local okEffil, effil = pcall(require, 'effil')
 local okFFI, ffi     = pcall(require, 'ffi')
@@ -23,7 +23,7 @@ local DISCORD_INVITE = 'https://discord.gg/NUEMsrCT'    -- ลิงก์เช
 -- url เซิร์ฟเวอร์กองกลาง: ใส่ตรงนี้ทีเดียว คนที่รับสคริปต์ไปจะต่อได้เลยไม่ต้องพิมพ์ /lm url
 -- เช่น quick tunnel = 'https://xxxx.trycloudflare.com' (เปลี่ยนทุกครั้ง)  หรือโดเมนตัวเอง = 'https://api.yourdomain.xyz' (คงที่)
 local DEFAULT_URL = 'https://arz.lavkamarket.shop'
-local GH_RAW = 'https://raw.githubusercontent.com/saradaken/LavkaMarket/main/dist'   -- อัปเดตหลักผ่าน GitHub (ไฟล์เดียว) · ถ้าโหลดไม่ได้ค่อยใช้เซิร์ฟกองกลางเป็นสำรอง
+local GH_RAW = ''
 local function openUrl(u)
     if okFFI then
         pcall(function()
@@ -83,8 +83,8 @@ pcall(migrateOld)
 -- แจกไฟล์เดียว: ตัว release ฝังไฟล์หน้าเว็บไว้ในสคริปต์ (publish.py เติมแทนบรรทัด EMBED ข้างล่าง)
 -- เปิดครั้งแรก/เปลี่ยนรุ่น -> เขียนออกไปที่ LavkaMarket\web\ ; ตัวพัฒนา (EMBED = nil) ข้ามไป ใช้ไฟล์ที่มีอยู่
 local EMBED = { static = true, clog = [[
-[{"v": "0.5.4", "date": "2026-11-21", "th": ["ติดตั้งใหม่เริ่มต้นเป็นภาษาอังกฤษ (เปลี่ยนภาษาได้จากธงมุมขวาบน หรือ /lm lang th|ru|en)"], "ru": ["Новая установка теперь по умолчанию на английском (язык меняется флажком справа вверху или /lm lang)"], "en": ["Fresh installs now default to English (change language via the flag top-right or /lm lang)"]}, {"v": "0.5.3", "date": "2026-11-21", "th": ["ปรับปรุงภายในและแก้ไขเล็กน้อย"], "ru": ["Внутренние улучшения и мелкие исправления"], "en": ["Internal improvements and minor fixes"]}, {"v": "0.5.2", "date": "2026-11-21", "th": ["เปลี่ยนคำสั่งเปิดเป็น /lm หรือ /lavka (เดิม /market) เพื่อกันชนกับสคริปต์ตลาดเจ้าอื่น"], "ru": ["Команда открытия теперь /lm или /lavka (вместо /market) — чтобы не конфликтовать с другими рыночными скриптами"], "en": ["The open command is now /lm or /lavka (was /market) — avoids clashing with other market scripts"]}, {"v": "0.5.1", "date": "2026-11-21", "th": ["เส้นรับซื้อ (เขียว) ในกราฟหักค่าธรรมเนียม 2% แล้ว = ราคาที่ได้รับจริงเวลาขายคืน"], "ru": ["Зелёная линия скупки теперь с вычетом комиссии 2% — реальная сумма при продаже"], "en": ["The green buy line now subtracts the 2% fee — the real amount you get when selling back"]}, {"v": "0.5.0", "date": "2026-11-21", "th": ["กราฟประวัติราคาเป็นสองเส้น: เหลือง = ขายถูกสุด, เขียว = รับซื้อสูงสุด ในกราฟเดียว เห็นทั้งราคาซื้อและขายคืนพร้อมกัน"], "ru": ["График цены теперь в две линии: жёлтая — мин. продажа, зелёная — макс. скупка; видно и цену покупки, и выкуп сразу"], "en": ["Price history is now two lines: yellow = cheapest sell, green = highest buy — see both the buy price and the sell-back at once"]}, {"v": "0.4.9", "date": "2026-11-21", "th": ["เพิ่มหน้า \"ประวัติเวอร์ชัน\" ในเมนู ☰ ดูการเปลี่ยนแปลงย้อนหลังทุกเวอร์ชันได้"], "ru": ["Добавлена «История версий» в меню ☰ — можно посмотреть изменения по всем прошлым версиям"], "en": ["Added a \"Version history\" page in the ☰ menu — browse changes from every past version"]}, {"v": "0.4.8", "date": "2026-11-20", "th": ["หน้าต่างอัปเดตโชว์เฉพาะการเปลี่ยนแปลงที่ใหม่กว่าเวอร์ชันที่ใช้อยู่ ไม่ยาวเกินไป"], "ru": ["Окно обновления показывает только изменения новее вашей версии — больше не длинный список"], "en": ["The update window now shows only changes newer than your version — no more long list"]}, {"v": "0.4.7", "date": "2026-11-20", "th": ["เปิดเมนู ☰ แล้วเช็กเวอร์ชันใหม่ให้สด ๆ ทันที ไม่ต้องรอรอบ 30 นาทีหรือรีโหลดสคริปต์อีกต่อไป"], "ru": ["При открытии меню ☰ сразу проверяется новая версия — больше не нужно ждать 30 минут или перезагружать скрипт"], "en": ["Opening the ☰ menu now checks for a new version instantly — no more waiting 30 minutes or reloading the script"]}, {"v": "0.4.6", "date": "2026-11-20", "th": ["ข้อมูลไอเทม (คำอธิบาย/สเตตัส) แยกตามเกรดแล้ว เลือกตีบวกไหนก็เห็นค่าของเกรดนั้น ไม่ปนกัน", "ตัดบรรทัดเฉพาะชิ้น (ระดับตีบวก/อุปกรณ์ที่ใส่) ออกจากคำอธิบาย ไม่ให้ขึ้นผิดเกรด"], "ru": ["Инфо о предмете (описание/характеристики) теперь раздельно по грейдам: выбрав прокачку, видишь данные именно этого грейда", "Из описания убраны строки конкретного экземпляра (уровень прокачки/установленный обвес), чтобы не показывались в чужом грейде"], "en": ["Item info (description/stats) is now split per grade — pick an upgrade level and you see that grade's own data, not mixed", "Per-piece lines (upgrade level / installed attachment) are stripped from the description so they don't show on the wrong grade"]}, {"v": "0.4.5", "date": "2026-11-20", "th": ["ย้ายการอัปเดตมาที่ GitHub เป็นหลัก (ทั้งตัวสคริปต์และตารางไอเทม) โหลดเร็วและเสถียรขึ้น ถ้าโหลดจาก GitHub ไม่ได้จะใช้เซิร์ฟเวอร์กองกลางเป็นสำรองให้เอง", "โค้ดฝั่งไคลเอนต์เปิดเป็นโอเพนซอร์สแล้วที่ github.com/saradaken/LavkaMarket ตรวจสอบได้ว่าแชร์แค่ข้อมูลตลาด"], "ru": ["Обновления теперь идут через GitHub (и скрипт, и таблица предметов) — быстрее и стабильнее; если GitHub недоступен, используется пул-сервер как резерв", "Клиент стал открытым: github.com/saradaken/LavkaMarket — можно проверить, что передаются только рыночные данные"], "en": ["Updates now go through GitHub (both the script and the item table) — faster and more reliable; falls back to the pool server if GitHub is unreachable", "The client is now open source at github.com/saradaken/LavkaMarket — you can verify it shares market data only"]}, {"v": "0.4.4", "date": "2026-11-20", "th": ["ติดตั้งใหม่: ไม่แสดงราคาเองทันทีแล้ว กด \"เริ่มดึงข้อมูล\" ก่อน มีอนิเมชันระหว่างดึง และบอกจำนวนร้านที่ได้", "กดวงนับถอยหลัง (มุมล่างซ้าย) เพื่อดึงข้อมูลใหม่ได้ทันที"], "ru": ["Новая установка: цены больше не появляются сами — нажмите «Загрузить данные», с анимацией и счётчиком полученных лавок", "Нажмите на кольцо отсчёта (слева внизу), чтобы обновить данные сразу"], "en": ["Fresh install: prices no longer appear on their own — press \"Start pulling data\", with an animation and a count of shops received", "Click the countdown ring (bottom left) to pull fresh data right away"]}, {"v": "0.4.3", "date": "2026-11-20", "th": ["ความเป็นส่วนตัว: รหัส LVKA ไม่อยู่ใน URL แล้ว (ส่งแบบซ่อนใน header) จึงไม่ติดอยู่ในล็อกของเซิร์ฟเวอร์หรือพร็อกซีใด ๆ"], "ru": ["Приватность: ключ LVKA больше не передаётся в адресе запроса (теперь в заголовке) и не попадает в логи серверов и прокси"], "en": ["Privacy: your LVKA key is no longer sent in request URLs (it goes in a header now), so it never lands in server or proxy logs"]}]
-]], stamp = "0.5.4-2b3bc2d5", files = {
+[{"v": "0.5.5", "date": "2026-11-22", "th": ["ปรับปรุงภายใน (เวอร์ชันแจกไฟล์เดียวตัดโค้ดอัปเดตออกหมด)"], "ru": ["Внутренние изменения (в версии для форума полностью убран код авто-обновления)"], "en": ["Internal changes (the single-file build has all auto-update code removed)"]}, {"v": "0.5.4", "date": "2026-11-21", "th": ["ติดตั้งใหม่เริ่มต้นเป็นภาษาอังกฤษ (เปลี่ยนภาษาได้จากธงมุมขวาบน หรือ /lm lang th|ru|en)"], "ru": ["Новая установка теперь по умолчанию на английском (язык меняется флажком справа вверху или /lm lang)"], "en": ["Fresh installs now default to English (change language via the flag top-right or /lm lang)"]}, {"v": "0.5.3", "date": "2026-11-21", "th": ["ปรับปรุงภายในและแก้ไขเล็กน้อย"], "ru": ["Внутренние улучшения и мелкие исправления"], "en": ["Internal improvements and minor fixes"]}, {"v": "0.5.2", "date": "2026-11-21", "th": ["เปลี่ยนคำสั่งเปิดเป็น /lm หรือ /lavka (เดิม /market) เพื่อกันชนกับสคริปต์ตลาดเจ้าอื่น"], "ru": ["Команда открытия теперь /lm или /lavka (вместо /market) — чтобы не конфликтовать с другими рыночными скриптами"], "en": ["The open command is now /lm or /lavka (was /market) — avoids clashing with other market scripts"]}, {"v": "0.5.1", "date": "2026-11-21", "th": ["เส้นรับซื้อ (เขียว) ในกราฟหักค่าธรรมเนียม 2% แล้ว = ราคาที่ได้รับจริงเวลาขายคืน"], "ru": ["Зелёная линия скупки теперь с вычетом комиссии 2% — реальная сумма при продаже"], "en": ["The green buy line now subtracts the 2% fee — the real amount you get when selling back"]}, {"v": "0.5.0", "date": "2026-11-21", "th": ["กราฟประวัติราคาเป็นสองเส้น: เหลือง = ขายถูกสุด, เขียว = รับซื้อสูงสุด ในกราฟเดียว เห็นทั้งราคาซื้อและขายคืนพร้อมกัน"], "ru": ["График цены теперь в две линии: жёлтая — мин. продажа, зелёная — макс. скупка; видно и цену покупки, и выкуп сразу"], "en": ["Price history is now two lines: yellow = cheapest sell, green = highest buy — see both the buy price and the sell-back at once"]}, {"v": "0.4.9", "date": "2026-11-21", "th": ["เพิ่มหน้า \"ประวัติเวอร์ชัน\" ในเมนู ☰ ดูการเปลี่ยนแปลงย้อนหลังทุกเวอร์ชันได้"], "ru": ["Добавлена «История версий» в меню ☰ — можно посмотреть изменения по всем прошлым версиям"], "en": ["Added a \"Version history\" page in the ☰ menu — browse changes from every past version"]}, {"v": "0.4.8", "date": "2026-11-20", "th": ["หน้าต่างอัปเดตโชว์เฉพาะการเปลี่ยนแปลงที่ใหม่กว่าเวอร์ชันที่ใช้อยู่ ไม่ยาวเกินไป"], "ru": ["Окно обновления показывает только изменения новее вашей версии — больше не длинный список"], "en": ["The update window now shows only changes newer than your version — no more long list"]}, {"v": "0.4.7", "date": "2026-11-20", "th": ["เปิดเมนู ☰ แล้วเช็กเวอร์ชันใหม่ให้สด ๆ ทันที ไม่ต้องรอรอบ 30 นาทีหรือรีโหลดสคริปต์อีกต่อไป"], "ru": ["При открытии меню ☰ сразу проверяется новая версия — больше не нужно ждать 30 минут или перезагружать скрипт"], "en": ["Opening the ☰ menu now checks for a new version instantly — no more waiting 30 minutes or reloading the script"]}, {"v": "0.4.6", "date": "2026-11-20", "th": ["ข้อมูลไอเทม (คำอธิบาย/สเตตัส) แยกตามเกรดแล้ว เลือกตีบวกไหนก็เห็นค่าของเกรดนั้น ไม่ปนกัน", "ตัดบรรทัดเฉพาะชิ้น (ระดับตีบวก/อุปกรณ์ที่ใส่) ออกจากคำอธิบาย ไม่ให้ขึ้นผิดเกรด"], "ru": ["Инфо о предмете (описание/характеристики) теперь раздельно по грейдам: выбрав прокачку, видишь данные именно этого грейда", "Из описания убраны строки конкретного экземпляра (уровень прокачки/установленный обвес), чтобы не показывались в чужом грейде"], "en": ["Item info (description/stats) is now split per grade — pick an upgrade level and you see that grade's own data, not mixed", "Per-piece lines (upgrade level / installed attachment) are stripped from the description so they don't show on the wrong grade"]}, {"v": "0.4.5", "date": "2026-11-20", "th": ["ย้ายการอัปเดตมาที่ GitHub เป็นหลัก (ทั้งตัวสคริปต์และตารางไอเทม) โหลดเร็วและเสถียรขึ้น ถ้าโหลดจาก GitHub ไม่ได้จะใช้เซิร์ฟเวอร์กองกลางเป็นสำรองให้เอง", "โค้ดฝั่งไคลเอนต์เปิดเป็นโอเพนซอร์สแล้วที่ github.com/saradaken/LavkaMarket ตรวจสอบได้ว่าแชร์แค่ข้อมูลตลาด"], "ru": ["Обновления теперь идут через GitHub (и скрипт, и таблица предметов) — быстрее и стабильнее; если GitHub недоступен, используется пул-сервер как резерв", "Клиент стал открытым: github.com/saradaken/LavkaMarket — можно проверить, что передаются только рыночные данные"], "en": ["Updates now go through GitHub (both the script and the item table) — faster and more reliable; falls back to the pool server if GitHub is unreachable", "The client is now open source at github.com/saradaken/LavkaMarket — you can verify it shares market data only"]}, {"v": "0.4.4", "date": "2026-11-20", "th": ["ติดตั้งใหม่: ไม่แสดงราคาเองทันทีแล้ว กด \"เริ่มดึงข้อมูล\" ก่อน มีอนิเมชันระหว่างดึง และบอกจำนวนร้านที่ได้", "กดวงนับถอยหลัง (มุมล่างซ้าย) เพื่อดึงข้อมูลใหม่ได้ทันที"], "ru": ["Новая установка: цены больше не появляются сами — нажмите «Загрузить данные», с анимацией и счётчиком полученных лавок", "Нажмите на кольцо отсчёта (слева внизу), чтобы обновить данные сразу"], "en": ["Fresh install: prices no longer appear on their own — press \"Start pulling data\", with an animation and a count of shops received", "Click the countdown ring (bottom left) to pull fresh data right away"]}]
+]], stamp = "0.5.5-2b3bc2d5", files = {
   ["app.js"] = [=[
 /* LavkaMarket CEF UI  (window.LVM)
    หน้าเว็บที่ฝังเข้า CEF ของเกม: หน้าล็อกอิน Discord + หน้าราคา
@@ -2595,69 +2595,7 @@ end
 local function updFail(why)
     upd = nil; updUi('err', why); msg('upderr', why)
 end
-local function updStep()
-    if STATIC then upd = nil; msg('upd_static'); return end   -- เวอร์ชัน static: ไม่มีตัวอัปเดตในตัว (อัปเดตผ่าน Discord/GitHub)
-    local url, code = srvUrl(), tostring(cfg.main.code or '')
-    if not upd or url == '' or code == '' then return end
-    if upd.stage == 'manifest' then
-        upd.stage = 'wait'
-        upd.msrc = upd.msrc or 1   -- แหล่ง manifest: 1 = GitHub (หลัก), 2 = เซิร์ฟกองกลาง (สำรอง)
-        local murl = (upd.msrc == 1) and (GH_RAW .. '/manifest.json')
-            or (url .. '/update/manifest?v=' .. tostring(thisScript().version or '0'))
-        httpCall('GET', murl, nil, function(ok, codeN, text)
-            if not upd then return end   -- ผู้ใช้กดยกเลิกระหว่างรอ
-            local okj, d = false, nil
-            if ok and codeN == 200 and text then okj, d = pcall(decodeJson, text) end
-            if not okj or type(d) ~= 'table' or type(d.files) ~= 'table' then
-                if upd.msrc == 1 then   -- GitHub ไม่ได้ -> ลองเซิร์ฟกองกลางแทน
-                    upd.msrc = 2; upd.stage = 'manifest'; pcall(updLog, 'manifest: github พลาด -> ลองเซิร์ฟสำรอง'); return
-                end
-                return updFail('manifest')
-            end
-            if not verNewer(d.version, thisScript().version) then upd = nil; updUi('latest'); msg('updnone'); return end
-            for _, f in ipairs(d.files) do
-                if not updTarget(f.path) or not tonumber(f.size) or not tonumber(f.adler) then return updFail('bad file ' .. tostring(f.path)) end
-            end
-            local fl = {}
-            for _, f in ipairs(d.files) do fl[#fl + 1] = { path = tostring(f.path), size = tonumber(f.size) } end
-            local cur, nn = thisScript().version, {}   -- หน้าต่างอัปเดต: โชว์เฉพาะเวอร์ชันที่ใหม่กว่าของที่มีอยู่ (ไม่ยาว)
-            if type(d.notes) == 'table' then for _, e in ipairs(d.notes) do if type(e) == 'table' and e.v and verNewer(tostring(e.v), cur) then nn[#nn + 1] = e end end end
-            updMeta = { ver = tostring(d.version), notes = nn, files = fl }
-            upd.ver, upd.files, upd.i, upd.data = tostring(d.version), d.files, 1, {}
-            if upd.ask then upd.stage = 'ask'; updUi('ask')   -- รอผู้ใช้กด "อัปเดตเลย" ในหน้าต่าง
-            else upd.stage = 'file'; updUi('dl', 1, #d.files) end
-        end)
-    elseif upd.stage == 'file' then
-        local f = upd.files[upd.i]
-        if not f then upd.stage = 'apply'; updUi('apply', #upd.files, #upd.files); return end
-        upd.stage = 'wait'
-        -- โหลดไฟล์จาก url ใน manifest ถ้ามี (GitHub) ไม่งั้นจากเซิร์ฟกองกลาง
-        local furl = (type(f.url) == 'string' and f.url ~= '') and f.url or (url .. '/update/file?path=' .. f.path)
-        httpCall('GET', furl, nil, function(ok, codeN, text)
-            if not (ok and codeN == 200 and text) then return updFail('download ' .. f.path) end
-            if #text ~= tonumber(f.size) or adler32(text) ~= tonumber(f.adler) then return updFail('checksum ' .. f.path) end
-            upd.data[f.path] = text; upd.i = upd.i + 1; upd.stage = 'file'
-            updUi('dl', upd.i, #upd.files)   -- a = ไฟล์ที่กำลังโหลด (เกินจำนวน = โหลดครบแล้ว)
-        end)
-    elseif upd.stage == 'apply' then
-        -- เขียนเป็น .new ให้ครบก่อน แล้วค่อยสลับ (ถ้าเขียนไม่ได้ = ไฟล์เดิมไม่เสีย)
-        for _, f in ipairs(upd.files) do
-            local fo = io.open(updTarget(f.path) .. '.new', 'wb')
-            if not fo then return updFail('write ' .. f.path) end
-            fo:write(upd.data[f.path]); fo:close()
-        end
-        if dbDirty then pcall(saveDB) end
-        for _, f in ipairs(upd.files) do
-            local t = updTarget(f.path)
-            os.remove(t .. '.old'); os.rename(t, t .. '.old')
-            if not os.rename(t .. '.new', t) then os.rename(t .. '.old', t); return updFail('replace ' .. f.path) end
-            os.remove(t .. '.old')
-        end
-        local v = upd.ver; upd = nil
-        msg('upddone', v); updUi('done', #updMeta.files, #updMeta.files)
-        lua_thread.create(function() wait(1600); thisScript():reload() end)   -- ให้เห็นหน้าต่าง "เสร็จแล้ว" ครู่หนึ่ง
-    end
-end
+local function updStep() upd = nil end
 -- ตารางไอเทม (web/items.json) ไม่ฝังในสคริปต์: โหลดผ่าน GitHub เป็นหลัก (เหมือนตัวสคริปต์) เซิร์ฟ /items เป็นสำรอง
 -- ทริกเกอร์: ไม่มีไฟล์ หรือ /config บอกว่ามีรุ่นใหม่ (adler ไม่ตรง) · ไฟล์บน GitHub = ไฟล์เดียวกับที่เซิร์ฟแจก adler จึงตรงกัน
 local wantItems, itemsReload, lastItemsTry, itemsAdler, itemsSrc = false, false, -1e9, nil, 1   -- itemsSrc: 1=GitHub, 2=เซิร์ฟสำรอง

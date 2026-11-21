@@ -1,14 +1,27 @@
 {
- "version": "0.5.4",
+ "version": "0.5.5",
  "files": [
   {
    "path": "LavkaMarket.lua",
-   "size": 276707,
-   "adler": 2774524900,
+   "size": 276725,
+   "adler": 1547102395,
    "url": "https://raw.githubusercontent.com/saradaken/LavkaMarket/main/dist/LavkaMarket.lua"
   }
  ],
  "notes": [
+  {
+   "v": "0.5.5",
+   "date": "2026-11-22",
+   "th": [
+    "ปรับปรุงภายใน (เวอร์ชันแจกไฟล์เดียวตัดโค้ดอัปเดตออกหมด)"
+   ],
+   "ru": [
+    "Внутренние изменения (в версии для форума полностью убран код авто-обновления)"
+   ],
+   "en": [
+    "Internal changes (the single-file build has all auto-update code removed)"
+   ]
+  },
   {
    "v": "0.5.4",
    "date": "2026-11-21",
@@ -159,19 +172,6 @@
    "en": [
     "Fresh install: prices no longer appear on their own — press \"Start pulling data\", with an animation and a count of shops received",
     "Click the countdown ring (bottom left) to pull fresh data right away"
-   ]
-  },
-  {
-   "v": "0.4.3",
-   "date": "2026-11-20",
-   "th": [
-    "ความเป็นส่วนตัว: รหัส LVKA ไม่อยู่ใน URL แล้ว (ส่งแบบซ่อนใน header) จึงไม่ติดอยู่ในล็อกของเซิร์ฟเวอร์หรือพร็อกซีใด ๆ"
-   ],
-   "ru": [
-    "Приватность: ключ LVKA больше не передаётся в адресе запроса (теперь в заголовке) и не попадает в логи серверов и прокси"
-   ],
-   "en": [
-    "Privacy: your LVKA key is no longer sent in request URLs (it goes in a header now), so it never lands in server or proxy logs"
    ]
   }
  ]

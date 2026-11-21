@@ -14,7 +14,7 @@
 
 script_name('LavkaMarket')
 script_author('LavkaMarket')
-script_version('0.5.4')
+script_version('0.5.5')
 
 local okEffil, effil = pcall(require, 'effil')
 local okFFI, ffi     = pcall(require, 'ffi')
@@ -1110,7 +1110,7 @@ local function updStep()
         msg('upddone', v); updUi('done', #updMeta.files, #updMeta.files)
         lua_thread.create(function() wait(1600); thisScript():reload() end)   -- ให้เห็นหน้าต่าง "เสร็จแล้ว" ครู่หนึ่ง
     end
-end
+end --@@UPDSTEP_END@@
 -- ตารางไอเทม (web/items.json) ไม่ฝังในสคริปต์: โหลดผ่าน GitHub เป็นหลัก (เหมือนตัวสคริปต์) เซิร์ฟ /items เป็นสำรอง
 -- ทริกเกอร์: ไม่มีไฟล์ หรือ /config บอกว่ามีรุ่นใหม่ (adler ไม่ตรง) · ไฟล์บน GitHub = ไฟล์เดียวกับที่เซิร์ฟแจก adler จึงตรงกัน
 local wantItems, itemsReload, lastItemsTry, itemsAdler, itemsSrc = false, false, -1e9, nil, 1   -- itemsSrc: 1=GitHub, 2=เซิร์ฟสำรอง
