@@ -14,7 +14,7 @@
 
 script_name('LavkaMarket')
 script_author('LavkaMarket')
-script_version('0.5.5')
+script_version('0.5.6')
 
 local okEffil, effil = pcall(require, 'effil')
 local okFFI, ffi     = pcall(require, 'ffi')
@@ -82,7 +82,7 @@ pcall(migrateOld)
 
 -- แจกไฟล์เดียว: ตัว release ฝังไฟล์หน้าเว็บไว้ในสคริปต์ (publish.py เติมแทนบรรทัด EMBED ข้างล่าง)
 -- เปิดครั้งแรก/เปลี่ยนรุ่น -> เขียนออกไปที่ LavkaMarket\web\ ; ตัวพัฒนา (EMBED = nil) ข้ามไป ใช้ไฟล์ที่มีอยู่
-local EMBED = { stamp = "0.5.5-6ece3d79", files = {
+local EMBED = { stamp = "0.5.6-cde05037", files = {
   ["app.js"] = [=[
 /* LavkaMarket CEF UI  (window.LVM)
    หน้าเว็บที่ฝังเข้า CEF ของเกม: หน้าล็อกอิน Discord + หน้าราคา
@@ -133,7 +133,7 @@ local EMBED = { stamp = "0.5.5-6ece3d79", files = {
           consent: 'เมื่อเชื่อมต่อ = ยินยอมแชร์เฉพาะข้อมูลตลาด (ราคา/จำนวน/ชื่อร้าน) ไม่ส่งข้อมูลส่วนตัว',
           search: 'ค้นหาไอเทม...', buy: 'ซื้อถูกสุด', sell: 'รับซื้อแพงสุด', none: 'ยังไม่มีข้อมูล เดินเปิดดูร้านในตลาด',
           logout: 'ออก', count: 'ไอเทม', empty_price: '-', buy_s: 'ซื้อ', sell_s: 'ขาย', profit: 'กำไร', nosell: 'ไม่มีขาย',
-          n_sell: 'ร้านขาย', n_buy2: 'ร้านรับซื้อ', view_all: 'ดูร้านทั้งหมด', loading: 'กำลังโหลด…', no_sellers: 'ยังไม่เห็นร้านขาย', no_buyers: 'ยังไม่เห็นร้านรับซื้อ', col_shop: 'ร้าน', col_price: 'ราคา', col_qty: 'จำนวน', col_seen: 'เห็นล่าสุด', n_buy: 'ร้านรับ', med: 'กลาง', only_buy: 'ไม่มีคนขาย · ร้านรับซื้อราคานี้', shops: 'ร้าน',
+          srv_old: 'ข้อมูลเก่า', n_sell: 'ร้านขาย', n_buy2: 'ร้านรับซื้อ', view_all: 'ดูร้านทั้งหมด', loading: 'กำลังโหลด…', no_sellers: 'ยังไม่เห็นร้านขาย', no_buyers: 'ยังไม่เห็นร้านรับซื้อ', col_shop: 'ร้าน', col_price: 'ราคา', col_qty: 'จำนวน', col_seen: 'เห็นล่าสุด', n_buy: 'ร้านรับ', med: 'กลาง', only_buy: 'ไม่มีคนขาย · ร้านรับซื้อราคานี้', shops: 'ร้าน',
           pull_t: 'ดึงข้อมูลตลาดจากกองกลาง', pull_h: 'ราคาจากผู้เล่น LavkaMarket ในเซิร์ฟนี้ แชร์เฉพาะข้อมูลตลาด (ราคา จำนวน ชื่อร้าน) ไม่มีข้อมูลส่วนตัว', pull_btn: 'เริ่มดึงข้อมูล', pull_run: 'กำลังดึงข้อมูลจากกองกลาง…', pull_ok: 'ได้ข้อมูลแล้ว', pull_shops: 'ร้าน', pull_err: 'ดึงไม่สำเร็จ ลองใหม่อีกครั้ง', pull_retry: 'ลองใหม่', pull_now: 'กดเพื่อดึงข้อมูลตอนนี้', pull_busy: 'กำลังดึง…', pull_wait: 'ยังไม่ได้ดึง', ago_now: 'เมื่อกี้', ago_m: 'นาทีที่แล้ว', ago_h: 'ชม.ที่แล้ว', ago_d: 'วันที่แล้ว', st_sell: 'มีคนขาย', st_buy: 'มีร้านรับซื้อ', mode_buy: 'ฉันจะซื้อ', tab_home: 'หน้าแรก', tab_market: 'ตลาด', hello: 'สวัสดี', home_sub: 'วันนี้จะซื้อหรือจะขาย? เลือกด้านล่างได้เลย', recent: 'เพิ่งเห็นล่าสุด', updated: 'อัปเดต', home_tip: 'ราคาทั้งหมดมาจากผู้เล่นที่ใช้ LavkaMarket เดินเปิดดูแผงร้านในเกม แชร์เฉพาะข้อมูลตลาด (ราคา จำนวน ชื่อร้าน) ไม่มีข้อมูลส่วนตัว ยิ่งคนเปิดร้านเยอะ ราคายิ่งสด', hist_title: 'ประวัติราคา 30 วัน', hist_none: 'ยังไม่มีประวัติราคาของไอเทมนี้', hist_low: 'ต่ำสุด', hist_high: 'สูงสุด', hist_last: 'ล่าสุด', hist_lo_s: 'ราคาขายถูกสุด', hist_hi_b: 'ราคารับซื้อสูงสุด', hist_hi_b_fee: 'ราคารับซื้อสูงสุด (หลังหักค่าธรรมเนียม)', k_best_s: 'ขายถูกสุดตอนนี้', k_best_b: 'รับซื้อสูงสุดตอนนี้', k_srv: 'มีในเซิร์ฟ', info_title: 'ข้อมูลไอเทม', info_none: 'ยังไม่มีข้อมูลของไอเทมนี้ — เปิดหน้าต่าง "ข้อมูลไอเทม" ในเกมหนึ่งครั้ง แล้วจะแสดงที่นี่', info_bonus: 'ใส่แล้วได้', info_up: 'เมื่ออัปเกรด', info_desc: 'รายละเอียด', col_lvl: 'ตีบวก/ระดับ', n_lvls: 'ระดับ', brand_sub: 'ตลาดแผงร้าน', sec_main: 'หน้าหลัก', sec_mkt: 'ข้อมูลตลาด', sec_buy: 'ซื้อ', sec_market: 'มาร์เก็ต', cat_all: 'ทั้งหมด', m_disc: 'เชื่อมต่อผ่าน Discord', m_sec_app: 'แอป', m_sec_set: 'ตั้งค่า', m_ver: 'เวอร์ชัน', m_latest: 'เป็นเวอร์ชันล่าสุดแล้ว', m_new: 'มีเวอร์ชันใหม่', m_get: 'อัปเดต', m_sync: 'ดึงข้อมูลตลาดตอนนี้', m_sync_h: 'ปกติดึงเองทุก 10 นาที', u_check: 'กำลังตรวจเวอร์ชัน…', u_dl: 'กำลังดาวน์โหลด', u_done: 'อัปเดตแล้ว กำลังโหลดใหม่…', u_err: 'อัปเดตไม่สำเร็จ กดเพื่อลองใหม่', m_share: 'แชร์ข้อมูลตลาด', m_share_h: 'ส่งราคา/จำนวน/ชื่อร้านที่คุณเปิดดู เข้ากองกลาง', m_discord: 'Discord ของ LavkaMarket', m_logout: 'ออกจากระบบ', m_logout_q: 'ออกจากระบบใช่ไหม?', m_logout_h: 'ต้องเข้าสู่ระบบด้วย Discord ใหม่อีกครั้ง', m_cancel: 'ยกเลิก', sec_sell: 'ขาย', nav_buy: 'ร้านที่ขาย', nav_sell: 'ร้านรับซื้อ', srv_next: 'อัปเดตถัดไป', srv_upd: 'อัปเดตข้อมูลล่าสุด', srv_last: 'ล่าสุด', srv_shops: 'ร้านในพูล', min_u: 'นาที', uw_title: 'อัปเดต LavkaMarket', uw_new: 'มีอะไรใหม่', uw_files: 'ไฟล์ที่จะอัปเดต', uw_go: 'อัปเดตเลย', uw_later: 'ไว้ทีหลัง', uw_close: 'ปิด', uw_retry: 'ลองใหม่', uw_wait: 'รอคิว', uw_dl: 'กำลังดาวน์โหลด…', uw_ok: 'ตรวจแล้ว', uw_inst: 'กำลังติดตั้ง…', uw_done_f: 'เสร็จ', uw_done: 'อัปเดตเสร็จแล้ว กำลังโหลดสคริปต์ใหม่…', uw_err: 'อัปเดตไม่สำเร็จ', uw_latest: 'คุณใช้เวอร์ชันล่าสุดแล้ว', uw_nonotes: 'ปรับปรุงและแก้ไขเล็กน้อย', m_history: 'ประวัติเวอร์ชัน', clog_title: 'ประวัติเวอร์ชัน', clog_sub: 'การเปลี่ยนแปลงทุกเวอร์ชัน', clog_load: 'กำลังโหลด…', srv_n: 'ร้าน', srv_pick: 'ดูตลาดเซิร์ฟเวอร์', srv_mine: 'เซิร์ฟคุณ', srv_back: 'กลับตลาดเซิร์ฟของฉัน', srv_load: 'กำลังโหลด…', srv_none: 'ยังไม่มีเซิร์ฟอื่นที่มีข้อมูล', srv_viewing: 'กำลังดูตลาดเซิร์ฟอื่น', srv_wait: 'รอข้อมูลเซิร์ฟเวอร์…', sort_by: 'เรียง:', sort_shops: 'ร้านเยอะสุด', sort_new: 'อัปเดตล่าสุด', sort_name: 'ชื่อ A–Z', by_lvl: 'แยกตามระดับ', rng_h: '3 วัน (รายชั่วโมง)', rng_d: '90 วัน (รายวัน)', hist: 'ประวัติราคา', more: 'เพิ่มเติม ▾', less: 'ย่อ ▴', hist_none_h: 'ยังไม่มีข้อมูลรายชั่วโมง (เริ่มเก็บแล้ว)', lv_hint: 'กดชิปด้านบนเพื่อเน้นเส้น', lv_avg: 'กลาง', lv_avg30: 'กลาง 30 วัน', piece_s: 'ชิ้นที่ร้านนี้ขาย ·', piece_b: 'ร้านนี้รับซื้อ ·', mode_buy_h: 'ดูร้านที่ขาย', mode_sell: 'ฉันจะขาย', mode_sell_h: 'ดูร้านที่รับซื้อ', of: 'จาก', shown: 'แสดง',
           err_server: 'ยังไม่ได้ตั้งเซิร์ฟเวอร์ (พิมพ์ /lm url <ที่อยู่> ในเกม)', err_bad: 'รหัสไม่ถูกต้องหรือถูกแบน', err_full: 'คีย์นี้ถูกใช้กับตัวละครครบจำนวนแล้ว (กันแชร์คีย์)', checking: 'กำลังตรวจรหัส...',
           need_login: 'ต้องเข้าสู่ระบบก่อน', need_sub: 'เข้าสู่ระบบเพื่อเปิดตลาดกลาง LavkaMarket', code_title: 'ใส่รหัสเข้าใช้', back: 'ย้อนกลับ', opening: 'กำลังเปิด Discord...', have_key: 'มีคีย์อยู่แล้ว? ใส่คีย์', or: 'หรือ', waiting: 'กำลังรอยืนยันใน Discord…', err_oauth: 'ยืนยัน Discord ไม่สำเร็จ ลองใหม่', err_member: 'ยังไม่ได้เข้าเซิร์ฟเวอร์ Discord — เปิดลิงก์เชิญให้แล้ว', err_oauth_off: 'เซิร์ฟเวอร์ยังไม่เปิด OAuth ใช้คีย์แทน', err_join: 'เปิดลิงก์เชิญให้แล้ว — เข้าร่วมเซิร์ฟ แล้วรอสักครู่ จะเข้าเองอัตโนมัติ' },
@@ -143,7 +143,7 @@ local EMBED = { stamp = "0.5.5-6ece3d79", files = {
           consent: 'Подключаясь = согласие делиться только рыночными данными (цена/кол-во/лавка). Личные данные не отправляются',
           search: 'Поиск предмета...', buy: 'дешевле всего', sell: 'скупка дороже', none: 'Нет данных. Откройте лавки на рынке',
           logout: 'Выход', count: 'предметов', empty_price: '-', buy_s: 'купить', sell_s: 'продать', profit: 'профит', nosell: 'нет в продаже',
-          n_sell: 'продают', n_buy2: 'скупают', view_all: 'все лавки', loading: 'загрузка…', no_sellers: 'продавцов не видно', no_buyers: 'скупщиков не видно', col_shop: 'лавка', col_price: 'цена', col_qty: 'кол-во', col_seen: 'видели', n_buy: 'скупка', med: 'медиана', only_buy: 'никто не продаёт · скупают по этой цене', shops: 'лавок',
+          srv_old: 'данные устарели', n_sell: 'продают', n_buy2: 'скупают', view_all: 'все лавки', loading: 'загрузка…', no_sellers: 'продавцов не видно', no_buyers: 'скупщиков не видно', col_shop: 'лавка', col_price: 'цена', col_qty: 'кол-во', col_seen: 'видели', n_buy: 'скупка', med: 'медиана', only_buy: 'никто не продаёт · скупают по этой цене', shops: 'лавок',
           pull_t: 'Загрузить рынок из общей базы', pull_h: 'Цены от игроков LavkaMarket на этом сервере. Только рыночные данные (цена, кол-во, лавка), без личных данных', pull_btn: 'Загрузить данные', pull_run: 'Загружаем данные из общей базы…', pull_ok: 'Готово', pull_shops: 'лавок', pull_err: 'Не удалось загрузить. Попробуйте снова', pull_retry: 'Повторить', pull_now: 'Нажмите, чтобы обновить сейчас', pull_busy: 'загрузка…', pull_wait: 'не загружено', ago_now: 'только что', ago_m: 'мин назад', ago_h: 'ч назад', ago_d: 'дн назад', st_sell: 'в продаже', st_buy: 'есть скупка', mode_buy: 'Хочу купить', tab_home: 'Главная', tab_market: 'Рынок', hello: 'Привет', home_sub: 'Покупаете или продаёте? Выберите ниже', recent: 'Недавно замечено', updated: 'обновлено', home_tip: 'Все цены собирают игроки LavkaMarket, открывая лавки в игре. Передаются только рыночные данные (цена, кол-во, лавка), без личных данных. Чем больше лавок открыто, тем свежее цены', hist_title: 'История цены за 30 дней', hist_none: 'Истории цены пока нет', hist_low: 'мин', hist_high: 'макс', hist_last: 'последняя', hist_lo_s: 'мин. цена продажи', hist_hi_b: 'макс. цена скупки', hist_hi_b_fee: 'макс. скупка (после комиссии)', k_best_s: 'Мин. цена сейчас', k_best_b: 'Макс. скупка сейчас', k_srv: 'На сервере', info_title: 'О предмете', info_none: 'Нет данных о предмете — откройте «Информация о предмете» в игре один раз, и она появится здесь', info_bonus: 'Даёт при надевании', info_up: 'При улучшении', info_desc: 'Описание', col_lvl: 'Улучш./ур.', n_lvls: 'уровн.', brand_sub: 'рынок лавок', sec_main: 'Главное', sec_mkt: 'Рынок', sec_buy: 'Покупка', sec_market: 'Маркет', cat_all: 'Все товары', m_disc: 'Вход через Discord', m_sec_app: 'Приложение', m_sec_set: 'Настройки', m_ver: 'Версия', m_latest: 'Последняя версия', m_new: 'Доступна версия', m_get: 'Обновить', m_sync: 'Обновить рынок сейчас', m_sync_h: 'Автоматически каждые 10 минут', u_check: 'Проверка версии…', u_dl: 'Загрузка', u_done: 'Обновлено, перезагрузка…', u_err: 'Ошибка обновления, нажмите ещё раз', m_share: 'Делиться данными рынка', m_share_h: 'Цены/кол-во/лавки, которые вы открыли, уходят в общий пул', m_discord: 'Discord LavkaMarket', m_logout: 'Выйти', m_logout_q: 'Выйти из аккаунта?', m_logout_h: 'Нужно будет снова войти через Discord', m_cancel: 'Отмена', sec_sell: 'Продажа', nav_buy: 'Продают', nav_sell: 'Скупают', srv_next: 'Обновление через', srv_upd: 'Данные обновлены', srv_last: 'последнее', srv_shops: 'Лавок в базе', min_u: 'мин', uw_title: 'Обновление LavkaMarket', uw_new: 'Что нового', uw_files: 'Файлы обновления', uw_go: 'Обновить', uw_later: 'Позже', uw_close: 'Закрыть', uw_retry: 'Повторить', uw_wait: 'в очереди', uw_dl: 'загрузка…', uw_ok: 'проверено', uw_inst: 'установка…', uw_done_f: 'готово', uw_done: 'Обновлено, перезагрузка скрипта…', uw_err: 'Не удалось обновить', uw_latest: 'У вас последняя версия', uw_nonotes: 'Улучшения и исправления', m_history: 'История версий', clog_title: 'История версий', clog_sub: 'Изменения по всем версиям', clog_load: 'Загрузка…', srv_n: 'лавок', srv_pick: 'Рынок сервера', srv_mine: 'Ваш сервер', srv_back: 'Вернуться к своему серверу', srv_load: 'Загрузка…', srv_none: 'Других серверов с данными пока нет', srv_viewing: 'Вы смотрите рынок другого сервера', srv_wait: 'Ожидание данных…', sort_by: 'Сортировка:', sort_shops: 'Больше лавок', sort_new: 'Недавние', sort_name: 'Имя A–Я', by_lvl: 'По уровням', rng_h: '3 дня (по часам)', rng_d: '90 дней (по дням)', hist: 'История цены', more: 'ещё ▾', less: 'свернуть ▴', hist_none_h: 'Почасовых данных пока нет (сбор начат)', lv_hint: 'нажмите уровень сверху, чтобы выделить линию', lv_avg: 'медиана', lv_avg30: 'медиана 30 дн.', piece_s: 'Предмет в лавке ·', piece_b: 'Скупка в лавке ·', mode_buy_h: 'лавки, которые продают', mode_sell: 'Хочу продать', mode_sell_h: 'лавки, которые скупают', of: 'из', shown: 'показано',
           err_server: 'Сервер не задан (в игре: /lm url <адрес>)', err_bad: 'Неверный или заблокированный код', err_full: 'Ключ уже используется на максимуме персонажей', checking: 'Проверка кода...',
           need_login: 'Требуется вход', need_sub: 'Войдите, чтобы открыть рынок LavkaMarket', code_title: 'Введите код доступа', back: 'назад', opening: 'Открываю Discord...', have_key: 'Уже есть код? Ввести', or: 'или', waiting: 'Ожидание подтверждения в Discord…', err_oauth: 'Вход через Discord не удался', err_member: 'Вы не в нашем Discord — открываю приглашение', err_oauth_off: 'OAuth выключен — введите код', err_join: 'Приглашение открыто — вступите на сервер, вход произойдёт сам' },
@@ -153,7 +153,7 @@ local EMBED = { stamp = "0.5.5-6ece3d79", files = {
           consent: 'Connecting = you agree to share market data only (price/count/shop). No personal data is sent',
           search: 'Search item...', buy: 'cheapest', sell: 'highest buy', none: 'No data yet. Open stalls in the market',
           logout: 'Sign out', count: 'items', empty_price: '-', buy_s: 'buy', sell_s: 'sell', profit: 'profit', nosell: 'no sellers',
-          n_sell: 'selling', n_buy2: 'buying', view_all: 'all shops', loading: 'loading…', no_sellers: 'no sellers seen', no_buyers: 'no buyers seen', col_shop: 'shop', col_price: 'price', col_qty: 'qty', col_seen: 'seen', n_buy: 'buyer', med: 'median', only_buy: 'no sellers · buyers pay this', shops: 'shops',
+          srv_old: 'stale data', n_sell: 'selling', n_buy2: 'buying', view_all: 'all shops', loading: 'loading…', no_sellers: 'no sellers seen', no_buyers: 'no buyers seen', col_shop: 'shop', col_price: 'price', col_qty: 'qty', col_seen: 'seen', n_buy: 'buyer', med: 'median', only_buy: 'no sellers · buyers pay this', shops: 'shops',
           pull_t: 'Load market data from the pool', pull_h: 'Prices from LavkaMarket players on this server. Market data only (price, amount, shop name), nothing personal', pull_btn: 'Load data', pull_run: 'Loading data from the pool…', pull_ok: 'Done', pull_shops: 'shops', pull_err: "Couldn't load. Try again", pull_retry: 'Try again', pull_now: 'Click to refresh now', pull_busy: 'loading…', pull_wait: 'not loaded', ago_now: 'just now', ago_m: 'min ago', ago_h: 'h ago', ago_d: 'd ago', st_sell: 'on sale', st_buy: 'has buyers', mode_buy: 'I want to buy', tab_home: 'Home', tab_market: 'Market', hello: 'Hello', home_sub: 'Buying or selling today? Pick below', recent: 'Recently seen', updated: 'updated', home_tip: 'All prices come from LavkaMarket players opening stalls in game. Only market data is shared (price, qty, shop name), no personal data. The more stalls opened, the fresher the prices', hist_title: '30-day price history', hist_none: 'No price history for this item yet', hist_low: 'low', hist_high: 'high', hist_last: 'latest', hist_lo_s: 'lowest sell price', hist_hi_b: 'highest buy price', hist_hi_b_fee: 'highest buy (after fee)', k_best_s: 'Lowest price now', k_best_b: 'Highest buy now', k_srv: 'On server', info_title: 'Item info', info_none: 'No info for this item yet — open the in-game "Item info" window once and it will show here', info_bonus: 'Gives when worn', info_up: 'When upgraded', info_desc: 'Description', col_lvl: 'Upgrade/tier', n_lvls: 'levels', brand_sub: 'shop market', sec_main: 'Main', sec_mkt: 'Market', sec_buy: 'Buy', sec_market: 'Market', cat_all: 'All items', m_disc: 'Signed in with Discord', m_sec_app: 'App', m_sec_set: 'Settings', m_ver: 'Version', m_latest: 'You are up to date', m_new: 'New version', m_get: 'Update', m_sync: 'Refresh market now', m_sync_h: 'Refreshes every 10 minutes by itself', u_check: 'Checking version…', u_dl: 'Downloading', u_done: 'Updated, reloading…', u_err: 'Update failed, tap to retry', m_share: 'Share market data', m_share_h: 'Prices/counts/shop names you open go to the shared pool', m_discord: 'LavkaMarket Discord', m_logout: 'Log out', m_logout_q: 'Log out?', m_logout_h: 'You will need to sign in with Discord again', m_cancel: 'Cancel', sec_sell: 'Sell', nav_buy: 'Sellers', nav_sell: 'Buyers', srv_next: 'Next update', srv_upd: 'Data updated', srv_last: 'last', srv_shops: 'Shops in pool', min_u: 'min', uw_title: 'Update LavkaMarket', uw_new: "What's new", uw_files: 'Files to update', uw_go: 'Update now', uw_later: 'Later', uw_close: 'Close', uw_retry: 'Retry', uw_wait: 'waiting', uw_dl: 'downloading…', uw_ok: 'verified', uw_inst: 'installing…', uw_done_f: 'done', uw_done: 'Updated, reloading the script…', uw_err: 'Update failed', uw_latest: 'You have the latest version', uw_nonotes: 'Improvements and fixes', m_history: 'Version history', clog_title: 'Version history', clog_sub: 'Changes across all versions', clog_load: 'Loading…', srv_n: 'shops', srv_pick: 'Server market', srv_mine: 'Your server', srv_back: 'Back to my server', srv_load: 'Loading…', srv_none: 'No other servers with data yet', srv_viewing: 'Viewing another server', srv_wait: 'Waiting for server…', sort_by: 'Sort:', sort_shops: 'Most shops', sort_new: 'Recently updated', sort_name: 'Name A–Z', by_lvl: 'By level', rng_h: '3 days (hourly)', rng_d: '90 days (daily)', hist: 'Price history', more: 'more ▾', less: 'less ▴', hist_none_h: 'No hourly data yet (now collecting)', lv_hint: 'click a level above to highlight its line', lv_avg: 'median', lv_avg30: '30-day median', piece_s: 'Piece sold by ·', piece_b: 'Bought by ·', mode_buy_h: 'shops selling', mode_sell: 'I want to sell', mode_sell_h: 'shops buying', of: 'of', shown: 'shown',
           err_server: 'Server not set (in game: /lm url <address>)', err_bad: 'Invalid or banned code', err_full: 'This key is used on the max number of characters', checking: 'Checking code...',
           need_login: 'Login required', need_sub: 'Sign in to open the LavkaMarket', code_title: 'Enter your access code', back: 'back', opening: 'Opening Discord...', have_key: 'Already have a key? Enter it', or: 'or', waiting: 'Waiting for Discord confirmation…', err_oauth: 'Discord sign-in failed, try again', err_member: 'You are not in our Discord — opening invite', err_oauth_off: 'OAuth is off — use a key instead', err_join: 'Invite opened — join the server, you will be logged in automatically' }
@@ -450,6 +450,7 @@ local EMBED = { stamp = "0.5.5-6ece3d79", files = {
       '.lvdRow b.s{color:#ffd23f}.lvdRow b.b{color:#2fd18b}.lvdRow .m{color:#8a93a6;font-size:11.5px}' +
       '.lvdRow.best.s{box-shadow:inset 0 0 0 1px rgba(255,210,63,.35)}.lvdRow.best.b{box-shadow:inset 0 0 0 1px rgba(47,209,139,.35)}' +
       '.lvdEmpty{color:#5d6578;font-size:12.5px;text-align:center;padding:22px 0}' +
+      '#lvmRoot .lvmSI.old{opacity:.5}#lvmRoot .lvmSI.old:hover{opacity:.85}' +
       '.lvqTag{flex:none;padding:6px 12px;border-radius:11px;font-size:12.5px;font-weight:800}' +
       '.lvqTag.lvqBuy{background:linear-gradient(135deg,#ffd23f,#ffab1f);color:#151515}' +
       '.lvqTag.lvqSell{background:rgba(47,209,139,.15);color:#2fd18b;border:1px solid rgba(47,209,139,.4)}' +
@@ -973,13 +974,12 @@ local EMBED = { stamp = "0.5.5-6ece3d79", files = {
         '<div class="lvdCol lvdHist"><div class="lvdCap ' + (S.mode === 'sell' ? 'b' : 's') + '">' + esc(tr('hist_title')) + (CL && levelOrder().length < 2 ? ' <i>' + esc(CL.txt) + '</i>' : '') + '</div>' +
           levelBar(d) +
           '<div class="lvdChart" id="lvdChart"></div><div id="lvdSumBox"></div></div>' +
-        (S.mode === 'sell'
-          ? '<div class="lvdCol lvdShops"><div class="lvdCap b">' + esc(tr('n_buy2')) + (d ? ' <i>' + curCount(d.buy) + '</i>' : '') + '</div>' + shopRows(d && d.buy, 'b', 'no_buyers') + '</div>'
-          : '<div class="lvdCol lvdShops"><div class="lvdCap s">' + esc(tr('n_sell')) + (d ? ' <i>' + curCount(d.sell) + '</i>' : '') + '</div>' + shopRows(d && d.sell, 's', 'no_sellers') + '</div>') +
+        '<div class="lvdCol lvdShops lvdSellCol"><div class="lvdCap s">' + esc(tr('n_sell')) + (d ? ' <i>' + curCount(d.sell) + '</i>' : '') + '</div>' + shopRows(d && d.sell, 's', 'no_sellers') + '</div>' +
+        '<div class="lvdCol lvdShops lvdBuyCol"><div class="lvdCap b">' + esc(tr('n_buy2')) + (d ? ' <i>' + curCount(d.buy) + '</i>' : '') + '</div>' + shopRows(d && d.buy, 'b', 'no_buyers') + '</div>' +
       '</div><div class="lvdCol lvdInfo">' + pieceHtml(pickedRow(d)) + infoHtml(r) + '</div></div>';
     box.querySelector('#lvdBack').onclick = closeDetail;
     // คลิกร้าน = ดูชิ้นของร้านนั้น + กราฟ/ข้อมูลเปลี่ยนเป็นระดับของชิ้นนั้น (อยู่หน้าเดิม ไม่สลับหน้า)
-    var rws = box.querySelectorAll('.lvdRow[data-shop]');
+    var rws = box.querySelectorAll((S.mode === 'sell' ? '.lvdBuyCol' : '.lvdSellCol') + ' .lvdRow[data-shop]');
     for (var i = 0; i < rws.length; i++) rws[i].onclick = function () {
       S.pick = { shop: this.getAttribute('data-shop'), vid: this.getAttribute('data-vid'), price: this.getAttribute('data-price') };
       S.lv = S.pick.vid; paintDetail();
@@ -1010,6 +1010,7 @@ local EMBED = { stamp = "0.5.5-6ece3d79", files = {
     var h = '<div class="lvdKpi"><small>' + esc(tr(sell ? 'k_best_s' : 'k_best_b')) + '</small><b class="' + cls + '">' + (best ? money(best) : '—') + '</b></div>';
     if (sell && r.med) h += '<div class="lvdKpi"><small>' + esc(tr('med')) + '</small><b>' + money(r.med) + '</b></div>';
     h += '<div class="lvdKpi"><small>' + esc(tr('shops')) + '</small><b>' + (n || 0) + '</b></div>';
+    if (sell && (r.buy || (d && d.buy && d.buy.length))) h += '<div class="lvdKpi"><small>' + esc(tr('k_best_b')) + '</small><b class="b">' + (r.buy ? money(r.buy) : '—') + '</b></div>';
     if (inf && inf.count) h += '<div class="lvdKpi"><small>' + esc(tr('k_srv')) + '</small><b>' + esc(String(inf.count).replace(/\B(?=(\d{3})+(?!\d))/g, ',')) + '</b></div>';
     return h;
   }
@@ -1228,12 +1229,17 @@ local EMBED = { stamp = "0.5.5-6ece3d79", files = {
   // เลขเซิร์ฟ Arizona ตามชื่อ (จากรายชื่อเซิร์ฟของลันเชอร์) -> โลโก้ทางการของเซิร์ฟ
   var SRVNUM = {"phoenix":1,"tucson":2,"scottdale":3,"chandler":4,"brainburg":5,"saint-rose":6,"mesa":7,"red-rock":8,"yuma":9,"surprise":10,"prescott":11,"glendale":12,"kingman":13,"winslow":14,"payson":15,"gilbert":16,"show low":17,"casa-grande":18,"page":19,"sun-city":20,"queen-creek":21,"sedona":22,"holiday":23,"wednesday":24,"yava":25,"faraway":26,"bumble bee":27,"christmas":28,"mirage":29,"love":30,"drake":31,"space":32,"home":33};
   var SRVICO = 'https://cdn.azresources.cloud/projects/arizona-rp/assets/images/project_icons/';
+  var SRVNORM = null;   // SRVNUM with only a-z in the names: casa-grande / saint-rose / sun-city / bumble bee ... match their hostnames
+  function srvNum(name) {
+    if (!SRVNORM) { SRVNORM = {}; for (var n in SRVNUM) SRVNORM[n.replace(/[^a-z]/g, '')] = SRVNUM[n]; }
+    return SRVNORM[String(name || '').toLowerCase().replace(/[^a-z]/g, '')] || '';
+  }
   // กุญแจเซิร์ฟ (hostname ที่ถูกตัดเหลือ 16 ตัว เช่น "phoenix.arizona-") -> ชื่อ / เลข
   function keyParts(key) {
     key = String(key || '');
     if (/^\d+\.\d+\.\d+\.\d+/.test(key)) return { short: key, num: '', key: key };
     var lb = key.split('.')[0].toLowerCase();
-    var num = String(SRVNUM[lb] || SRVNUM[lb.replace(/-/g, ' ')] || '');
+    var num = String(srvNum(lb));
     var short = lb.replace(/(^|[-\s])([a-z])/g, function (m, a, b) { return a + b.toUpperCase(); });
     return { short: short || key, num: num, key: key };
   }
@@ -1271,16 +1277,16 @@ local EMBED = { stamp = "0.5.5-6ece3d79", files = {
       var k = String(L[i].key || ''), own = isOwnKey(k);
       if (!k || (!own && /^\d+\.\d+\.\d+\.\d+/.test(k))) continue;
       if (own) { if (hasOwn) continue; hasOwn = true; }
-      items.push({ key: k, shops: +L[i].shops || 0, t: +L[i].t || 0, own: own });
+      items.push({ key: k, shops: +L[i].shops || 0, t: +L[i].t || 0, own: own, old: !!L[i].old });
     }
     if (!hasOwn && v.own) items.unshift({ key: String(v.own), shops: null, t: 0, own: true });
     items.sort(function (a, b) { return (b.own ? 1 : 0) - (a.own ? 1 : 0); });
     for (var j = 0; j < items.length; j++) {
       var it = items[j], P = keyParts(it.key);
       var on = it.own ? !+v.view : (+v.view && it.key === String(v.key));
-      h += '<div class="lvmSI' + (on ? ' on' : '') + '" data-srv="' + esc(it.own ? '' : it.key) + '">' + srvLogo(P.num, P.short) +
+      h += '<div class="lvmSI' + (on ? ' on' : '') + (it.old ? ' old' : '') + '" data-srv="' + esc(it.own ? '' : it.key) + '">' + srvLogo(P.num, P.short) +
         '<div class="tx"><b>' + esc(P.short) + (P.num ? ' <i>#' + esc(P.num) + '</i>' : '') + '</b><small>' +
-        (it.shops === null ? '—' : money(it.shops) + ' ' + esc(tr('srv_n')) + (it.t ? ' · ' + esc(ago(it.t)) : '')) + '</small></div>' +
+        (it.shops === null ? '—' : it.old ? esc(tr('srv_old')) + (it.t ? ' · ' + esc(ago(it.t)) : '') : money(it.shops) + ' ' + esc(tr('srv_n')) + (it.t ? ' · ' + esc(ago(it.t)) : '')) + '</small></div>' +
         (it.own ? '<em>' + esc(tr('srv_mine')) + '</em>' : '') + (on ? '<b class="ck">✓</b>' : '') + '</div>';
     }
     if (items.length < 2) h += '<div class="lvmSE">' + esc(tr('srv_none')) + '</div>';
@@ -1302,7 +1308,7 @@ local EMBED = { stamp = "0.5.5-6ece3d79", files = {
     var num = (/(?:\[|#|№)\s*(\d{1,3})/.exec(raw) || /\b(\d{1,3})\b/.exec(short) || [])[1] || '';
     short = short.replace(/[\[#№]?\s*\d{1,3}\s*\]?/, '').trim() || short;
     var k = short.toLowerCase().replace(/[_\s]+/g, ' ').trim();
-    if (!num) num = String(SRVNUM[k] || SRVNUM[k.replace(/ /g, '-')] || '');
+    if (!num) num = String(srvNum(k));
     return { raw: raw, short: short, num: num, key: String(v.key || '') };
   }
   function srvHtml() {
@@ -1643,6 +1649,7 @@ end
 pcall(extractEmbed)
 local STATIC = (type(EMBED) == 'table' and EMBED.static == true)   -- เวอร์ชัน static (blast.hk): ไม่มีตัวอัปเดตในตัว + ฝัง items.json ครบ
 local CLOG = (type(EMBED) == 'table') and EMBED.clog or nil        -- changelog ฝังในตัว (static) -> หน้าประวัติใช้ได้ออฟไลน์
+local BUILD_STAMP = (type(EMBED) == 'table') and EMBED.stamp or nil   -- รหัสรุ่นที่ build ไว้รายงานเวอร์ชัน
 EMBED = nil   -- ไม่ต้องถือข้อมูล ~1 MB ไว้ในหน่วยความจำ
 
 -- ไฟล์ตั้งค่า ini แบบง่าย (มีแค่หมวด [main]) - ไม่พึ่ง inicfg เพราะ inicfg บังคับอยู่ใน moonloader\config
@@ -1882,7 +1889,15 @@ local function mergeInto(out, shops)
     end
 end
 local function mergedShops()
-    local out = {}; if not viewSrv then mergeInto(out, (myShops())) end; mergeInto(out, POOL); return out
+    local out = {}; if not viewSrv then mergeInto(out, (myShops())) end; mergeInto(out, POOL)
+    -- ข้อมูลร้านที่ไม่มีใครอัปเดตเกิน maxAge ชั่วโมง (ค่าเริ่มต้น 24 ; 0 = ไม่จำกัด) ไม่แสดง
+    -- ซ่อนเฉพาะตอนแสดงผล: ข้อมูลในไฟล์/บนกองกลางไม่ถูกลบ ถ้ามีใครส่งฉบับใหม่มา ร้านจะกลับมาเอง
+    local h = tonumber(cfg.main.maxAge); if h == nil then h = 24 end
+    if h > 0 then
+        local lim = os.time() - h * 3600
+        for name, s in pairs(out) do if type(s) == 'table' and (tonumber(s.t) or 0) < lim then out[name] = nil end end
+    end
+    return out
 end
 
 local function buildMarket()
@@ -1977,12 +1992,20 @@ local function ownQtyT()
     end
     return t
 end
-local function cp2u(str)   -- ข้อความ dialog ของ SAMP เป็น cp1251 -> UTF-8 (เฉพาะซีริลลิก)
-    return (tostring(str or ''):gsub('[\128-\255]', function(ch)
-        local b = ch:byte()
-        local cp = (b >= 192) and (0x410 + b - 192) or (b == 168 and 0x401) or (b == 184 and 0x451) or nil
+-- cp1251 -> UTF-8 (full table: the high range 0x80-0xBF holds dashes, bullets, quotes, numero sign ...;
+-- the old converter only knew Cyrillic and turned all of those into '?', which damaged item descriptions)
+local CP1251_HI = { [128]=0x402,[129]=0x403,[130]=0x201A,[131]=0x453,[132]=0x201E,[133]=0x2026,[134]=0x2020,[135]=0x2021,[136]=0x20AC,[137]=0x2030,[138]=0x409,[139]=0x2039,[140]=0x40A,[141]=0x40C,[142]=0x40B,[143]=0x40F,[144]=0x452,[145]=0x2018,[146]=0x2019,[147]=0x201C,[148]=0x201D,[149]=0x2022,[150]=0x2013,[151]=0x2014,[152]=false,[153]=0x2122,[154]=0x459,[155]=0x203A,[156]=0x45A,[157]=0x45C,[158]=0x45B,[159]=0x45F,[160]=0xA0,[161]=0x40E,[162]=0x45E,[163]=0x408,[164]=0xA4,[165]=0x490,[166]=0xA6,[167]=0xA7,[168]=0x401,[169]=0xA9,[170]=0x404,[171]=0xAB,[172]=0xAC,[173]=0xAD,[174]=0xAE,[175]=0x407,[176]=0xB0,[177]=0xB1,[178]=0x406,[179]=0x456,[180]=0x491,[181]=0xB5,[182]=0xB6,[183]=0xB7,[184]=0x451,[185]=0x2116,[186]=0x454,[187]=0xBB,[188]=0x458,[189]=0x405,[190]=0x455,[191]=0x457 }
+local function u8char(cp)
+    if cp < 0x80 then return string.char(cp) end
+    if cp < 0x800 then return string.char(0xC0 + math.floor(cp / 64), 0x80 + cp % 64) end
+    return string.char(0xE0 + math.floor(cp / 4096), 0x80 + math.floor(cp / 64) % 64, 0x80 + cp % 64)
+end
+local function cp2u(str)
+    return (tostring(str or ''):gsub('[\128-\255]', function(char)
+        local b = char:byte()
+        local cp = b >= 192 and (0x410 + b - 192) or CP1251_HI[b]
         if not cp then return '?' end
-        return string.char(0xC0 + math.floor(cp / 64), 0x80 + cp % 64)
+        return u8char(cp)
     end))
 end
 -- หาช่องที่ตรงกับราคานี้: ชื่อไอเทมตรงก่อน, ถ้าไม่มีชื่อตรงแต่มีช่องราคานี้ช่องเดียว ก็ใช้ช่องนั้น
@@ -2369,12 +2392,12 @@ local function meUrl(url, code)
     return url .. '/me?nick=' .. nk
 end
 local function httpWorker()
-    return effil.thread(function(method, url, body, key)
+    return effil.thread(function(method, url, body, key, ver)
         local requests = require('requests')
         -- UA แบบเบราว์เซอร์: กัน Cloudflare Browser Integrity Check (error 1010) บล็อก client
         local opt = { headers = { ['content-type'] = 'application/json',
             ['user-agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36' } }
-        if key and key ~= '' then opt.headers['x-lvm-key'] = key end   -- รหัสอยู่ใน header ไม่อยู่ใน URL = ไม่ติดล็อกใคร
+        if key and key ~= '' then opt.headers['x-lvm-key'] = key; if ver and ver ~= '' then opt.headers['x-lvm-ver'] = ver end end   -- รหัสอยู่ใน header ไม่อยู่ใน URL = ไม่ติดล็อกใคร
         if body then opt.data = body end
         local ok, r = pcall(requests.request, method, url, opt)
         if ok then return true, r.status_code, r.text end
@@ -2387,7 +2410,10 @@ local function httpCall(method, url, body, cb)
     -- แนบรหัสเฉพาะคำขอที่ไปเซิร์ฟเวอร์ของเราเท่านั้น
     local base, key = srvUrl(), tostring(cfg.main.code or '')
     if base == '' or url:sub(1, #base + 1) ~= base .. '/' then key = '' end
-    local th = httpWorker()(method, url, body, key)
+    -- เวอร์ชันสคริปต์ (เช่น 0.5.6-xxxx|static) ส่งไปกับคำขอที่ไปเซิร์ฟเวอร์เราเท่านั้น ไว้ดูว่าใครใช้รุ่นไหน ไม่มีข้อมูลส่วนตัว
+    local ver = ''
+    if key ~= '' then ver = tostring(BUILD_STAMP or thisScript().version or '') .. (STATIC and '|static' or '') end
+    local th = httpWorker()(method, url, body, key, ver)
     lua_thread.create(function()
         local t0 = os.clock()
         while th:status() == 'running' do wait(50); if os.clock() - t0 > 25 then pcall(function() th:cancel() end); break end end
@@ -2546,6 +2572,42 @@ local function doInfo(raw)
     if prev and prev.k == key and os.clock() - prev.t < 1800 then return end   -- ส่งไปแล้ว ไม่ยิงซ้ำ
     infoSent[vid] = { k = key, t = os.clock() }
     httpCall('POST', url .. '/info', encodeJson({ server = serverKey(), base = base, vid = vid, lines = lines }), function() end)
+end
+
+-- คำอธิบายไอเทมจาก "หน้าต่างซื้อ/ขาย" ที่ผู้เล่นคลิกเอง (ข้อความ dialog เดียวกับที่สแกนเนอร์อ่าน) -> /info
+-- ก่อนหน้านี้เก็บเฉพาะจากหน้าต่างข้อมูลไอเทม ซึ่งข้อความตกหล่นง่าย ตอนนี้ได้ฉบับเต็มจากหน้าต่างที่คลิกอยู่แล้ว
+-- ตัดเฉพาะบรรทัดของผู้เล่น ("У вас ...") ; เซิร์ฟเวอร์กรองบรรทัดราคา/ปุ่ม และไม่ให้ฉบับที่สั้นกว่าทับฉบับที่ครบกว่า
+function LVM_dlgInfo(shopName, slot, side, rawText)
+    LVMQ = LVMQ or {}; LVMQ.dinfo = LVMQ.dinfo or {}
+    if #LVMQ.dinfo >= 20 then return end
+    LVMQ.dinfo[#LVMQ.dinfo + 1] = { shop = shopName, slot = slot, side = side, text = tostring(rawText or '') }
+end
+function LVM_pumpDlgInfo()
+    if netBusy or not LVMQ or not LVMQ.dinfo or #LVMQ.dinfo == 0 then return end
+    local job = table.remove(LVMQ.dinfo, 1)
+    local url = srvUrl()
+    if url == '' or tostring(cfg.main.code or '') == '' or tonumber(cfg.main.share) ~= 1 then return end
+    local shop = (myShops())[job.shop]
+    if type(shop) ~= 'table' then return end
+    local rec = (job.side == 'buy' and shop._bsl or shop._sl)
+    rec = type(rec) == 'table' and rec[tostring(job.slot)] or nil
+    if type(rec) ~= 'table' or not rec[1] then return end
+    local vid = tostring(rec[1])
+    local base = vid:match('^(%d+)'); if not base then return end
+    local tier = vid:match('~t(%d+)')
+    local key = tier and (base .. '~t' .. tier) or base       -- ตีบวก (~eN) ใช้คำอธิบายของ id/ดาวเดียวกัน
+    local lines = {}
+    for ln in (cp2u(job.text):gsub('{%x%x%x%x%x%x}', '') .. '\n'):gmatch('([^\n]*)\n') do
+        if not ln:find('У вас', 1, true) then lines[#lines + 1] = ln end
+        if #lines >= 90 then break end
+    end
+    while lines[1] and lines[1]:match('^%s*$') do table.remove(lines, 1) end
+    if #lines < 2 or (lines[1] or ''):match('^%s*%[%d%]') then return end    -- เมนู/กล่องข้อความสั้น ไม่ใช่คำอธิบาย
+    local k = table.concat(lines, '\n')
+    local prev = infoSent[key]
+    if prev and prev.k == k and os.clock() - prev.t < 1800 then return end
+    infoSent[key] = { k = k, t = os.clock() }
+    httpCall('POST', url .. '/info', encodeJson({ server = serverKey(), base = base, vid = key, lines = lines }), function() end)
 end
 
 -- ===== อัปเดตสคริปต์ในตัว (ไฟล์จากเซิร์ฟเวอร์เราเท่านั้น: LavkaMarket.lua + LavkaMarket/web/*) =====
@@ -3033,6 +3095,7 @@ if okEv and sampev then
                 if f then f:write(os.date('%H:%M:%S '), 'n=', tostring(n), ' | ', (u:gsub('\n', ' / ')), '\n'); f:close() end
             end
             if n then pcall(applyBuyStock, openShop.name, click.slot, n) end
+            pcall(LVM_dlgInfo, openShop.name, click.slot, 'buy', text)
             return
         end
         if not (click and openShop and click.type == SELL_T and os.clock() - click.t < 3) then return end
@@ -3040,6 +3103,7 @@ if okEv and sampev then
         local n = stockOf(text)
         if not n and style == 0 then n = 1 end   -- กล่องข้อความไม่มีช่องใส่จำนวน = มีชิ้นเดียว
         if n then pcall(applyStock, openShop.name, click.slot, n) end
+        pcall(LVM_dlgInfo, openShop.name, click.slot, 'sell', text)
     end
 end
 
@@ -3096,6 +3160,7 @@ function main()
         if dbDirty and os.clock() - lastSave > 10 then pcall(saveDB); lastSave = os.clock() end
         if panelOpen and uiDirty then pcall(pushRows) end
         if wantItem then local v = wantItem; wantItem = nil; if panelOpen then pcall(pushItem, v) end end
+        if LVMQ and LVMQ.dinfo and #LVMQ.dinfo > 0 then pcall(LVM_pumpDlgInfo) end
         if wantHist and not netBusy then local v = wantHist; wantHist = nil; if panelOpen and v:match('^[%d~et]+$') then pcall(doHist, v) end end
         if oauthState and oauthNextAt and os.clock() >= oauthNextAt and not netBusy then
             oauthNextAt = os.clock() + 3      -- กันยิงซ้ำระหว่างรอผล

@@ -14,7 +14,7 @@
 
 script_name('LavkaMarket')
 script_author('LavkaMarket')
-script_version('0.5.5')
+script_version('0.5.6')
 
 local okEffil, effil = pcall(require, 'effil')
 local okFFI, ffi     = pcall(require, 'ffi')
@@ -101,6 +101,7 @@ end
 pcall(extractEmbed)
 local STATIC = (type(EMBED) == 'table' and EMBED.static == true)   -- เวอร์ชัน static (blast.hk): ไม่มีตัวอัปเดตในตัว + ฝัง items.json ครบ
 local CLOG = (type(EMBED) == 'table') and EMBED.clog or nil        -- changelog ฝังในตัว (static) -> หน้าประวัติใช้ได้ออฟไลน์
+local BUILD_STAMP = (type(EMBED) == 'table') and EMBED.stamp or nil   -- รหัสรุ่นที่ build ไว้รายงานเวอร์ชัน
 EMBED = nil   -- ไม่ต้องถือข้อมูล ~1 MB ไว้ในหน่วยความจำ
 
 -- ไฟล์ตั้งค่า ini แบบง่าย (มีแค่หมวด [main]) - ไม่พึ่ง inicfg เพราะ inicfg บังคับอยู่ใน moonloader\config
@@ -340,7 +341,15 @@ local function mergeInto(out, shops)
     end
 end
 local function mergedShops()
-    local out = {}; if not viewSrv then mergeInto(out, (myShops())) end; mergeInto(out, POOL); return out
+    local out = {}; if not viewSrv then mergeInto(out, (myShops())) end; mergeInto(out, POOL)
+    -- ข้อมูลร้านที่ไม่มีใครอัปเดตเกิน maxAge ชั่วโมง (ค่าเริ่มต้น 24 ; 0 = ไม่จำกัด) ไม่แสดง
+    -- ซ่อนเฉพาะตอนแสดงผล: ข้อมูลในไฟล์/บนกองกลางไม่ถูกลบ ถ้ามีใครส่งฉบับใหม่มา ร้านจะกลับมาเอง
+    local h = tonumber(cfg.main.maxAge); if h == nil then h = 24 end
+    if h > 0 then
+        local lim = os.time() - h * 3600
+        for name, s in pairs(out) do if type(s) == 'table' and (tonumber(s.t) or 0) < lim then out[name] = nil end end
+    end
+    return out
 end
 
 local function buildMarket()
@@ -435,12 +444,20 @@ local function ownQtyT()
     end
     return t
 end
-local function cp2u(str)   -- ข้อความ dialog ของ SAMP เป็น cp1251 -> UTF-8 (เฉพาะซีริลลิก)
-    return (tostring(str or ''):gsub('[\128-\255]', function(ch)
-        local b = ch:byte()
-        local cp = (b >= 192) and (0x410 + b - 192) or (b == 168 and 0x401) or (b == 184 and 0x451) or nil
+-- cp1251 -> UTF-8 (full table: the high range 0x80-0xBF holds dashes, bullets, quotes, numero sign ...;
+-- the old converter only knew Cyrillic and turned all of those into '?', which damaged item descriptions)
+local CP1251_HI = { [128]=0x402,[129]=0x403,[130]=0x201A,[131]=0x453,[132]=0x201E,[133]=0x2026,[134]=0x2020,[135]=0x2021,[136]=0x20AC,[137]=0x2030,[138]=0x409,[139]=0x2039,[140]=0x40A,[141]=0x40C,[142]=0x40B,[143]=0x40F,[144]=0x452,[145]=0x2018,[146]=0x2019,[147]=0x201C,[148]=0x201D,[149]=0x2022,[150]=0x2013,[151]=0x2014,[152]=false,[153]=0x2122,[154]=0x459,[155]=0x203A,[156]=0x45A,[157]=0x45C,[158]=0x45B,[159]=0x45F,[160]=0xA0,[161]=0x40E,[162]=0x45E,[163]=0x408,[164]=0xA4,[165]=0x490,[166]=0xA6,[167]=0xA7,[168]=0x401,[169]=0xA9,[170]=0x404,[171]=0xAB,[172]=0xAC,[173]=0xAD,[174]=0xAE,[175]=0x407,[176]=0xB0,[177]=0xB1,[178]=0x406,[179]=0x456,[180]=0x491,[181]=0xB5,[182]=0xB6,[183]=0xB7,[184]=0x451,[185]=0x2116,[186]=0x454,[187]=0xBB,[188]=0x458,[189]=0x405,[190]=0x455,[191]=0x457 }
+local function u8char(cp)
+    if cp < 0x80 then return string.char(cp) end
+    if cp < 0x800 then return string.char(0xC0 + math.floor(cp / 64), 0x80 + cp % 64) end
+    return string.char(0xE0 + math.floor(cp / 4096), 0x80 + math.floor(cp / 64) % 64, 0x80 + cp % 64)
+end
+local function cp2u(str)
+    return (tostring(str or ''):gsub('[\128-\255]', function(char)
+        local b = char:byte()
+        local cp = b >= 192 and (0x410 + b - 192) or CP1251_HI[b]
         if not cp then return '?' end
-        return string.char(0xC0 + math.floor(cp / 64), 0x80 + cp % 64)
+        return u8char(cp)
     end))
 end
 -- หาช่องที่ตรงกับราคานี้: ชื่อไอเทมตรงก่อน, ถ้าไม่มีชื่อตรงแต่มีช่องราคานี้ช่องเดียว ก็ใช้ช่องนั้น
@@ -827,12 +844,12 @@ local function meUrl(url, code)
     return url .. '/me?nick=' .. nk
 end
 local function httpWorker()
-    return effil.thread(function(method, url, body, key)
+    return effil.thread(function(method, url, body, key, ver)
         local requests = require('requests')
         -- UA แบบเบราว์เซอร์: กัน Cloudflare Browser Integrity Check (error 1010) บล็อก client
         local opt = { headers = { ['content-type'] = 'application/json',
             ['user-agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36' } }
-        if key and key ~= '' then opt.headers['x-lvm-key'] = key end   -- รหัสอยู่ใน header ไม่อยู่ใน URL = ไม่ติดล็อกใคร
+        if key and key ~= '' then opt.headers['x-lvm-key'] = key; if ver and ver ~= '' then opt.headers['x-lvm-ver'] = ver end end   -- รหัสอยู่ใน header ไม่อยู่ใน URL = ไม่ติดล็อกใคร
         if body then opt.data = body end
         local ok, r = pcall(requests.request, method, url, opt)
         if ok then return true, r.status_code, r.text end
@@ -845,7 +862,10 @@ local function httpCall(method, url, body, cb)
     -- แนบรหัสเฉพาะคำขอที่ไปเซิร์ฟเวอร์ของเราเท่านั้น
     local base, key = srvUrl(), tostring(cfg.main.code or '')
     if base == '' or url:sub(1, #base + 1) ~= base .. '/' then key = '' end
-    local th = httpWorker()(method, url, body, key)
+    -- เวอร์ชันสคริปต์ (เช่น 0.5.6-xxxx|static) ส่งไปกับคำขอที่ไปเซิร์ฟเวอร์เราเท่านั้น ไว้ดูว่าใครใช้รุ่นไหน ไม่มีข้อมูลส่วนตัว
+    local ver = ''
+    if key ~= '' then ver = tostring(BUILD_STAMP or thisScript().version or '') .. (STATIC and '|static' or '') end
+    local th = httpWorker()(method, url, body, key, ver)
     lua_thread.create(function()
         local t0 = os.clock()
         while th:status() == 'running' do wait(50); if os.clock() - t0 > 25 then pcall(function() th:cancel() end); break end end
@@ -1004,6 +1024,42 @@ local function doInfo(raw)
     if prev and prev.k == key and os.clock() - prev.t < 1800 then return end   -- ส่งไปแล้ว ไม่ยิงซ้ำ
     infoSent[vid] = { k = key, t = os.clock() }
     httpCall('POST', url .. '/info', encodeJson({ server = serverKey(), base = base, vid = vid, lines = lines }), function() end)
+end
+
+-- คำอธิบายไอเทมจาก "หน้าต่างซื้อ/ขาย" ที่ผู้เล่นคลิกเอง (ข้อความ dialog เดียวกับที่สแกนเนอร์อ่าน) -> /info
+-- ก่อนหน้านี้เก็บเฉพาะจากหน้าต่างข้อมูลไอเทม ซึ่งข้อความตกหล่นง่าย ตอนนี้ได้ฉบับเต็มจากหน้าต่างที่คลิกอยู่แล้ว
+-- ตัดเฉพาะบรรทัดของผู้เล่น ("У вас ...") ; เซิร์ฟเวอร์กรองบรรทัดราคา/ปุ่ม และไม่ให้ฉบับที่สั้นกว่าทับฉบับที่ครบกว่า
+function LVM_dlgInfo(shopName, slot, side, rawText)
+    LVMQ = LVMQ or {}; LVMQ.dinfo = LVMQ.dinfo or {}
+    if #LVMQ.dinfo >= 20 then return end
+    LVMQ.dinfo[#LVMQ.dinfo + 1] = { shop = shopName, slot = slot, side = side, text = tostring(rawText or '') }
+end
+function LVM_pumpDlgInfo()
+    if netBusy or not LVMQ or not LVMQ.dinfo or #LVMQ.dinfo == 0 then return end
+    local job = table.remove(LVMQ.dinfo, 1)
+    local url = srvUrl()
+    if url == '' or tostring(cfg.main.code or '') == '' or tonumber(cfg.main.share) ~= 1 then return end
+    local shop = (myShops())[job.shop]
+    if type(shop) ~= 'table' then return end
+    local rec = (job.side == 'buy' and shop._bsl or shop._sl)
+    rec = type(rec) == 'table' and rec[tostring(job.slot)] or nil
+    if type(rec) ~= 'table' or not rec[1] then return end
+    local vid = tostring(rec[1])
+    local base = vid:match('^(%d+)'); if not base then return end
+    local tier = vid:match('~t(%d+)')
+    local key = tier and (base .. '~t' .. tier) or base       -- ตีบวก (~eN) ใช้คำอธิบายของ id/ดาวเดียวกัน
+    local lines = {}
+    for ln in (cp2u(job.text):gsub('{%x%x%x%x%x%x}', '') .. '\n'):gmatch('([^\n]*)\n') do
+        if not ln:find('У вас', 1, true) then lines[#lines + 1] = ln end
+        if #lines >= 90 then break end
+    end
+    while lines[1] and lines[1]:match('^%s*$') do table.remove(lines, 1) end
+    if #lines < 2 or (lines[1] or ''):match('^%s*%[%d%]') then return end    -- เมนู/กล่องข้อความสั้น ไม่ใช่คำอธิบาย
+    local k = table.concat(lines, '\n')
+    local prev = infoSent[key]
+    if prev and prev.k == k and os.clock() - prev.t < 1800 then return end
+    infoSent[key] = { k = k, t = os.clock() }
+    httpCall('POST', url .. '/info', encodeJson({ server = serverKey(), base = base, vid = key, lines = lines }), function() end)
 end
 
 -- ===== อัปเดตสคริปต์ในตัว (ไฟล์จากเซิร์ฟเวอร์เราเท่านั้น: LavkaMarket.lua + LavkaMarket/web/*) =====
@@ -1491,6 +1547,7 @@ if okEv and sampev then
                 if f then f:write(os.date('%H:%M:%S '), 'n=', tostring(n), ' | ', (u:gsub('\n', ' / ')), '\n'); f:close() end
             end
             if n then pcall(applyBuyStock, openShop.name, click.slot, n) end
+            pcall(LVM_dlgInfo, openShop.name, click.slot, 'buy', text)
             return
         end
         if not (click and openShop and click.type == SELL_T and os.clock() - click.t < 3) then return end
@@ -1498,6 +1555,7 @@ if okEv and sampev then
         local n = stockOf(text)
         if not n and style == 0 then n = 1 end   -- กล่องข้อความไม่มีช่องใส่จำนวน = มีชิ้นเดียว
         if n then pcall(applyStock, openShop.name, click.slot, n) end
+        pcall(LVM_dlgInfo, openShop.name, click.slot, 'sell', text)
     end
 end
 
@@ -1554,6 +1612,7 @@ function main()
         if dbDirty and os.clock() - lastSave > 10 then pcall(saveDB); lastSave = os.clock() end
         if panelOpen and uiDirty then pcall(pushRows) end
         if wantItem then local v = wantItem; wantItem = nil; if panelOpen then pcall(pushItem, v) end end
+        if LVMQ and LVMQ.dinfo and #LVMQ.dinfo > 0 then pcall(LVM_pumpDlgInfo) end
         if wantHist and not netBusy then local v = wantHist; wantHist = nil; if panelOpen and v:match('^[%d~et]+$') then pcall(doHist, v) end end
         if oauthState and oauthNextAt and os.clock() >= oauthNextAt and not netBusy then
             oauthNextAt = os.clock() + 3      -- กันยิงซ้ำระหว่างรอผล

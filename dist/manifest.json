@@ -1,14 +1,42 @@
 {
- "version": "0.5.5",
+ "version": "0.5.6",
  "files": [
   {
    "path": "LavkaMarket.lua",
-   "size": 276725,
-   "adler": 1547102395,
+   "size": 284747,
+   "adler": 2879110204,
    "url": "https://raw.githubusercontent.com/saradaken/LavkaMarket/main/dist/LavkaMarket.lua"
   }
  ],
  "notes": [
+  {
+   "v": "0.5.6",
+   "date": "2026-11-23",
+   "th": [
+    "สคริปต์ส่งเลขเวอร์ชันให้กองกลาง (ไม่มีข้อมูลส่วนตัว)",
+    "คำอธิบายไอเทมอ่านจากหน้าต่างซื้อ/ขายที่คลิก (ครบขึ้น)",
+    "ซ่อนร้านที่ไม่มีใครอัปเดตเกิน 24 ชม. (ไม่ลบข้อมูล)",
+    "แก้เลขและไอคอนเซิร์ฟเวอร์ (Casagrande, Saint Rose, Red Rock ฯลฯ)",
+    "หน้าไอเทมแสดงร้านที่รับซื้อด้วย",
+    "เซิร์ฟเวอร์ที่ข้อมูลเก่าแสดงเป็นสีจาง"
+   ],
+   "ru": [
+    "Скрипт передаёт свою версию на сервер (без личных данных)",
+    "Описания предметов читаются из окна покупки/продажи (полнее)",
+    "Лавки без обновлений больше 24 ч скрыты (ничего не удаляется)",
+    "Исправлены номера и иконки серверов (Casagrande, Saint Rose, Red Rock и др.)",
+    "На странице предмета показаны и скупщики",
+    "Серверы с устаревшими данными показаны бледно"
+   ],
+   "en": [
+    "Script now reports its version to the pool (no personal data)",
+    "Item descriptions are read from the clicked buy/sell dialog (more complete)",
+    "Shops not refreshed for over 24 h are hidden (nothing is deleted)",
+    "Fixed server numbers/icons (Casagrande, Saint Rose, Red Rock ...)",
+    "Item page also lists shops that buy the item",
+    "Servers with stale data are shown faded"
+   ]
+  },
   {
    "v": "0.5.5",
    "date": "2026-11-22",
@@ -156,22 +184,6 @@
    "en": [
     "Updates now go through GitHub (both the script and the item table) — faster and more reliable; falls back to the pool server if GitHub is unreachable",
     "The client is now open source at github.com/saradaken/LavkaMarket — you can verify it shares market data only"
-   ]
-  },
-  {
-   "v": "0.4.4",
-   "date": "2026-11-20",
-   "th": [
-    "ติดตั้งใหม่: ไม่แสดงราคาเองทันทีแล้ว กด \"เริ่มดึงข้อมูล\" ก่อน มีอนิเมชันระหว่างดึง และบอกจำนวนร้านที่ได้",
-    "กดวงนับถอยหลัง (มุมล่างซ้าย) เพื่อดึงข้อมูลใหม่ได้ทันที"
-   ],
-   "ru": [
-    "Новая установка: цены больше не появляются сами — нажмите «Загрузить данные», с анимацией и счётчиком полученных лавок",
-    "Нажмите на кольцо отсчёта (слева внизу), чтобы обновить данные сразу"
-   ],
-   "en": [
-    "Fresh install: prices no longer appear on their own — press \"Start pulling data\", with an animation and a count of shops received",
-    "Click the countdown ring (bottom left) to pull fresh data right away"
    ]
   }
  ]
