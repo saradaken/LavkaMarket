@@ -1,14 +1,42 @@
 {
- "version": "0.5.7",
+ "version": "0.5.8",
  "files": [
   {
    "path": "LavkaMarket.lua",
-   "size": 372532,
-   "adler": 2390958537,
+   "size": 381700,
+   "adler": 638694219,
    "url": "https://raw.githubusercontent.com/saradaken/LavkaMarket/main/dist/LavkaMarket.lua"
   }
  ],
  "notes": [
+  {
+   "v": "0.5.8",
+   "date": "2026-11-24",
+   "th": [
+    "แจ้งเตือนเวอร์ชันใหม่: จุดแดงกะพริบที่ปุ่มสามขีด และแถวเวอร์ชันในเมนูเด่นขึ้น (รุ่นอัปเดตเองกด \"อัปเดต\" รุ่นไฟล์เดียวกด \"ดาวน์โหลด\" ตรวจผ่าน API ของ arz-wiki)",
+    "เช็กเวอร์ชันใหม่เร็วขึ้น: ทุกครั้งที่เปิดหน้าต่าง (ห่างกัน 5 นาที) และทุก 10 นาทีพร้อมข้อมูลตลาด (รุ่นไฟล์เดียวทุก 1 ชม.)",
+    "รุ่นไฟล์เดียว: แจ้งเตือนในแชทเมื่อมีเวอร์ชันใหม่ พร้อมลิงก์ (ไม่ดาวน์โหลดหรือเขียนทับไฟล์เอง)",
+    "ลดอาการหน้าต่างกะพริบ: วงนับถอยหลังไม่วาดใหม่ต่อเนื่องแล้ว (ขยับทุก 15 วินาที) และจุดแดงกะพริบแบบเบา",
+    "แก้บั๊ก: ออกจากระบบแล้วล็อกอินใหม่ หน้าไม่แสดงข้อมูล/การ์ดดึงข้อมูล ต้องปิดเปิดหน้าใหม่",
+    "แก้บั๊ก: ข้อมูลตั้งค่าจากเซิร์ฟเวอร์ใหญ่เกินกว่าเกมรับได้ ทำให้หน้าไม่รู้เวอร์ชันล่าสุดและประวัติเวอร์ชันอาจว่าง"
+   ],
+   "ru": [
+    "Уведомление о новой версии: мигающая красная точка на кнопке меню и выделенная строка версии в меню («Обновить» в версии с автообновлением, «Скачать» в версии для форума — проверка через API arz-wiki)",
+    "Быстрее проверка новой версии: при открытии окна (не чаще раза в 5 минут) и каждые 10 минут вместе с данными рынка (в версии для форума — раз в час)",
+    "Версия для форума: сообщение в чате о новой версии со ссылкой (файлы не скачиваются и не заменяются сами)",
+    "Меньше мерцания окна: кольцо обратного отсчёта больше не перерисовывается непрерывно (обновляется раз в 15 секунд), красная точка мигает легче",
+    "Исправлено: после выхода и повторного входа страница оставалась пустой, приходилось закрывать и открывать окно заново",
+    "Исправлено: настройки с сервера были слишком большими для игры, из-за чего окно не узнавало последнюю версию, а история версий могла быть пустой"
+   ],
+   "en": [
+    "New-version notice: a pulsing red dot on the menu button and a highlighted version row in the menu (\"Update\" in the auto-update build, \"Download\" in the forum build, checked via the arz-wiki API)",
+    "Faster new-version check: when the window opens (at most every 5 minutes) and every 10 minutes together with market data (hourly in the forum build)",
+    "Forum build: chat notice about a new version with a link (nothing is downloaded or overwritten automatically)",
+    "Less window flicker: the countdown ring is no longer redrawn continuously (it moves every 15 seconds) and the red dot blinks more lightly",
+    "Fixed: after logging out and back in the page stayed empty / missed the data-pull card until you reopened the window",
+    "Fixed: the server settings were too large for the game to receive, so the window never learned the latest version and the version history could be empty"
+   ]
+  },
   {
    "v": "0.5.7",
    "date": "2026-11-24",
@@ -189,22 +217,6 @@
    ],
    "en": [
     "Opening the ☰ menu now checks for a new version instantly — no more waiting 30 minutes or reloading the script"
-   ]
-  },
-  {
-   "v": "0.4.6",
-   "date": "2026-11-20",
-   "th": [
-    "ข้อมูลไอเทม (คำอธิบาย/สเตตัส) แยกตามเกรดแล้ว เลือกตีบวกไหนก็เห็นค่าของเกรดนั้น ไม่ปนกัน",
-    "ตัดบรรทัดเฉพาะชิ้น (ระดับตีบวก/อุปกรณ์ที่ใส่) ออกจากคำอธิบาย ไม่ให้ขึ้นผิดเกรด"
-   ],
-   "ru": [
-    "Инфо о предмете (описание/характеристики) теперь раздельно по грейдам: выбрав прокачку, видишь данные именно этого грейда",
-    "Из описания убраны строки конкретного экземпляра (уровень прокачки/установленный обвес), чтобы не показывались в чужом грейде"
-   ],
-   "en": [
-    "Item info (description/stats) is now split per grade — pick an upgrade level and you see that grade's own data, not mixed",
-    "Per-piece lines (upgrade level / installed attachment) are stripped from the description so they don't show on the wrong grade"
    ]
   }
  ]

@@ -14,7 +14,7 @@
 
 script_name('LavkaMarket')
 script_author('LavkaMarket')
-script_version('0.5.7')
+script_version('0.5.8')
 
 local okEffil, effil = pcall(require, 'effil')
 local okFFI, ffi     = pcall(require, 'ffi')
@@ -167,17 +167,20 @@ local CL = {
            urlset = 'ตั้ง url กองกลาง: %s', shareset = 'แชร์ข้อมูล: %s', langset = 'ภาษา: %s', on = 'เปิด', off = 'ปิด',
            updavail = 'มีเวอร์ชันใหม่ %s - เปิด /lm แล้วกด ☰ -> อัปเดต (หรือพิมพ์ /lm update)', updnone = 'ใช้เวอร์ชันล่าสุดอยู่แล้ว', upd_static = 'เวอร์ชันนี้อัปเดตผ่าน Discord/GitHub (ไม่มีตัวอัปเดตในตัว)',
            upddone = 'อัปเดตเป็นเวอร์ชัน %s แล้ว กำลังโหลดสคริปต์ใหม่...', upderr = 'อัปเดตไม่สำเร็จ (%s) ลองใหม่อีกครั้ง',
-           reload = 'โหลดใหม่: %d ไอเทม', nores = 'ไม่พบไฟล์ LavkaMarket/web/app.js' },
+           reload = 'โหลดใหม่: %d ไอเทม', nores = 'ไม่พบไฟล์ LavkaMarket/web/app.js',
+           arznew = 'มีเวอร์ชันใหม่ %s ดาวน์โหลดที่ %s' },
     ru = { ready = 'Готово - /lm открыть рынок · открывайте лавки для сбора', keysaved = 'Код сохранён',
            urlset = 'Сервер пула: %s', shareset = 'Поделиться: %s', langset = 'Язык: %s', on = 'вкл', off = 'выкл',
            updavail = 'Доступна версия %s - /lm -> ☰ -> Обновить (или /lm update)', updnone = 'У вас последняя версия', upd_static = 'Эта версия обновляется через Discord/GitHub (без встроенного апдейтера)',
            upddone = 'Обновлено до версии %s, перезагрузка скрипта...', upderr = 'Не удалось обновить (%s), попробуйте ещё раз',
-           reload = 'Обновлено: %d предметов', nores = 'Нет файла LavkaMarket/web/app.js' },
+           reload = 'Обновлено: %d предметов', nores = 'Нет файла LavkaMarket/web/app.js',
+           arznew = 'Вышла новая версия %s: %s' },
     en = { ready = 'ready - /lm opens the market · open stalls to collect', keysaved = 'code saved',
            urlset = 'pool server: %s', shareset = 'share: %s', langset = 'language: %s', on = 'on', off = 'off',
            updavail = 'new version %s - open /lm, then ☰ -> Update (or /lm update)', updnone = 'you already have the latest version', upd_static = 'This version updates via Discord/GitHub (no built-in updater)',
            upddone = 'updated to version %s, reloading the script...', upderr = 'update failed (%s), please try again',
-           reload = 'reloaded: %d items', nores = 'missing LavkaMarket/web/app.js' },
+           reload = 'reloaded: %d items', nores = 'missing LavkaMarket/web/app.js',
+           arznew = 'New version %s available: %s' },
 }
 local function ct(k) return (CL[lang] and CL[lang][k]) or CL.en[k] or k end
 local function msg(k, a)
@@ -740,7 +743,9 @@ local function pushProfile()
     local p = {}; for k, v in pairs(profile) do p[k] = v end
     p.ver = tostring(thisScript().version or ''); p.share = tonumber(cfg.main.share) == 1
     cefEval("if(window.LVM)LVM.profile('" .. jsText(encodeJson(p)) .. "')")
-    if STATIC and CLOG then cefEval("if(window.LVM&&LVM.cfg)LVM.cfg('" .. jsText('{"clog":' .. CLOG .. '}') .. "')") end   -- ส่ง changelog ที่ฝังไว้ให้หน้าประวัติ
+    if STATIC and CLOG then sendBig('__lvmCfg', 'if(window.LVM&&LVM.cfg)LVM.cfg(__s)', '{"clog":' .. CLOG .. '}') end   -- ส่ง changelog ที่ฝังไว้ให้หน้าประวัติ (แบ่งชิ้น: ก้อนยาว)
+    if LVMQ and LVMQ.latestSeen and not STATIC then cefEval("if(window.LVM&&LVM.cfg)LVM.cfg('{\"latest\":\"" .. LVMQ.latestSeen .. "\"}')") end   -- รุ่นล่าสุดที่รู้จากข้อมูลตลาด (เปิดหน้าต่างใหม่ก็เห็นจุดแดงทันที)
+    if LVMQ and LVMQ.newVer then cefEval("if(window.LVM&&LVM.newver)LVM.newver('" .. jsText(encodeJson(LVMQ.newVer)) .. "')") end   -- รุ่น static: แจ้งเวอร์ชันใหม่ (ตรวจผ่าน arz-wiki)
 end
 -- การ์ดเซิร์ฟเวอร์ในหน้า: ชื่อเซิร์ฟ (hostname, เอาแค่ตัวอักษรละติน) / จำนวนร้านในพูล / ดึงล่าสุดเมื่อไหร่
 local lastPullAt = 0
@@ -763,7 +768,8 @@ local function pushServer()
 end
 -- ค่าจากเซิร์ฟเวอร์เรา: ที่อยู่รูป + แก้หมวดรายชิ้น (หน้าเว็บมีค่าเริ่มต้นอยู่แล้ว ถ้ายังไม่ได้ก็ใช้ได้)
 local cfgJs, lastCfg, cfgDl = nil, -1e9, nil   -- cfgDl = ลิงก์ดาวน์โหลดเวอร์ชันใหม่ (จาก /config)
-local function pushCfg() if cfgJs then cefEval(cfgJs) end end
+-- cfgJs = ข้อความ JSON ของ /config (ใหญ่ ~40KB เพราะมีประวัติเวอร์ชัน): ส่งแบบแบ่งชิ้นเหมือนข้อมูลก้อนใหญ่อื่น (คำสั่งเดียวยาวเกินเพดานของเกม -> หายเงียบ ทำให้หน้าไม่รู้เลขรุ่นล่าสุด)
+local function pushCfg() if cfgJs then sendBig('__lvmCfg', 'if(window.LVM&&LVM.cfg)LVM.cfg(__s)', cfgJs) end end
 local function pushStatus(t)
     cefEval("if(window.LVM)LVM.status('" .. jsText(tostring(t or '')) .. "')")
 end
@@ -881,6 +887,8 @@ local function setCursor(on)
 end
 local function panelShow()
     if not loadPanel() then return end
+    LVMQ = LVMQ or {}
+    if os.clock() - (LVMQ.openChk or -1e9) > 300 then LVMQ.openChk = os.clock(); lastCfg = -1e9; LVMQ.arzAt = 0 end   -- เปิดหน้าต่าง = เช็กเวอร์ชันใหม่ทันที (จำกัด 5 นาทีครั้ง: คนเปิดปิดรัวก็ไม่ยิงถี่)
     lastSrvJs, lastRowsJson = nil, nil   -- เปิดใหม่ = หน้าว่าง ต้องส่งให้ครบ
     pushProfile()   -- ตั้งโปรไฟล์ก่อน show จะได้เรนเดอร์หน้าถูกเลย (ล็อกอินค้าง=เข้าตลาดเลย ไม่แว้บหน้าล็อกอิน)
     cefEval("if(window.LVM)LVM.show('" .. lang .. "')")
@@ -1320,6 +1328,34 @@ function LVM_pumpClosed()
     httpCall('POST', url .. '/shop/closed', encodeJson({ server = serverKey(), name = name }), function() end)
 end
 
+-- ===== รุ่น static (blast.hk / arz-wiki): ไม่มีตัวอัปเดตในตัว -> เช็กเวอร์ชันผ่าน API ทางการของ arz-wiki แล้ว "แจ้งเตือนพร้อมลิงก์" เท่านั้น =====
+-- อ่านอย่างเดียว: ไม่ดาวน์โหลด ไม่เขียนทับไฟล์ ไม่ส่งรหัส/ข้อมูลผู้ใช้ (ส่งแค่เลขสคริปต์กับเลขเวอร์ชันที่ใช้อยู่ ตามที่ API กำหนด) รุ่นอัปเดตเองไม่ทำงานส่วนนี้
+local ARZ_SCRIPT_ID = 104462
+function LVM_arzCheck()
+    if not STATIC or netBusy or not okEffil then return end
+    LVMQ = LVMQ or {}
+    if (LVMQ.arzAt or 0) > os.clock() then return end
+    LVMQ.arzAt = os.clock() + 3600              -- เช็กทุก 1 ชม. + ทุกครั้งที่เปิดหน้าต่าง (จำกัดนาทีละครั้ง) ; ตอนเปิดเกมเช็กครั้งแรก
+    local cur = tostring(thisScript().version or ''):match('^[%d%.]+')
+    if not cur then return end
+    httpCall('GET', 'https://arz-wiki.com/api/arz/v1/scripts/' .. ARZ_SCRIPT_ID .. '/check?format=text&version=' .. cur, nil, function(ok, codeN, text)
+        if not (ok and codeN == 200 and type(text) == 'string') then LVMQ.arzAt = os.clock() + 1800; return end
+        local flag, latest, url = text:match('^%s*(%d)%s*\r?\n%s*([%d%.]+)%s*\r?\n%s*(%S+)')
+        -- แสดงเฉพาะลิงก์ในโดเมน arz-wiki ของเราเท่านั้น (ไม่แสดงลิงก์แปลกที่ไม่คาดคิด) และแจ้งครั้งเดียวต่อเวอร์ชัน
+        if flag == '0' then LVMQ.newVer = nil end
+        if flag == '1' and latest and url and url:find('^https://arz%-wiki%.com/') then
+            LVMQ.newVer = { v = latest, url = url }
+            if panelOpen then cefEval("if(window.LVM&&LVM.newver)LVM.newver('" .. jsText(encodeJson(LVMQ.newVer)) .. "')") end
+        end
+        if flag == '1' and latest and url and url:find('^https://arz%-wiki%.com/') and LVMQ.arzNotified ~= latest then
+            LVMQ.arzNotified = latest
+            local line = ct('arznew')
+            local okf, r = pcall(string.format, line, latest, url)
+            sampAddChatMessage('[LavkaMarket] ' .. (okf and r or line), 0x88CCFF)
+        end
+    end)
+end
+
 -- ===== อัปเดตสคริปต์ในตัว (ไฟล์จากเซิร์ฟเวอร์เราเท่านั้น: LavkaMarket.lua + LavkaMarket/web/*) =====
 function verNewer(a, b)   -- "0.5" > "0.4.9" ?
     local pa, pb = {}, {}
@@ -1471,7 +1507,7 @@ local function doConfig()
                 if not itemsAdler then local raw = readAll(ITEMS_RES); itemsAdler = raw and adler32(raw) or -1 end
                 if itemsAdler ~= it then wantItems = it end
             end
-            local js = "if(window.LVM&&LVM.cfg)LVM.cfg('" .. jsText(text) .. "')"
+            local js = text
             if js ~= cfgJs then cfgJs = js; if panelOpen then pushCfg() end end
         end
     end)
@@ -1534,6 +1570,13 @@ local function doPull()
             local okj, d = pcall(decodeJson, text)
             if okj and type(d) == 'table' and type(d.shops) == 'table' and want == viewKey() then
                 POOL = d.shops; buildMarket(); lastPullAt = os.time()
+                if not STATIC and type(d.latest) == 'string' and d.latest:match('^[%d%.]+$') then   -- รุ่นอัปเดตเอง: เลขรุ่นล่าสุดมากับข้อมูลตลาด (รุ่น static ใช้ arz-wiki แทน)
+                    LVMQ = LVMQ or {}
+                    if LVMQ.latestSeen ~= d.latest then
+                        LVMQ.latestSeen = d.latest
+                        if panelOpen then cefEval("if(window.LVM&&LVM.cfg)LVM.cfg('{\"latest\":\"" .. d.latest .. "\"}')") end
+                    end
+                end
                 LVMQ = LVMQ or {}; LVMQ.wantGone = want
                 poolMem[want] = { shops = POOL, t = lastPullAt }
                 if not viewSrv then pcall(savePoolCache, want) end   -- ไฟล์เก็บเฉพาะเซิร์ฟตัวเอง (รีโหลดแล้วกลับมาที่เซิร์ฟตัวเองเสมอ)
@@ -1562,7 +1605,7 @@ local function oauthPollOnce()
             cfg.main.code = d.code
             profile = { connected = true, name = d.name, avatar = d.avatar }
             saveCfg()
-            if panelOpen then pushProfile(); pushRows() end
+            if panelOpen then lastRowsJson, lastSrvJs = nil, nil; pushProfile(); pushCfg(); pushRows(); pushServer() end   -- ล้างแคชกันซ้ำ: ออก->เข้าใหม่แล้วหน้าว่าง (หน้าล้างข้อมูลตอนออก แต่ฝั่งเกมคิดว่าส่งไปแล้ว)
             wantPull = true            -- ให้ main loop ดึง pool (ไม่เรียกซ้อนใน callback)
         elseif type(d) == 'table' and d.connected == false then
             oauthState = nil
@@ -1631,7 +1674,8 @@ function onSendPacket(id, bs)
                     cfg.main.code = code
                     profile = { connected = true, name = d.name, avatar = d.avatar }
                     saveCfg()
-                    pushProfile(); pushRows(); pushServer(); wantPull = true
+                    lastRowsJson, lastSrvJs = nil, nil
+                    pushProfile(); pushCfg(); pushRows(); pushServer(); wantPull = true
                 end
             end
             if not good then
@@ -1647,10 +1691,15 @@ function onSendPacket(id, bs)
     elseif str == 'lvm|oauth' then
         doOAuth()                      -- ล็อกอินด้วย Discord (OAuth) -> ได้คีย์อัตโนมัติ
         return false
+    elseif str == 'lvm|opendl' then   -- ปุ่ม "ดาวน์โหลด" ของรุ่น static: เปิดเฉพาะหน้าของเราบน arz-wiki
+        local nv = LVMQ and LVMQ.newVer
+        if nv and type(nv.url) == 'string' and nv.url:find('^https://arz%-wiki%.com/') then openUrl(nv.url) end
+        return false
     elseif str == 'lvm|discord' then
         openUrl(DISCORD_INVITE)
         return false
     elseif str == 'lvm|logout' then
+        lastRowsJson, lastSrvJs = nil, nil   -- หน้าจะล้างข้อมูลตอนออก: ล็อกอินใหม่ต้องส่งข้อมูลซ้ำ
         cfg.main.code = ''; profile = { connected = false }
         saveCfg()
         return false
@@ -1908,6 +1957,7 @@ function main()
         end
         if wantPull and not netBusy and tonumber(cfg.main.pulled) == 1 then wantPull = false; lastPull = os.clock(); pcall(doPull) end
         if wantServers and not netBusy then wantServers = false; pcall(doServers) end
+        pcall(LVM_arzCheck)    -- รุ่น static เท่านั้นที่ทำงาน (ข้างในเช็ก STATIC เอง: กัน upvalue ของ main เกิน 60)
         if wantItems and not netBusy and os.clock() - lastItemsTry > 120 then lastItemsTry = os.clock(); pcall(doItems) end
         if itemsReload then itemsReload = false; itemsAdler = nil; pcall(loadItems); pcall(buildMarket); uiDirty = true end
         if upd and upd.stage ~= 'wait' and not netBusy then local okU, e = pcall(updStep); if not okU then updFail(tostring(e)) end end
