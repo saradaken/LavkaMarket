@@ -14,7 +14,7 @@
 
 script_name('LavkaMarket')
 script_author('LavkaMarket')
-script_version('0.5.6')
+script_version('0.5.7')
 
 local okEffil, effil = pcall(require, 'effil')
 local okFFI, ffi     = pcall(require, 'ffi')
@@ -101,7 +101,7 @@ end
 pcall(extractEmbed)
 local STATIC = (type(EMBED) == 'table' and EMBED.static == true)   -- เวอร์ชัน static (blast.hk): ไม่มีตัวอัปเดตในตัว + ฝัง items.json ครบ
 local CLOG = (type(EMBED) == 'table') and EMBED.clog or nil        -- changelog ฝังในตัว (static) -> หน้าประวัติใช้ได้ออฟไลน์
-local BUILD_STAMP = (type(EMBED) == 'table') and EMBED.stamp or nil   -- รหัสรุ่นที่ build ไว้รายงานเวอร์ชัน
+local BUILD_STAMP = (type(EMBED) == 'table') and EMBED.stamp or nil   -- รหัสรุ่นที่ build (เช่น 0.5.5-695805fc / 0.5.5-dev-...) ไว้รายงานเวอร์ชัน
 EMBED = nil   -- ไม่ต้องถือข้อมูล ~1 MB ไว้ในหน่วยความจำ
 
 -- ไฟล์ตั้งค่า ini แบบง่าย (มีแค่หมวด [main]) - ไม่พึ่ง inicfg เพราะ inicfg บังคับอยู่ใน moonloader\config
@@ -345,9 +345,12 @@ local function mergedShops()
     -- ข้อมูลร้านที่ไม่มีใครอัปเดตเกิน maxAge ชั่วโมง (ค่าเริ่มต้น 24 ; 0 = ไม่จำกัด) ไม่แสดง
     -- ซ่อนเฉพาะตอนแสดงผล: ข้อมูลในไฟล์/บนกองกลางไม่ถูกลบ ถ้ามีใครส่งฉบับใหม่มา ร้านจะกลับมาเอง
     local h = tonumber(cfg.main.maxAge); if h == nil then h = 24 end
-    if h > 0 then
-        local lim = os.time() - h * 3600
-        for name, s in pairs(out) do if type(s) == 'table' and (tonumber(s.t) or 0) < lim then out[name] = nil end end
+    local lim = h > 0 and (os.time() - h * 3600) or nil
+    for name, s in pairs(out) do
+        if type(s) == 'table' then
+            local t = tonumber(s.t) or 0
+            if (lim and t < lim) or (tonumber(s.closed) and tonumber(s.closed) >= t) then out[name] = nil end
+        end
     end
     return out
 end
@@ -387,6 +390,17 @@ local function buildMarket()
         end
         e.sp = nil
         MARKET[#MARKET + 1] = e
+    end
+    -- ไอเทมที่เคยมีคนขาย/รับซื้อ (จากประวัติบนกองกลาง) แต่ตอนนี้ไม่มีร้านเลย = "ยังไม่มีในตลาดตอนนี้" (เก็บไว้ดูราคาอ้างอิง)
+    local G = type(LVMQ) == 'table' and LVMQ.gone
+    if type(G) == 'table' then
+        for id, g in pairs(G) do
+            if not idx[id] then
+                local base, grade = splitVid(id)
+                MARKET[#MARKET + 1] = { vid = id, base = base, grade = grade, name = nameOf(base), gone = true,
+                                        goneDay = g.d, goneSell = g.s, goneBuy = g.b }
+            end
+        end
     end
     table.sort(MARKET, function(a, b) return (a.name or '') < (b.name or '') end)
     uiDirty = true
@@ -669,15 +683,17 @@ local function cefEval(code)
 end
 local B64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
 local function b64(data)
-    local out = {}
+    local out, blocks = {}, {}
     for i = 1, #data, 3 do
         local a, b, c = data:byte(i, i + 2)
         local n = a * 65536 + (b or 0) * 256 + (c or 0)
         local c1, c2, c3, c4 = math.floor(n / 262144) % 64, math.floor(n / 4096) % 64, math.floor(n / 64) % 64, n % 64
         out[#out + 1] = B64:sub(c1 + 1, c1 + 1) .. B64:sub(c2 + 1, c2 + 1) ..
             (b and B64:sub(c3 + 1, c3 + 1) or '=') .. (c and B64:sub(c4 + 1, c4 + 1) or '=')
+        if #out == 4096 then blocks[#blocks + 1] = table.concat(out); out = {} end
     end
-    return table.concat(out)
+    blocks[#blocks + 1] = table.concat(out)
+    return table.concat(blocks)
 end
 local function jsText(str)   -- UTF-8 -> ปลอดภัยใน '...' (non-ASCII -> \uXXXX)
     local out, i, n = {}, 1, #str
@@ -706,7 +722,7 @@ local function sendBig(varName, applyJs, utf8)
         cefEval('window.' .. varName .. "+='" .. enc:sub(i, j) .. "';")
         i = j + 1
     end
-    cefEval('try{var __s=decodeURIComponent(escape(atob(window.' .. varName .. ')));' .. applyJs ..
+    cefEval('try{var __b=atob(window.' .. varName .. '),__a=new Uint8Array(__b.length);for(var __i=0;__i<__b.length;__i++)__a[__i]=__b.charCodeAt(__i);var __s=new TextDecoder("utf-8").decode(__a);' .. applyJs ..
         '}catch(e){try{cef.SendMessage("lvm|err:"+e.message,0)}catch(x){}}window.' .. varName .. "='';")
 end
 
@@ -757,13 +773,23 @@ local function pushPull(s, n)
     if panelOpen then cefEval("if(window.LVM&&LVM.pull)LVM.pull('" .. jsText(encodeJson({ s = s, n = n or 0 })) .. "')") end
 end
 local function pushRows()
-    local rows, n = {}, 0
+    local rows, n, ng = {}, 0, 0
     for _, e in ipairs(MARKET) do
-        n = n + 1; if n > 2000 then break end   -- หน้าเว็บแบ่งหน้าเอง (20 ใบ/หน้า)
-        rows[#rows + 1] = { vid = e.vid, base = e.base, name = e.name, grade = e.grade ~= '' and e.grade or nil, bg = bgOf(e.vid),
-            sell = e.sellMin, sellShop = e.sellShop, sellCnt = e.sellCnt,
-            buy = e.buyMax, buyShop = e.buyShop, buyCnt = e.buyCnt,
-            ns = e.ns, nb = e.nb, med = e.med, st = e.sellT, bt = e.buyT, ty = ITEMTYPE[tostring(e.base)] }
+        if e.gone then
+            ng = ng + 1
+            if ng <= 2500 then
+                rows[#rows + 1] = { vid = e.vid, base = e.base, name = e.name, grade = e.grade ~= '' and e.grade or nil, bg = bgOf(e.vid),
+                    gone = 1, gd = e.goneDay, gs = e.goneSell, gb = e.goneBuy, ty = ITEMTYPE[tostring(e.base)] }
+            end
+        else
+            n = n + 1
+            if n <= 2000 then   -- หน้าเว็บแบ่งหน้าเอง (20 ใบ/หน้า)
+                rows[#rows + 1] = { vid = e.vid, base = e.base, name = e.name, grade = e.grade ~= '' and e.grade or nil, bg = bgOf(e.vid),
+                    sell = e.sellMin, sellShop = e.sellShop, sellCnt = e.sellCnt,
+                    buy = e.buyMax, buyShop = e.buyShop, buyCnt = e.buyCnt,
+                    ns = e.ns, nb = e.nb, med = e.med, st = e.sellT, bt = e.buyT, ty = ITEMTYPE[tostring(e.base)] }
+            end
+        end
     end
     local json = encodeJson(rows)
     uiDirty = false
@@ -807,6 +833,47 @@ local function pushItem(vid)
     sendBig('__lvmI', 'if(window.LVM)LVM.item(__s)', encodeJson({ vid = vid, sell = sells, buy = buys }))
 end
 
+-- หน้า "ร้านค้า": รายชื่อร้าน + ของที่ร้านนั้นขาย/รับซื้อ (global เพราะ main() ใกล้เพดานตัวแปร 60 ตัวแล้ว)
+function LVM_pushShops()
+    local list = {}
+    for name, s in pairs(mergedShops()) do
+        if type(s) == 'table' then
+            local ns, nb = 0, 0
+            for _ in pairs(type(s.sell) == 'table' and s.sell or {}) do ns = ns + 1 end
+            for _ in pairs(type(s.buy) == 'table' and s.buy or {}) do nb = nb + 1 end
+            if ns + nb > 0 then list[#list + 1] = { name = name, t = tonumber(s.t), ns = ns, nb = nb } end
+        end
+    end
+    table.sort(list, function(a, b) if (a.t or 0) ~= (b.t or 0) then return (a.t or 0) > (b.t or 0) end return a.name < b.name end)
+    sendBig('__lvmS', 'if(window.LVM)LVM.shops(__s)', encodeJson(list))
+end
+function LVM_pushShop(name)
+    local s = mergedShops()[name]
+    local sells, buys = {}, {}
+    local function add(out, best, bq, lv)
+        for k, p in pairs(type(best) == 'table' and best or {}) do
+            if tonumber(p) then
+                local base, grade = splitVid(tostring(k))
+                local function row(price, cnt)
+                    out[#out + 1] = { vid = tostring(k), base = base, name = nameOf(base), grade = grade ~= '' and grade or nil,
+                                      bg = bgOf(tostring(k)), price = price, cnt = cnt }
+                end
+                local L = type(lv) == 'table' and lv[k]
+                if type(L) == 'table' and L[1] then
+                    for _, e in ipairs(L) do if type(e) == 'table' and tonumber(e[1]) then row(tonumber(e[1]), tonumber(e[2]) or 1) end end
+                else
+                    row(tonumber(p), (bq and tonumber(bq[k])) or 1)
+                end
+            end
+        end
+    end
+    if type(s) == 'table' then add(sells, s.sell, s.sq, s.sl); add(buys, s.buy, s.bq, s.bl) end
+    table.sort(sells, function(a, b) if (a.name or '') ~= (b.name or '') then return (a.name or '') < (b.name or '') end return a.price < b.price end)
+    table.sort(buys, function(a, b) if (a.name or '') ~= (b.name or '') then return (a.name or '') < (b.name or '') end return a.price > b.price end)
+    sendBig('__lvmP', 'if(window.LVM)LVM.shop(__s)', encodeJson({ name = name, t = type(s) == 'table' and tonumber(s.t) or nil, sell = sells, buy = buys }))
+end
+
+
 local function setCursor(on)
     -- Arizona CEF: window.executeEvent('cef.toggleServerCursor', `[แสดง, ล็อกกล้อง]`)  (arg เป็น backtick JSON)
     local a = on and '[true, true]' or '[false, false]'
@@ -849,6 +916,7 @@ local function httpWorker()
         -- UA แบบเบราว์เซอร์: กัน Cloudflare Browser Integrity Check (error 1010) บล็อก client
         local opt = { headers = { ['content-type'] = 'application/json',
             ['user-agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36' } }
+        if url:match('^https://n%-api%.arizona%-rp%.com/api/map/%d+$') then opt.headers['referer'] = 'https://arizona-rp.com/' end
         if key and key ~= '' then opt.headers['x-lvm-key'] = key; if ver and ver ~= '' then opt.headers['x-lvm-ver'] = ver end end   -- รหัสอยู่ใน header ไม่อยู่ใน URL = ไม่ติดล็อกใคร
         if body then opt.data = body end
         local ok, r = pcall(requests.request, method, url, opt)
@@ -862,7 +930,8 @@ local function httpCall(method, url, body, cb)
     -- แนบรหัสเฉพาะคำขอที่ไปเซิร์ฟเวอร์ของเราเท่านั้น
     local base, key = srvUrl(), tostring(cfg.main.code or '')
     if base == '' or url:sub(1, #base + 1) ~= base .. '/' then key = '' end
-    -- เวอร์ชันสคริปต์ (เช่น 0.5.6-xxxx|static) ส่งไปกับคำขอที่ไปเซิร์ฟเวอร์เราเท่านั้น ไว้ดูว่าใครใช้รุ่นไหน ไม่มีข้อมูลส่วนตัว
+    if url:match('^https://n%-api%.arizona%-rp%.com/api/map/%d+$') then key = '' end
+    -- เวอร์ชันสคริปต์ (เช่น 0.5.5-695805fc|static) ส่งไปกับคำขอที่ไปเซิร์ฟเวอร์เราเท่านั้น ไว้ดูว่าใครใช้รุ่นไหน ไม่มีข้อมูลส่วนตัว
     local ver = ''
     if key ~= '' then ver = tostring(BUILD_STAMP or thisScript().version or '') .. (STATIC and '|static' or '') end
     local th = httpWorker()(method, url, body, key, ver)
@@ -872,6 +941,166 @@ local function httpCall(method, url, body, cb)
         netBusy = false
         local ok, codeN, text = th:get()
         pcall(cb, ok, codeN, text)
+    end)
+end
+
+-- Arizona map data stays local; only auction fields observed in the game may be shared.
+local propertyPending
+local gameAuction = {}
+local auctionPositions, auctionPositionsServer = {}, nil
+local auctionUpload, auctionPull = {}, nil
+local auctionUploadAfter = 0
+local function pushGameAuction()
+    for _, snapshot in pairs(gameAuction) do
+        if snapshot.server == serverKey() and os.time() - snapshot.seen < 300 then
+            if snapshot.server == auctionPositionsServer then
+                for _, item in ipairs(snapshot.items) do
+                    local pos = auctionPositions[snapshot.kind .. ':' .. item.id]
+                    if pos then item.x, item.y = pos.x, pos.y end
+                end
+            end
+            sendBig('__lvmAG', 'if(window.LVM&&LVM.auctionSeen)LVM.auctionSeen(__s)', encodeJson(snapshot))
+        end
+    end
+end
+local function captureAuctionDialog(title, text)
+    local heading = cp2u(title)
+    local isAuction = heading:find('аукцион', 1, true) or heading:find('Аукцион', 1, true) or heading:find('АУКЦИОН', 1, true)
+    local kind = (heading:find('бизнес', 1, true) or heading:find('Бизнес', 1, true) or heading:find('БИЗНЕС', 1, true)) and 'business'
+        or (heading:find('дома', 1, true) or heading:find('Дома', 1, true) or heading:find('ДОМА', 1, true)) and 'house'
+    if not isAuction or not kind then return end
+    local items, now = {}, os.time()
+    local clean = cp2u(text):gsub('{%x%x%x%x%x%x}', '')
+    for line in (clean .. '\n'):gmatch('(.-)\n') do
+        local a, b, h, m, s = line:find('(%d+):(%d%d):(%d%d)')
+        local shortClock = false
+        if not a then
+            local minutes, seconds
+            a, b, minutes, seconds = line:find('(%d+):(%d%d)')
+            if a then h, m, s, shortClock = '0', minutes, seconds, true end
+        end
+        if a then
+            local prefix, suffix = line:sub(1, a - 1), line:sub(b + 1)
+            local id = prefix:match('(%d+)')
+            local a1, b1, p1 = suffix:find('(%d[%d%.,]*)')
+            local a2, b2, p2
+            if b1 then a2, b2, p2 = suffix:find('(%d[%d%.,]*)', b1 + 1) end
+            if id and p1 and p2 and (shortClock or tonumber(m) < 60) and tonumber(s) < 60 then
+                local name = prefix:match('%d+%]?%s*(.-)%s*$') or ''
+                name = name:gsub('^[%]%s%-%:]+', ''):sub(1, 100)
+                local function currency(part)
+                    local upper = part:upper()
+                    if upper:find('VC$', 1, true) then return 'VC$' end
+                    if upper:find('BTC', 1, true) then return 'BTC' end
+                    if upper:find('$', 1, true) or upper:find(':CASH:', 1, true) then return '$' end
+                    local token = upper:match('%f[%a]([A-Z][A-Z][A-Z]+)%f[%A]')
+                    if token and #token <= 8 then return token end
+                end
+                local bridge = suffix:sub(b1 + 1, a2 - 1)
+                local firstCurrency = currency(suffix:sub(1, a1 - 1)) or currency(bridge)
+                local secondCurrency = currency(suffix:sub(b2 + 1))
+                    or currency(bridge:match('(%S+)%s*$') or '')
+                items[#items + 1] = { id = id, name = name, owner = '', kind = kind,
+                    startPrice = tonumber((p1:gsub('[%.,]', ''))), minBid = tonumber((p2:gsub('[%.,]', ''))),
+                    priceCurrency = firstCurrency, bidCurrency = secondCurrency,
+                    endTime = now + tonumber(h) * 3600 + tonumber(m) * 60 + tonumber(s) }
+            end
+        end
+    end
+    if #items == 0 then return end
+    gameAuction[kind] = { server = serverKey(), kind = kind, seen = now, items = items }
+    if tonumber(cfg.main.share) == 1 and serverKey() ~= '?' then
+        local clean = {}
+        for _, item in ipairs(items) do
+            clean[#clean + 1] = { kind = kind, id = item.id, seen = now, endTime = item.endTime,
+                startPrice = item.startPrice, minBid = item.minBid,
+                priceCurrency = item.priceCurrency, bidCurrency = item.bidCurrency }
+        end
+        auctionUpload[kind] = { server = serverKey(), items = clean }
+    end
+    pcall(pushGameAuction)
+end
+function auctionPoolStep()
+    if netBusy or not okEffil or srvUrl() == '' or tostring(cfg.main.code or '') == '' then return end
+    if tonumber(cfg.main.share) == 1 and os.clock() >= auctionUploadAfter then
+        for kind, batch in pairs(auctionUpload) do
+            auctionUpload[kind] = nil
+            auctionUploadAfter = os.clock() + 6
+            httpCall('POST', srvUrl() .. '/auction/submit', encodeJson(batch), function(ok, status)
+                if (not ok or status == 429 or status >= 500) and not auctionUpload[kind] and os.time() - (batch.items[1].seen or 0) < 300 then auctionUpload[kind] = batch end
+            end)
+            return
+        end
+    elseif tonumber(cfg.main.share) ~= 1 then
+        auctionUpload = {}
+    end
+    if auctionPull then
+        local key = auctionPull; auctionPull = nil
+        if not key:match('^[%w%.%-:]+$') then return end
+        httpCall('GET', srvUrl() .. '/auction/pool?server=' .. key, nil, function(ok, status, text)
+            if ok and status == 200 and text and panelOpen then
+                sendBig('__lvmAP', 'if(window.LVM&&LVM.auctionPool)LVM.auctionPool(__s)', text)
+            end
+        end)
+    end
+end
+function propertyStep()
+    if not propertyPending or netBusy then return end
+    local id = propertyPending
+    propertyPending = nil
+    local requestedKey = viewKey()
+    auctionPull = requestedKey
+    pcall(pushGameAuction)
+    if not okEffil then
+        if panelOpen then sendBig('__lvmP', 'if(window.LVM&&LVM.property)LVM.property(__s)', encodeJson({ server = id, ok = false })) end
+        return
+    end
+    httpCall('GET', 'https://n-api.arizona-rp.com/api/map/' .. id, nil, function(ok, code, text)
+        local out = { server = id, items = {}, ok = false }
+        if ok and code == 200 and text then
+            local valid, data = pcall(decodeJson, text)
+            if valid and type(data) == 'table' and type(data.houses) == 'table' and type(data.businesses) == 'table' then
+                local function add(list, kind)
+                    if type(list) ~= 'table' then return end
+                    for _, item in ipairs(list) do
+                        if type(item) == 'table' and item.id ~= nil then
+                            -- Arizona map IDs are one higher than the in-game auction IDs.
+                            local displayId = tonumber(item.id)
+                            if displayId and displayId >= 1 then displayId = displayId - 1 end
+                            out.items[#out.items + 1] = { id = tostring(displayId or item.id), owner = tostring(item.owner or ''),
+                                name = tostring(item.name or ''), kind = kind, startPrice = tonumber(item.auStartPrice),
+                                minBid = tonumber(item.auMinBet), endTime = tonumber(item.auTimeEnd),
+                                x = tonumber(item.lx), y = tonumber(item.ly) }
+                        end
+                    end
+                end
+                add(data.houses.onAuction, 'house')
+                add(data.businesses.onAuction, 'business')
+                -- Cache only public property locations locally, for matching game-dialog auction rows.
+                if requestedKey == serverKey() then
+                    local locations = {}
+                    local function collect(list, kind)
+                        if type(list) ~= 'table' then return end
+                        for _, item in ipairs(list) do
+                            if type(item) == 'table' then
+                                local pid, x, y = tonumber(item.id), tonumber(item.lx), tonumber(item.ly)
+                                if pid and pid >= 1 and x and y then locations[kind .. ':' .. tostring(pid - 1)] = { x = x, y = y } end
+                            end
+                        end
+                    end
+                    for _, list in pairs(data.houses) do collect(list, 'house') end
+                    for key, list in pairs(data.businesses) do
+                        if key == 'noAuction' and type(list) == 'table' then
+                            for _, group in pairs(list) do collect(group, 'business') end
+                        else collect(list, 'business') end
+                    end
+                    auctionPositions, auctionPositionsServer = locations, requestedKey
+                    pcall(pushGameAuction)
+                end
+                out.ok = true
+            end
+        end
+        if panelOpen then sendBig('__lvmP', 'if(window.LVM&&LVM.property)LVM.property(__s)', encodeJson(out)) end
     end)
 end
 function doMe()
@@ -886,7 +1115,9 @@ function doMe()
             end
         elseif ok and codeN == 403 then
             -- รหัสโดนแบน/ไม่ถูกต้องแล้ว: เด้งออกไปหน้าล็อกอินเอง (ไม่เตะคนที่เน็ตหลุดชั่วคราว)
-            cfg.main.code = ''; profile = { connected = false }
+            local why; local okj, d = pcall(decodeJson, text or '')
+            if okj and type(d) == 'table' and d.reason then why = tostring(d.reason) end
+            cfg.main.code = ''; profile = { connected = false, notice = why }   -- notice = เหตุผลที่ถูกเด้งออก (left/banned) ให้หน้าล็อกอินบอกผู้ใช้
             saveCfg()
             if panelOpen then pushProfile() end
         end
@@ -1060,6 +1291,33 @@ function LVM_pumpDlgInfo()
     if prev and prev.k == k and os.clock() - prev.t < 1800 then return end
     infoSent[key] = { k = k, t = os.clock() }
     httpCall('POST', url .. '/info', encodeJson({ server = serverKey(), base = base, vid = key, lines = lines }), function() end)
+end
+
+-- ร้านของเราถูกลบ / หมดสัญญาเช่าแผง: เซิร์ฟเวอร์ส่งข้อความแจ้งในแชต -> แจ้งกองกลางให้ซ่อนร้านเราทันที (ไม่รอ 24 ชม.)
+-- ตรวจแค่วลีสั้น ๆ ในข้อความเดียว ไม่เก็บ ไม่บันทึก และไม่ส่งข้อความแชตของใครเลย ส่งเฉพาะ "ชื่อร้านของเราเอง"
+local CLOSE_PHRASES = { 'удалил вашу лавку', 'Лавка была удалена', 'лавка была удалена', 'время аренды аксессуара вышло' }
+function LVM_chatShopClosed(text)
+    if type(text) ~= 'string' or #text > 600 then return end
+    local u = cp2u(text)
+    for _, ph in ipairs(CLOSE_PHRASES) do
+        if u:find(ph, 1, true) then
+            LVMQ = LVMQ or {}
+            if not LVMQ.closedAt or os.clock() - LVMQ.closedAt > 60 then LVMQ.closed = true; LVMQ.closedAt = os.clock() end
+            return
+        end
+    end
+end
+function LVM_pumpClosed()
+    if netBusy then return end
+    LVMQ.closed = nil
+    local name = myNick()
+    if not name or name == '' then return end
+    local shop = (myShops())[name]
+    if type(shop) == 'table' then shop.closed = os.time(); dbDirty = true end     -- ซ่อนในเครื่องเรา (ข้อมูลเดิมยังอยู่ในไฟล์)
+    buildMarket()
+    local url = srvUrl()
+    if url == '' or tostring(cfg.main.code or '') == '' or tonumber(cfg.main.share) ~= 1 then return end
+    httpCall('POST', url .. '/shop/closed', encodeJson({ server = serverKey(), name = name }), function() end)
 end
 
 -- ===== อัปเดตสคริปต์ในตัว (ไฟล์จากเซิร์ฟเวอร์เราเท่านั้น: LavkaMarket.lua + LavkaMarket/web/*) =====
@@ -1246,6 +1504,25 @@ local function loadPoolCache(key)
     POOL = c.shops; lastPullAt = t; pcall(buildMarket); uiDirty = true
     return true
 end
+-- ประวัติ "เคยเห็น": ดึงจากกองกลาง (/gone) ตอนดึง pool เสร็จ ; ขับจาก main loop ไม่เรียก httpCall ซ้อนใน callback
+function LVM_pumpGone()
+    if netBusy or not okEffil or type(LVMQ) ~= 'table' or not LVMQ.wantGone then return end
+    local want = LVMQ.wantGone; LVMQ.wantGone = nil
+    local url, code = srvUrl(), tostring(cfg.main.code or '')
+    if url == '' or code == '' then return end
+    httpCall('GET', url .. '/gone?server=' .. want, nil, function(ok, codeN, text)
+        if not (ok and codeN == 200 and text) then return end
+        local okj, d = pcall(decodeJson, text)
+        if not (okj and type(d) == 'table' and type(d.items) == 'table') or want ~= viewKey() then return end
+        local g = {}
+        for _, it in ipairs(d.items) do
+            if type(it) == 'table' and it.v then g[tostring(it.v)] = { d = it.d, s = tonumber(it.s), b = tonumber(it.b) } end
+        end
+        LVMQ.gone = g
+        pcall(buildMarket)
+        if panelOpen then pcall(pushRows) end
+    end)
+end
 local function doPull()
     local url, code = srvUrl(), tostring(cfg.main.code or '')
     if url == '' or code == '' then return end
@@ -1257,6 +1534,7 @@ local function doPull()
             local okj, d = pcall(decodeJson, text)
             if okj and type(d) == 'table' and type(d.shops) == 'table' and want == viewKey() then
                 POOL = d.shops; buildMarket(); lastPullAt = os.time()
+                LVMQ = LVMQ or {}; LVMQ.wantGone = want
                 poolMem[want] = { shops = POOL, t = lastPullAt }
                 if not viewSrv then pcall(savePoolCache, want) end   -- ไฟล์เก็บเฉพาะเซิร์ฟตัวเอง (รีโหลดแล้วกลับมาที่เซิร์ฟตัวเองเสมอ)
                 local c = 0; for _ in pairs(mergedShops()) do c = c + 1 end
@@ -1290,6 +1568,7 @@ local function oauthPollOnce()
             oauthState = nil
             if d.reason == 'banned' then cefEval("if(window.LVM)LVM.loginError('err_bad')")
             elseif d.reason == 'timeout' then cefEval("if(window.LVM)LVM.loginError('err_member')")
+            elseif d.reason == 'denied' then cefEval("if(window.LVM)LVM.loginError('err_denied')")   -- กดยกเลิกที่หน้า Discord
             else cefEval("if(window.LVM)LVM.loginError('err_oauth')") end
         elseif type(d) == 'table' and d.status == 'join' then
             if not oauthJoinOpened then oauthJoinOpened = true; openUrl(DISCORD_INVITE) end   -- เปิดลิงก์เชิญครั้งเดียว
@@ -1298,7 +1577,7 @@ local function oauthPollOnce()
             oauthNextAt = os.clock() + 3
         else
             oauthN = (oauthN or 0) + 1
-            if oauthN > 60 then oauthState = nil; cefEval("if(window.LVM)LVM.loginError('err_oauth')")
+            if oauthN > 150 then oauthState = nil; cefEval("if(window.LVM)LVM.loginError('err_oauth')")
             else oauthNextAt = os.clock() + 2 end
         end
     end)
@@ -1361,6 +1640,9 @@ function onSendPacket(id, bs)
                 cefEval("if(window.LVM)LVM.loginError('" .. ek .. "')")
             end
         end)
+        return false
+    elseif str == 'lvm|oauthcancel' then
+        oauthState = nil           -- ผู้ใช้ย้อนกลับ/เปลี่ยนไปใช้โค้ด: เลิกคำขอเก่า ปุ่ม Discord กดใหม่ได้ทันที
         return false
     elseif str == 'lvm|oauth' then
         doOAuth()                      -- ล็อกอินด้วย Discord (OAuth) -> ได้คีย์อัตโนมัติ
@@ -1528,6 +1810,7 @@ if okEv and sampev then
         elseif ownAsk and ownAsk.id == id then ownAsk = nil end
     end
     sampev.onShowDialog = function(id, style, title, b1, b2, text)
+        if LVM_carsDialog then pcall(LVM_carsDialog, title, text) end
         pcall(ownLog, ('DLG id=%s style=%s title=%s | %s'):format(tostring(id), tostring(style), tostring(title), tostring(text):gsub('\n', ' / ')))
         if cp2u(text):find('Управление продажей товаров', 1, true) then ownOpenAt = os.clock() end
         if cp2u(title):find('Снятие со скупки', 1, true) then pcall(ownCancelShow, id, text) end
@@ -1556,6 +1839,9 @@ if okEv and sampev then
         if not n and style == 0 then n = 1 end   -- กล่องข้อความไม่มีช่องใส่จำนวน = มีชิ้นเดียว
         if n then pcall(applyStock, openShop.name, click.slot, n) end
         pcall(LVM_dlgInfo, openShop.name, click.slot, 'sell', text)
+    end
+    sampev.onServerMessage = function(color, text)   -- ดูเฉพาะวลี 'ร้านถูกลบ/หมดสัญญา' ; ไม่แก้และไม่บล็อกข้อความ
+        pcall(LVM_chatShopClosed, text)
     end
 end
 
@@ -1612,7 +1898,9 @@ function main()
         if dbDirty and os.clock() - lastSave > 10 then pcall(saveDB); lastSave = os.clock() end
         if panelOpen and uiDirty then pcall(pushRows) end
         if wantItem then local v = wantItem; wantItem = nil; if panelOpen then pcall(pushItem, v) end end
+        if LVMQ and LVMQ.closed then pcall(LVM_pumpClosed) end
         if LVMQ and LVMQ.dinfo and #LVMQ.dinfo > 0 then pcall(LVM_pumpDlgInfo) end
+        if LVMQ and LVMQ.wantGone then pcall(LVM_pumpGone) end
         if wantHist and not netBusy then local v = wantHist; wantHist = nil; if panelOpen and v:match('^[%d~et]+$') then pcall(doHist, v) end end
         if oauthState and oauthNextAt and os.clock() >= oauthNextAt and not netBusy then
             oauthNextAt = os.clock() + 3      -- กันยิงซ้ำระหว่างรอผล

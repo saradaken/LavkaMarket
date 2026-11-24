@@ -1,14 +1,51 @@
 {
- "version": "0.5.6",
+ "version": "0.5.7",
  "files": [
   {
    "path": "LavkaMarket.lua",
-   "size": 284747,
-   "adler": 2879110204,
+   "size": 372532,
+   "adler": 2390958537,
    "url": "https://raw.githubusercontent.com/saradaken/LavkaMarket/main/dist/LavkaMarket.lua"
   }
  ],
  "notes": [
+  {
+   "v": "0.5.7",
+   "date": "2026-11-24",
+   "th": [
+    "หน้าแรกใหม่ และตลาดรวมหน้าเดียว แสดงร้านขายและร้านรับซื้อพร้อมกัน",
+    "หมวด \"ไม่มีในตลาดตอนนี้\" เก็บของที่เคยมีคนขายไว้ตลอด ไว้ดูอิงราคา",
+    "กราฟราคาใหม่ มีแท็บช่วงเวลาและป้ายราคาตอนชี้",
+    "สลับภาษาแล้วชื่อไอเทมเปลี่ยนตาม",
+    "แก้คลิกชื่อร้านแล้วหน้าเด้งกลับไปด้านบน และแก้การแสดงขายถูกสุด/รับซื้อสูงสุดให้ตรง",
+    "ล็อกอิน Discord ง่ายขึ้น กดอนุญาตครั้งเดียวแล้วเข้าเซิร์ฟ Discord ให้อัตโนมัติ",
+    "ล็อกอิน: ปุ่มกลับ/ยกเลิกไม่ค้าง มีข้อความอธิบายขั้นตอน และแจ้งเหตุผลถ้าถูกเด้งออก (ออกจากเซิร์ฟ Discord / ถูกระงับ)",
+    "เพิ่มไอคอนเซิร์ฟเวอร์ Vice City",
+    "ร้านของคุณถูกลบ/หมดสัญญา: ซ่อนออกจากตลาดทันที (แจ้งเฉพาะร้านของตัวเอง เมื่อเปิดแชร์ข้อมูล)"
+   ],
+   "ru": [
+    "Новая главная и единый рынок на одной странице: лавки продажи и скупки вместе",
+    "Категория «Нет на рынке сейчас»: предметы, которые когда-то продавались, остаются для ориентира по ценам",
+    "Новый график цен: вкладки периода и подсказка с ценой при наведении",
+    "При смене языка меняются и названия предметов",
+    "Исправлено: клик по названию лавки возвращал страницу вверх; показ «самая дешёвая продажа / самая высокая скупка» теперь точный",
+    "Вход через Discord проще: одно нажатие «Разрешить» — вас сами добавят на наш Discord-сервер",
+    "Вход: кнопки «назад»/«отмена» больше не зависают, есть пояснение шагов и причина, если вас вернули на экран входа (вышли с сервера Discord / блокировка)",
+    "Добавлена иконка сервера Vice City",
+    "Ваша лавка удалена/истекла аренда: она сразу скрывается с рынка (сообщается только о вашей лавке, если включена отправка данных)"
+   ],
+   "en": [
+    "New home page and a single unified market page: sell and buy shops together",
+    "New \"Not on the market now\" category keeps items that were once on sale, for price reference",
+    "New price chart with period tabs and a hover price tooltip",
+    "Item names now change when you switch language",
+    "Fixed: clicking a shop name jumped the page back to the top; \"cheapest sell / highest buy\" now shows correctly",
+    "Easier Discord sign-in: click Authorize once and you are added to our Discord server automatically",
+    "Sign-in: back/cancel no longer hang, steps are explained, and you see why you were sent back (left the Discord server / blocked)",
+    "Added the Vice City server icon",
+    "Your shop removed / lease expired: it is hidden from the market at once (only your own shop is reported, and only when data sharing is on)"
+   ]
+  },
   {
    "v": "0.5.6",
    "date": "2026-11-23",
@@ -168,22 +205,6 @@
    "en": [
     "Item info (description/stats) is now split per grade — pick an upgrade level and you see that grade's own data, not mixed",
     "Per-piece lines (upgrade level / installed attachment) are stripped from the description so they don't show on the wrong grade"
-   ]
-  },
-  {
-   "v": "0.4.5",
-   "date": "2026-11-20",
-   "th": [
-    "ย้ายการอัปเดตมาที่ GitHub เป็นหลัก (ทั้งตัวสคริปต์และตารางไอเทม) โหลดเร็วและเสถียรขึ้น ถ้าโหลดจาก GitHub ไม่ได้จะใช้เซิร์ฟเวอร์กองกลางเป็นสำรองให้เอง",
-    "โค้ดฝั่งไคลเอนต์เปิดเป็นโอเพนซอร์สแล้วที่ github.com/saradaken/LavkaMarket ตรวจสอบได้ว่าแชร์แค่ข้อมูลตลาด"
-   ],
-   "ru": [
-    "Обновления теперь идут через GitHub (и скрипт, и таблица предметов) — быстрее и стабильнее; если GitHub недоступен, используется пул-сервер как резерв",
-    "Клиент стал открытым: github.com/saradaken/LavkaMarket — можно проверить, что передаются только рыночные данные"
-   ],
-   "en": [
-    "Updates now go through GitHub (both the script and the item table) — faster and more reliable; falls back to the pool server if GitHub is unreachable",
-    "The client is now open source at github.com/saradaken/LavkaMarket — you can verify it shares market data only"
    ]
   }
  ]

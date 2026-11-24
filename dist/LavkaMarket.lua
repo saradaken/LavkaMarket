@@ -14,7 +14,7 @@
 
 script_name('LavkaMarket')
 script_author('LavkaMarket')
-script_version('0.5.6')
+script_version('0.5.7')
 
 local okEffil, effil = pcall(require, 'effil')
 local okFFI, ffi     = pcall(require, 'ffi')
@@ -82,7 +82,7 @@ pcall(migrateOld)
 
 -- แจกไฟล์เดียว: ตัว release ฝังไฟล์หน้าเว็บไว้ในสคริปต์ (publish.py เติมแทนบรรทัด EMBED ข้างล่าง)
 -- เปิดครั้งแรก/เปลี่ยนรุ่น -> เขียนออกไปที่ LavkaMarket\web\ ; ตัวพัฒนา (EMBED = nil) ข้ามไป ใช้ไฟล์ที่มีอยู่
-local EMBED = { stamp = "0.5.6-cde05037", files = {
+local EMBED = { stamp = "0.5.7-fc73e557", files = {
   ["app.js"] = [=[
 /* LavkaMarket CEF UI  (window.LVM)
    หน้าเว็บที่ฝังเข้า CEF ของเกม: หน้าล็อกอิน Discord + หน้าราคา
@@ -94,12 +94,20 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
   var LOGO = 'data:image/png;base64,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';
   var PAGE = 15;   // การ์ดต่อหน้า (5 ต่อแถว x 3 แถว พอดีกล่อง)
   try { S.fav = JSON.parse(localStorage.getItem('lvmFav') || '{}') || {}; } catch (e) {}
+  S.profileFrame = true;
+  try { S.profileFrame = localStorage.getItem('lvmProfileFrame') !== '0'; } catch (e) {}
+  S.avatarStyle = S.profileFrame ? 'lm' : 'none';
+  try { var savedAvatarStyle = localStorage.getItem('lvmAvatarStyle'); if (/^(none|lm|lamball)$/.test(savedAvatarStyle || '')) S.avatarStyle = savedAvatarStyle; } catch (e) {}
+  S.windowFrame = 'none';
+  try { var savedWindowFrame = localStorage.getItem('lvmWindowFrame'); if (/^(none|aqua|gold|violet|fire|surge)$/.test(savedWindowFrame || '')) S.windowFrame = savedWindowFrame; } catch (e) {}
   function saveFav() { try { localStorage.setItem('lvmFav', JSON.stringify(S.fav)); } catch (e) {} }
   // โหมด: 'buy' = ฉันจะซื้อ (เห็นแค่ร้านขาย) / 'sell' = ฉันจะขาย (เห็นแค่ร้านรับซื้อ)
   // ไม่มีหน้าไหนวางสองฝั่งคู่กัน = ไม่เป็นเครื่องมือล่าส่วนต่างราคา
   S.mode = 'buy';
-  // ฝั่งร้านรับซื้อ: ปิดไว้ก่อน (ยังรับ/เก็บข้อมูลตามปกติที่หลังบ้าน แค่ไม่แสดง) — เปิดกลับ = true
-  var SELL_ON = false;
+  // ฝั่งร้านรับซื้อ: เปิดใช้แล้ว (SELL_ON = true) ; ปิดกลับ = false (ข้อมูลยังเก็บตามปกติ แค่ไม่แสดง)
+  var SELL_ON = true;
+  var CARS_ON = false;
+  var DEV_PAGES = false;   // หน้าที่ยังไม่ปล่อย (อสังหา/ประมูล + ร้านค้า): รุ่นปล่อยปิด
   var BUY_FEE = 0.02;   // ค่าธรรมเนียมฝั่งรับซื้อ 2% (ตามจริงของเซิร์ฟ) — เส้นเขียว = ราคารับซื้อ × 0.98
   // หมวดไอเทมตามประเภทของเกม (ITEM_TYPE_* จากหน้า UI ของเกม) รวมเป็นกลุ่มแบบในเกม
   var CATS = [
@@ -123,8 +131,18 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
   S.cat = 'all'; S.catOpen = true;
   try { if (localStorage.getItem('lvmCatOpen') === '0') S.catOpen = false; } catch (e) {}
   try { var sc0 = localStorage.getItem('lvmCat'); if (sc0) S.cat = sc0; } catch (e) {}
-  try { if (SELL_ON && localStorage.getItem('lvmMode') === 'sell') S.mode = 'sell'; } catch (e) {}
-  function sideOf(r) { return S.mode === 'sell' ? (r.buy ? r.nb || 1 : 0) : (r.sell ? r.ns || 1 : 0); }
+  // ตลาดหน้าเดียว: ตัวกรองรายการ all = มีราคาฝั่งใดก็ได้ / sell = มีคนขาย / buy = มีคนรับซื้อ (S.mode ใช้เป็น "มุมมอง" ของหน้าไอเทมเท่านั้น)
+  S.flt = 'all'; S.avail = 'now'; S.rng = '30d';
+  try { var rg0 = localStorage.getItem('lvmRng'); if (rg0 === '1d' || rg0 === '7d' || rg0 === '30d') S.rng = rg0; } catch (e) {}
+  try { var av0 = localStorage.getItem('lvmAvail'); if (av0 === 'gone' || av0 === 'now') S.avail = av0; } catch (e) {}
+  try { var fl0 = localStorage.getItem('lvmFlt'); if (fl0 === 'sell' || fl0 === 'buy' || fl0 === 'all') S.flt = fl0; } catch (e) {}
+  function sideOf(r) {
+    if (S.avail === 'gone') return r.gone ? 1 : 0;   // "ยังไม่มีในตลาดตอนนี้": ไอเทมที่เคยเห็นแต่ตอนนี้ไม่มีร้าน
+    if (r.gone) return 0;
+    if (S.flt === 'sell') return r.sell ? r.ns || 1 : 0;
+    if (S.flt === 'buy') return r.buy ? r.nb || 1 : 0;
+    return (r.sell || r.buy) ? 1 : 0;
+  }
 
   var T = {
     th: { title: 'LavkaMarket', sub: 'ตลาดกลางของผู้เล่น', login_h: 'เข้าสู่ระบบด้วย Discord',
@@ -133,31 +151,83 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
           consent: 'เมื่อเชื่อมต่อ = ยินยอมแชร์เฉพาะข้อมูลตลาด (ราคา/จำนวน/ชื่อร้าน) ไม่ส่งข้อมูลส่วนตัว',
           search: 'ค้นหาไอเทม...', buy: 'ซื้อถูกสุด', sell: 'รับซื้อแพงสุด', none: 'ยังไม่มีข้อมูล เดินเปิดดูร้านในตลาด',
           logout: 'ออก', count: 'ไอเทม', empty_price: '-', buy_s: 'ซื้อ', sell_s: 'ขาย', profit: 'กำไร', nosell: 'ไม่มีขาย',
-          srv_old: 'ข้อมูลเก่า', n_sell: 'ร้านขาย', n_buy2: 'ร้านรับซื้อ', view_all: 'ดูร้านทั้งหมด', loading: 'กำลังโหลด…', no_sellers: 'ยังไม่เห็นร้านขาย', no_buyers: 'ยังไม่เห็นร้านรับซื้อ', col_shop: 'ร้าน', col_price: 'ราคา', col_qty: 'จำนวน', col_seen: 'เห็นล่าสุด', n_buy: 'ร้านรับ', med: 'กลาง', only_buy: 'ไม่มีคนขาย · ร้านรับซื้อราคานี้', shops: 'ร้าน',
-          pull_t: 'ดึงข้อมูลตลาดจากกองกลาง', pull_h: 'ราคาจากผู้เล่น LavkaMarket ในเซิร์ฟนี้ แชร์เฉพาะข้อมูลตลาด (ราคา จำนวน ชื่อร้าน) ไม่มีข้อมูลส่วนตัว', pull_btn: 'เริ่มดึงข้อมูล', pull_run: 'กำลังดึงข้อมูลจากกองกลาง…', pull_ok: 'ได้ข้อมูลแล้ว', pull_shops: 'ร้าน', pull_err: 'ดึงไม่สำเร็จ ลองใหม่อีกครั้ง', pull_retry: 'ลองใหม่', pull_now: 'กดเพื่อดึงข้อมูลตอนนี้', pull_busy: 'กำลังดึง…', pull_wait: 'ยังไม่ได้ดึง', ago_now: 'เมื่อกี้', ago_m: 'นาทีที่แล้ว', ago_h: 'ชม.ที่แล้ว', ago_d: 'วันที่แล้ว', st_sell: 'มีคนขาย', st_buy: 'มีร้านรับซื้อ', mode_buy: 'ฉันจะซื้อ', tab_home: 'หน้าแรก', tab_market: 'ตลาด', hello: 'สวัสดี', home_sub: 'วันนี้จะซื้อหรือจะขาย? เลือกด้านล่างได้เลย', recent: 'เพิ่งเห็นล่าสุด', updated: 'อัปเดต', home_tip: 'ราคาทั้งหมดมาจากผู้เล่นที่ใช้ LavkaMarket เดินเปิดดูแผงร้านในเกม แชร์เฉพาะข้อมูลตลาด (ราคา จำนวน ชื่อร้าน) ไม่มีข้อมูลส่วนตัว ยิ่งคนเปิดร้านเยอะ ราคายิ่งสด', hist_title: 'ประวัติราคา 30 วัน', hist_none: 'ยังไม่มีประวัติราคาของไอเทมนี้', hist_low: 'ต่ำสุด', hist_high: 'สูงสุด', hist_last: 'ล่าสุด', hist_lo_s: 'ราคาขายถูกสุด', hist_hi_b: 'ราคารับซื้อสูงสุด', hist_hi_b_fee: 'ราคารับซื้อสูงสุด (หลังหักค่าธรรมเนียม)', k_best_s: 'ขายถูกสุดตอนนี้', k_best_b: 'รับซื้อสูงสุดตอนนี้', k_srv: 'มีในเซิร์ฟ', info_title: 'ข้อมูลไอเทม', info_none: 'ยังไม่มีข้อมูลของไอเทมนี้ — เปิดหน้าต่าง "ข้อมูลไอเทม" ในเกมหนึ่งครั้ง แล้วจะแสดงที่นี่', info_bonus: 'ใส่แล้วได้', info_up: 'เมื่ออัปเกรด', info_desc: 'รายละเอียด', col_lvl: 'ตีบวก/ระดับ', n_lvls: 'ระดับ', brand_sub: 'ตลาดแผงร้าน', sec_main: 'หน้าหลัก', sec_mkt: 'ข้อมูลตลาด', sec_buy: 'ซื้อ', sec_market: 'มาร์เก็ต', cat_all: 'ทั้งหมด', m_disc: 'เชื่อมต่อผ่าน Discord', m_sec_app: 'แอป', m_sec_set: 'ตั้งค่า', m_ver: 'เวอร์ชัน', m_latest: 'เป็นเวอร์ชันล่าสุดแล้ว', m_new: 'มีเวอร์ชันใหม่', m_get: 'อัปเดต', m_sync: 'ดึงข้อมูลตลาดตอนนี้', m_sync_h: 'ปกติดึงเองทุก 10 นาที', u_check: 'กำลังตรวจเวอร์ชัน…', u_dl: 'กำลังดาวน์โหลด', u_done: 'อัปเดตแล้ว กำลังโหลดใหม่…', u_err: 'อัปเดตไม่สำเร็จ กดเพื่อลองใหม่', m_share: 'แชร์ข้อมูลตลาด', m_share_h: 'ส่งราคา/จำนวน/ชื่อร้านที่คุณเปิดดู เข้ากองกลาง', m_discord: 'Discord ของ LavkaMarket', m_logout: 'ออกจากระบบ', m_logout_q: 'ออกจากระบบใช่ไหม?', m_logout_h: 'ต้องเข้าสู่ระบบด้วย Discord ใหม่อีกครั้ง', m_cancel: 'ยกเลิก', sec_sell: 'ขาย', nav_buy: 'ร้านที่ขาย', nav_sell: 'ร้านรับซื้อ', srv_next: 'อัปเดตถัดไป', srv_upd: 'อัปเดตข้อมูลล่าสุด', srv_last: 'ล่าสุด', srv_shops: 'ร้านในพูล', min_u: 'นาที', uw_title: 'อัปเดต LavkaMarket', uw_new: 'มีอะไรใหม่', uw_files: 'ไฟล์ที่จะอัปเดต', uw_go: 'อัปเดตเลย', uw_later: 'ไว้ทีหลัง', uw_close: 'ปิด', uw_retry: 'ลองใหม่', uw_wait: 'รอคิว', uw_dl: 'กำลังดาวน์โหลด…', uw_ok: 'ตรวจแล้ว', uw_inst: 'กำลังติดตั้ง…', uw_done_f: 'เสร็จ', uw_done: 'อัปเดตเสร็จแล้ว กำลังโหลดสคริปต์ใหม่…', uw_err: 'อัปเดตไม่สำเร็จ', uw_latest: 'คุณใช้เวอร์ชันล่าสุดแล้ว', uw_nonotes: 'ปรับปรุงและแก้ไขเล็กน้อย', m_history: 'ประวัติเวอร์ชัน', clog_title: 'ประวัติเวอร์ชัน', clog_sub: 'การเปลี่ยนแปลงทุกเวอร์ชัน', clog_load: 'กำลังโหลด…', srv_n: 'ร้าน', srv_pick: 'ดูตลาดเซิร์ฟเวอร์', srv_mine: 'เซิร์ฟคุณ', srv_back: 'กลับตลาดเซิร์ฟของฉัน', srv_load: 'กำลังโหลด…', srv_none: 'ยังไม่มีเซิร์ฟอื่นที่มีข้อมูล', srv_viewing: 'กำลังดูตลาดเซิร์ฟอื่น', srv_wait: 'รอข้อมูลเซิร์ฟเวอร์…', sort_by: 'เรียง:', sort_shops: 'ร้านเยอะสุด', sort_new: 'อัปเดตล่าสุด', sort_name: 'ชื่อ A–Z', by_lvl: 'แยกตามระดับ', rng_h: '3 วัน (รายชั่วโมง)', rng_d: '90 วัน (รายวัน)', hist: 'ประวัติราคา', more: 'เพิ่มเติม ▾', less: 'ย่อ ▴', hist_none_h: 'ยังไม่มีข้อมูลรายชั่วโมง (เริ่มเก็บแล้ว)', lv_hint: 'กดชิปด้านบนเพื่อเน้นเส้น', lv_avg: 'กลาง', lv_avg30: 'กลาง 30 วัน', piece_s: 'ชิ้นที่ร้านนี้ขาย ·', piece_b: 'ร้านนี้รับซื้อ ·', mode_buy_h: 'ดูร้านที่ขาย', mode_sell: 'ฉันจะขาย', mode_sell_h: 'ดูร้านที่รับซื้อ', of: 'จาก', shown: 'แสดง',
+          kpi_items: 'ไอเทมที่มีขาย', kpi_buyers: 'ไอเทมที่มีคนรับซื้อ', bargain_t: 'ซื้อคุ้มตอนนี้', bargain_h: 'ราคาต่ำสุดถูกกว่าราคากลาง 15% ขึ้นไป (มีอย่างน้อย 3 ร้านขาย)', cheaper: 'ถูกกว่ากลาง', goodsell_t: 'ขายได้ราคา', goodsell_h: 'ราคารับซื้อสูงใกล้หรือเกินราคากลาง', recent_more: 'ดูทั้งหมด', flt_all: 'ทั้งหมด', flt_sell: 'มีคนขาย', flt_buy: 'มีคนรับซื้อ', open_mkt: 'เปิดตลาด', open_mkt_h: 'ดูร้านที่ขายและร้านรับซื้อในที่เดียว', av_now: 'มีในตลาดตอนนี้', av_gone: 'ยังไม่มีในตลาดตอนนี้', last_seen: 'เห็นล่าสุด', last_sell: 'ขายถูกสุดครั้งล่าสุด', last_buy: 'รับซื้อสูงสุดครั้งล่าสุด', gone_note: 'ตอนนี้ไม่มีร้านขายหรือรับซื้อ — ราคาด้านบนเป็นราคาครั้งล่าสุดที่เคยเห็น', rng_1d: '1 วัน', rng_7d: '7 วัน', rng_30d: '30 วัน', nav_cars: 'ตลาดรถ', cr_search: 'ค้นหารถ…', cr_empty: 'ยังไม่มีข้อมูลรถ — เข้าไปเดินในตลาดรถ (Автобазар) แล้วระบบจะอ่านป้ายราคาให้เอง', cr_unit: 'คัน', cr_sold24: 'หายไปใน 24 ชม. (ขายแล้ว/ถอนประกาศ)', cr_mods: 'ชิ้นแต่ง', cr_plate: 'ทะเบียน', cr_lo: 'ต่ำสุดที่เคยเห็น', cr_hi: 'สูงสุดที่เคยเห็น', cr_listed: 'ลงประกาศ', cr_cut: 'ลดจาก', cr_color: 'สี', cr_ad: 'ประกาศ', cr_models: 'รุ่น', cr_owner: 'ผู้ขาย', cr_auc: 'ประมูล', cr_bid: 'ให้ราคาล่าสุด', cr_left: 'เหลือ', cr_cam: 'ดูที่รถ', nav_shops: 'ร้านค้า', sh_search: 'ค้นหาชื่อร้าน…', sh_sells: 'ขาย', sh_buys: 'รับซื้อ', sh_seen: 'เห็นล่าสุด', sh_none: 'ไม่พบร้าน', col_item: 'ไอเทม', sh_open: 'ดูร้าน', srv_old: 'ข้อมูลเก่า', n_sell: 'ร้านขาย', n_buy2: 'ร้านรับซื้อ', view_all: 'ดูร้านทั้งหมด', loading: 'กำลังโหลด…', no_sellers: 'ยังไม่เห็นร้านขาย', no_buyers: 'ยังไม่เห็นร้านรับซื้อ', col_shop: 'ร้าน', col_price: 'ราคา', col_qty: 'จำนวน', col_seen: 'เห็นล่าสุด', n_buy: 'ร้านรับ', med: 'กลาง', only_buy: 'ไม่มีคนขาย · ร้านรับซื้อราคานี้', shops: 'ร้าน',
+          pull_t: 'ดึงข้อมูลตลาดจากกองกลาง', pull_h: 'ราคาจากผู้เล่น LavkaMarket ในเซิร์ฟนี้ แชร์เฉพาะข้อมูลตลาด (ราคา จำนวน ชื่อร้าน) ไม่มีข้อมูลส่วนตัว', pull_btn: 'เริ่มดึงข้อมูล', pull_run: 'กำลังดึงข้อมูลจากกองกลาง…', pull_ok: 'ได้ข้อมูลแล้ว', pull_shops: 'ร้าน', pull_err: 'ดึงไม่สำเร็จ ลองใหม่อีกครั้ง', pull_retry: 'ลองใหม่', pull_now: 'กดเพื่อดึงข้อมูลตอนนี้', pull_busy: 'กำลังดึง…', pull_wait: 'ยังไม่ได้ดึง', ago_now: 'เมื่อกี้', ago_m: 'นาทีที่แล้ว', ago_h: 'ชม.ที่แล้ว', ago_d: 'วันที่แล้ว', st_sell: 'มีคนขาย', st_buy: 'มีร้านรับซื้อ', mode_buy: 'ฉันจะซื้อ', tab_home: 'หน้าแรก', tab_market: 'ตลาด', hello: 'สวัสดี', home_sub: 'วันนี้จะซื้อหรือจะขาย? เลือกด้านล่างได้เลย', recent: 'เพิ่งเห็นล่าสุด', updated: 'อัปเดต', home_tip: 'ราคาทั้งหมดมาจากผู้เล่นที่ใช้ LavkaMarket เดินเปิดดูแผงร้านในเกม แชร์เฉพาะข้อมูลตลาด (ราคา จำนวน ชื่อร้าน) ไม่มีข้อมูลส่วนตัว ยิ่งคนเปิดร้านเยอะ ราคายิ่งสด', hist_title: 'ประวัติราคา 30 วัน', hist_none: 'ยังไม่มีประวัติราคาของไอเทมนี้', hist_low: 'ต่ำสุด', hist_high: 'สูงสุด', hist_last: 'ล่าสุด', hist_lo_s: 'ราคาขายถูกสุด', hist_hi_b: 'ราคารับซื้อสูงสุด', fee_net: 'หลังหักค่าธรรมเนียม', hist_hi_b_fee: 'ราคารับซื้อสูงสุด (หลังหักค่าธรรมเนียม)', k_best_s: 'ขายถูกสุดตอนนี้', k_best_b: 'รับซื้อสูงสุดตอนนี้', k_srv: 'มีในเซิร์ฟ', info_title: 'ข้อมูลไอเทม', info_none: 'ยังไม่มีข้อมูลของไอเทมนี้ — เปิดหน้าต่าง "ข้อมูลไอเทม" ในเกมหนึ่งครั้ง แล้วจะแสดงที่นี่', info_bonus: 'ใส่แล้วได้', info_up: 'เมื่ออัปเกรด', info_desc: 'รายละเอียด', col_lvl: 'ตีบวก/ระดับ', n_lvls: 'ระดับ', brand_sub: 'ตลาดแผงร้าน', sec_main: 'หน้าหลัก', sec_mkt: 'ข้อมูลตลาด', sec_buy: 'ซื้อ', sec_market: 'มาร์เก็ต', cat_all: 'ทั้งหมด', m_disc: 'เชื่อมต่อผ่าน Discord', m_sec_app: 'แอป', m_sec_set: 'ตั้งค่า', m_ver: 'เวอร์ชัน', m_latest: 'เป็นเวอร์ชันล่าสุดแล้ว', m_new: 'มีเวอร์ชันใหม่', m_get: 'อัปเดต', m_sync: 'ดึงข้อมูลตลาดตอนนี้', m_sync_h: 'ปกติดึงเองทุก 10 นาที', u_check: 'กำลังตรวจเวอร์ชัน…', u_dl: 'กำลังดาวน์โหลด', u_done: 'อัปเดตแล้ว กำลังโหลดใหม่…', u_err: 'อัปเดตไม่สำเร็จ กดเพื่อลองใหม่', m_share: 'แชร์ข้อมูลตลาด', m_share_h: 'ส่งราคา/จำนวน/ชื่อร้านที่คุณเปิดดู เข้ากองกลาง', m_discord: 'Discord ของ LavkaMarket', m_logout: 'ออกจากระบบ', m_logout_q: 'ออกจากระบบใช่ไหม?', m_logout_h: 'ต้องเข้าสู่ระบบด้วย Discord ใหม่อีกครั้ง', m_cancel: 'ยกเลิก', sec_sell: 'ขาย', nav_buy: 'ร้านที่ขาย', nav_sell: 'ร้านรับซื้อ', srv_next: 'อัปเดตถัดไป', srv_upd: 'อัปเดตข้อมูลล่าสุด', srv_last: 'ล่าสุด', srv_shops: 'ร้านในพูล', min_u: 'นาที', uw_title: 'อัปเดต LavkaMarket', uw_new: 'มีอะไรใหม่', uw_files: 'ไฟล์ที่จะอัปเดต', uw_go: 'อัปเดตเลย', uw_later: 'ไว้ทีหลัง', uw_close: 'ปิด', uw_retry: 'ลองใหม่', uw_wait: 'รอคิว', uw_dl: 'กำลังดาวน์โหลด…', uw_ok: 'ตรวจแล้ว', uw_inst: 'กำลังติดตั้ง…', uw_done_f: 'เสร็จ', uw_done: 'อัปเดตเสร็จแล้ว กำลังโหลดสคริปต์ใหม่…', uw_err: 'อัปเดตไม่สำเร็จ', uw_latest: 'คุณใช้เวอร์ชันล่าสุดแล้ว', uw_nonotes: 'ปรับปรุงและแก้ไขเล็กน้อย', m_history: 'ประวัติเวอร์ชัน', clog_title: 'ประวัติเวอร์ชัน', clog_sub: 'การเปลี่ยนแปลงทุกเวอร์ชัน', clog_load: 'กำลังโหลด…', srv_n: 'ร้าน', srv_pick: 'ดูตลาดเซิร์ฟเวอร์', srv_mine: 'เซิร์ฟคุณ', srv_back: 'กลับตลาดเซิร์ฟของฉัน', srv_load: 'กำลังโหลด…', srv_none: 'ยังไม่มีเซิร์ฟอื่นที่มีข้อมูล', srv_viewing: 'กำลังดูตลาดเซิร์ฟอื่น', srv_wait: 'รอข้อมูลเซิร์ฟเวอร์…', sort_by: 'เรียง:', sort_shops: 'ร้านเยอะสุด', sort_new: 'อัปเดตล่าสุด', sort_name: 'ชื่อ A–Z', by_lvl: 'แยกตามระดับ', rng_h: '3 วัน (รายชั่วโมง)', rng_d: '90 วัน (รายวัน)', hist: 'ประวัติราคา', more: 'เพิ่มเติม ▾', less: 'ย่อ ▴', hist_none_h: 'ยังไม่มีข้อมูลรายชั่วโมง (เริ่มเก็บแล้ว)', lv_hint: 'กดชิปด้านบนเพื่อเน้นเส้น', lv_avg: 'กลาง', lv_avg30: 'กลาง 30 วัน', piece_s: 'ชิ้นที่ร้านนี้ขาย ·', piece_b: 'ร้านนี้รับซื้อ ·', mode_buy_h: 'ดูร้านที่ขาย', mode_sell: 'ฉันจะขาย', mode_sell_h: 'ดูร้านที่รับซื้อ', of: 'จาก', shown: 'แสดง',
           err_server: 'ยังไม่ได้ตั้งเซิร์ฟเวอร์ (พิมพ์ /lm url <ที่อยู่> ในเกม)', err_bad: 'รหัสไม่ถูกต้องหรือถูกแบน', err_full: 'คีย์นี้ถูกใช้กับตัวละครครบจำนวนแล้ว (กันแชร์คีย์)', checking: 'กำลังตรวจรหัส...',
-          need_login: 'ต้องเข้าสู่ระบบก่อน', need_sub: 'เข้าสู่ระบบเพื่อเปิดตลาดกลาง LavkaMarket', code_title: 'ใส่รหัสเข้าใช้', back: 'ย้อนกลับ', opening: 'กำลังเปิด Discord...', have_key: 'มีคีย์อยู่แล้ว? ใส่คีย์', or: 'หรือ', waiting: 'กำลังรอยืนยันใน Discord…', err_oauth: 'ยืนยัน Discord ไม่สำเร็จ ลองใหม่', err_member: 'ยังไม่ได้เข้าเซิร์ฟเวอร์ Discord — เปิดลิงก์เชิญให้แล้ว', err_oauth_off: 'เซิร์ฟเวอร์ยังไม่เปิด OAuth ใช้คีย์แทน', err_join: 'เปิดลิงก์เชิญให้แล้ว — เข้าร่วมเซิร์ฟ แล้วรอสักครู่ จะเข้าเองอัตโนมัติ' },
+          need_login: 'ต้องเข้าสู่ระบบก่อน', need_sub: 'เข้าสู่ระบบเพื่อเปิดตลาดกลาง LavkaMarket', code_title: 'ใส่รหัสเข้าใช้', back: 'ย้อนกลับ', opening: 'กำลังเปิด Discord...', have_key: 'มีคีย์อยู่แล้ว? ใส่คีย์', or: 'หรือ', waiting: 'กำลังรอยืนยันใน Discord…', err_oauth: 'ยืนยัน Discord ไม่สำเร็จ ลองใหม่', err_member: 'ยังไม่ได้เข้าเซิร์ฟเวอร์ Discord — เปิดลิงก์เชิญให้แล้ว', err_oauth_off: 'เซิร์ฟเวอร์ยังไม่เปิด OAuth ใช้คีย์แทน', err_join: 'เปิดลิงก์เชิญให้แล้ว — เข้าร่วมเซิร์ฟ แล้วรอสักครู่ จะเข้าเองอัตโนมัติ', login_steps: 'เบราว์เซอร์จะเปิดขึ้น กดอนุญาตครั้งเดียว ระบบจะเพิ่มคุณเข้าเซิร์ฟ Discord ของเราให้เอง แล้วกลับมาที่เกมได้เลย', use_code: 'รอนานไป? ใช้โค้ดจากบอทแทน', err_denied: 'ยกเลิกการเข้าสู่ระบบแล้ว กดปุ่มด้านบนเพื่อลองใหม่', notice_left: 'คุณออกจากเซิร์ฟเวอร์ Discord ของเราแล้ว จึงใช้งานไม่ได้ กดล็อกอินอีกครั้งเพื่อกลับเข้าเซิร์ฟและใช้ต่อ', notice_banned: 'บัญชีนี้ถูกระงับการใช้งาน', open_dc: 'เปิด Discord ของเรา (รับโค้ดที่นี่)' },
     ru: { title: 'LavkaMarket', sub: 'общий рынок игроков', login_h: 'Вход через Discord',
           login_t: 'Получите код у бота в нашем Discord и вставьте ниже',
           code_ph: 'Вставьте код, напр. LVKA-XXXX-XXXX', connect: 'Подключить', connecting: 'Подключение...',
           consent: 'Подключаясь = согласие делиться только рыночными данными (цена/кол-во/лавка). Личные данные не отправляются',
           search: 'Поиск предмета...', buy: 'дешевле всего', sell: 'скупка дороже', none: 'Нет данных. Откройте лавки на рынке',
           logout: 'Выход', count: 'предметов', empty_price: '-', buy_s: 'купить', sell_s: 'продать', profit: 'профит', nosell: 'нет в продаже',
-          srv_old: 'данные устарели', n_sell: 'продают', n_buy2: 'скупают', view_all: 'все лавки', loading: 'загрузка…', no_sellers: 'продавцов не видно', no_buyers: 'скупщиков не видно', col_shop: 'лавка', col_price: 'цена', col_qty: 'кол-во', col_seen: 'видели', n_buy: 'скупка', med: 'медиана', only_buy: 'никто не продаёт · скупают по этой цене', shops: 'лавок',
-          pull_t: 'Загрузить рынок из общей базы', pull_h: 'Цены от игроков LavkaMarket на этом сервере. Только рыночные данные (цена, кол-во, лавка), без личных данных', pull_btn: 'Загрузить данные', pull_run: 'Загружаем данные из общей базы…', pull_ok: 'Готово', pull_shops: 'лавок', pull_err: 'Не удалось загрузить. Попробуйте снова', pull_retry: 'Повторить', pull_now: 'Нажмите, чтобы обновить сейчас', pull_busy: 'загрузка…', pull_wait: 'не загружено', ago_now: 'только что', ago_m: 'мин назад', ago_h: 'ч назад', ago_d: 'дн назад', st_sell: 'в продаже', st_buy: 'есть скупка', mode_buy: 'Хочу купить', tab_home: 'Главная', tab_market: 'Рынок', hello: 'Привет', home_sub: 'Покупаете или продаёте? Выберите ниже', recent: 'Недавно замечено', updated: 'обновлено', home_tip: 'Все цены собирают игроки LavkaMarket, открывая лавки в игре. Передаются только рыночные данные (цена, кол-во, лавка), без личных данных. Чем больше лавок открыто, тем свежее цены', hist_title: 'История цены за 30 дней', hist_none: 'Истории цены пока нет', hist_low: 'мин', hist_high: 'макс', hist_last: 'последняя', hist_lo_s: 'мин. цена продажи', hist_hi_b: 'макс. цена скупки', hist_hi_b_fee: 'макс. скупка (после комиссии)', k_best_s: 'Мин. цена сейчас', k_best_b: 'Макс. скупка сейчас', k_srv: 'На сервере', info_title: 'О предмете', info_none: 'Нет данных о предмете — откройте «Информация о предмете» в игре один раз, и она появится здесь', info_bonus: 'Даёт при надевании', info_up: 'При улучшении', info_desc: 'Описание', col_lvl: 'Улучш./ур.', n_lvls: 'уровн.', brand_sub: 'рынок лавок', sec_main: 'Главное', sec_mkt: 'Рынок', sec_buy: 'Покупка', sec_market: 'Маркет', cat_all: 'Все товары', m_disc: 'Вход через Discord', m_sec_app: 'Приложение', m_sec_set: 'Настройки', m_ver: 'Версия', m_latest: 'Последняя версия', m_new: 'Доступна версия', m_get: 'Обновить', m_sync: 'Обновить рынок сейчас', m_sync_h: 'Автоматически каждые 10 минут', u_check: 'Проверка версии…', u_dl: 'Загрузка', u_done: 'Обновлено, перезагрузка…', u_err: 'Ошибка обновления, нажмите ещё раз', m_share: 'Делиться данными рынка', m_share_h: 'Цены/кол-во/лавки, которые вы открыли, уходят в общий пул', m_discord: 'Discord LavkaMarket', m_logout: 'Выйти', m_logout_q: 'Выйти из аккаунта?', m_logout_h: 'Нужно будет снова войти через Discord', m_cancel: 'Отмена', sec_sell: 'Продажа', nav_buy: 'Продают', nav_sell: 'Скупают', srv_next: 'Обновление через', srv_upd: 'Данные обновлены', srv_last: 'последнее', srv_shops: 'Лавок в базе', min_u: 'мин', uw_title: 'Обновление LavkaMarket', uw_new: 'Что нового', uw_files: 'Файлы обновления', uw_go: 'Обновить', uw_later: 'Позже', uw_close: 'Закрыть', uw_retry: 'Повторить', uw_wait: 'в очереди', uw_dl: 'загрузка…', uw_ok: 'проверено', uw_inst: 'установка…', uw_done_f: 'готово', uw_done: 'Обновлено, перезагрузка скрипта…', uw_err: 'Не удалось обновить', uw_latest: 'У вас последняя версия', uw_nonotes: 'Улучшения и исправления', m_history: 'История версий', clog_title: 'История версий', clog_sub: 'Изменения по всем версиям', clog_load: 'Загрузка…', srv_n: 'лавок', srv_pick: 'Рынок сервера', srv_mine: 'Ваш сервер', srv_back: 'Вернуться к своему серверу', srv_load: 'Загрузка…', srv_none: 'Других серверов с данными пока нет', srv_viewing: 'Вы смотрите рынок другого сервера', srv_wait: 'Ожидание данных…', sort_by: 'Сортировка:', sort_shops: 'Больше лавок', sort_new: 'Недавние', sort_name: 'Имя A–Я', by_lvl: 'По уровням', rng_h: '3 дня (по часам)', rng_d: '90 дней (по дням)', hist: 'История цены', more: 'ещё ▾', less: 'свернуть ▴', hist_none_h: 'Почасовых данных пока нет (сбор начат)', lv_hint: 'нажмите уровень сверху, чтобы выделить линию', lv_avg: 'медиана', lv_avg30: 'медиана 30 дн.', piece_s: 'Предмет в лавке ·', piece_b: 'Скупка в лавке ·', mode_buy_h: 'лавки, которые продают', mode_sell: 'Хочу продать', mode_sell_h: 'лавки, которые скупают', of: 'из', shown: 'показано',
+          kpi_items: 'Предметов в продаже', kpi_buyers: 'Предметов со скупкой', bargain_t: 'Выгодно купить', bargain_h: 'Мин. цена ниже медианы на 15%+ (продают минимум 3 лавки)', cheaper: 'ниже медианы', goodsell_t: 'Выгодно продать', goodsell_h: 'Цена скупки у медианы или выше', recent_more: 'все', flt_all: 'все', flt_sell: 'продают', flt_buy: 'скупают', open_mkt: 'Открыть рынок', open_mkt_h: 'продают и скупают в одном месте', av_now: 'есть на рынке', av_gone: 'сейчас нет на рынке', last_seen: 'видели', last_sell: 'мин. цена продажи (в последний раз)', last_buy: 'макс. скупка (в последний раз)', gone_note: 'Сейчас никто не продаёт и не скупает — цены выше последние из виденных', rng_1d: '1 д.', rng_7d: '7 д.', rng_30d: '30 д.', nav_cars: 'авторынок', cr_search: 'поиск авто…', cr_empty: 'Данных пока нет — пройдитесь по авторынку (Автобазар), скрипт прочитает таблички сам', cr_unit: 'шт.', cr_sold24: 'пропало за 24 ч (продано/снято)', cr_mods: 'тюнинг', cr_plate: 'номер', cr_lo: 'мин. цена', cr_hi: 'макс. цена', cr_listed: 'выставлено', cr_cut: 'было', cr_color: 'цвет', cr_ad: 'объявление', cr_models: 'моделей', cr_owner: 'продавец', cr_auc: 'аукцион', cr_bid: 'последняя ставка', cr_left: 'осталось', cr_cam: 'смотреть на авто', nav_shops: 'лавки', sh_search: 'поиск лавки…', sh_sells: 'продают', sh_buys: 'скупают', sh_seen: 'видели', sh_none: 'лавки не найдены', col_item: 'предмет', sh_open: 'открыть', srv_old: 'данные устарели', n_sell: 'продают', n_buy2: 'скупают', view_all: 'все лавки', loading: 'загрузка…', no_sellers: 'продавцов не видно', no_buyers: 'скупщиков не видно', col_shop: 'лавка', col_price: 'цена', col_qty: 'кол-во', col_seen: 'видели', n_buy: 'скупка', med: 'медиана', only_buy: 'никто не продаёт · скупают по этой цене', shops: 'лавок',
+          pull_t: 'Загрузить рынок из общей базы', pull_h: 'Цены от игроков LavkaMarket на этом сервере. Только рыночные данные (цена, кол-во, лавка), без личных данных', pull_btn: 'Загрузить данные', pull_run: 'Загружаем данные из общей базы…', pull_ok: 'Готово', pull_shops: 'лавок', pull_err: 'Не удалось загрузить. Попробуйте снова', pull_retry: 'Повторить', pull_now: 'Нажмите, чтобы обновить сейчас', pull_busy: 'загрузка…', pull_wait: 'не загружено', ago_now: 'только что', ago_m: 'мин назад', ago_h: 'ч назад', ago_d: 'дн назад', st_sell: 'в продаже', st_buy: 'есть скупка', mode_buy: 'Хочу купить', tab_home: 'Главная', tab_market: 'Рынок', hello: 'Привет', home_sub: 'Покупаете или продаёте? Выберите ниже', recent: 'Недавно замечено', updated: 'обновлено', home_tip: 'Все цены собирают игроки LavkaMarket, открывая лавки в игре. Передаются только рыночные данные (цена, кол-во, лавка), без личных данных. Чем больше лавок открыто, тем свежее цены', hist_title: 'История цены за 30 дней', hist_none: 'Истории цены пока нет', hist_low: 'мин', hist_high: 'макс', hist_last: 'последняя', hist_lo_s: 'мин. цена продажи', hist_hi_b: 'макс. цена скупки', fee_net: 'после комиссии', hist_hi_b_fee: 'макс. скупка (после комиссии)', k_best_s: 'Мин. цена сейчас', k_best_b: 'Макс. скупка сейчас', k_srv: 'На сервере', info_title: 'О предмете', info_none: 'Нет данных о предмете — откройте «Информация о предмете» в игре один раз, и она появится здесь', info_bonus: 'Даёт при надевании', info_up: 'При улучшении', info_desc: 'Описание', col_lvl: 'Улучш./ур.', n_lvls: 'уровн.', brand_sub: 'рынок лавок', sec_main: 'Главное', sec_mkt: 'Рынок', sec_buy: 'Покупка', sec_market: 'Маркет', cat_all: 'Все товары', m_disc: 'Вход через Discord', m_sec_app: 'Приложение', m_sec_set: 'Настройки', m_ver: 'Версия', m_latest: 'Последняя версия', m_new: 'Доступна версия', m_get: 'Обновить', m_sync: 'Обновить рынок сейчас', m_sync_h: 'Автоматически каждые 10 минут', u_check: 'Проверка версии…', u_dl: 'Загрузка', u_done: 'Обновлено, перезагрузка…', u_err: 'Ошибка обновления, нажмите ещё раз', m_share: 'Делиться данными рынка', m_share_h: 'Цены/кол-во/лавки, которые вы открыли, уходят в общий пул', m_discord: 'Discord LavkaMarket', m_logout: 'Выйти', m_logout_q: 'Выйти из аккаунта?', m_logout_h: 'Нужно будет снова войти через Discord', m_cancel: 'Отмена', sec_sell: 'Продажа', nav_buy: 'Продают', nav_sell: 'Скупают', srv_next: 'Обновление через', srv_upd: 'Данные обновлены', srv_last: 'последнее', srv_shops: 'Лавок в базе', min_u: 'мин', uw_title: 'Обновление LavkaMarket', uw_new: 'Что нового', uw_files: 'Файлы обновления', uw_go: 'Обновить', uw_later: 'Позже', uw_close: 'Закрыть', uw_retry: 'Повторить', uw_wait: 'в очереди', uw_dl: 'загрузка…', uw_ok: 'проверено', uw_inst: 'установка…', uw_done_f: 'готово', uw_done: 'Обновлено, перезагрузка скрипта…', uw_err: 'Не удалось обновить', uw_latest: 'У вас последняя версия', uw_nonotes: 'Улучшения и исправления', m_history: 'История версий', clog_title: 'История версий', clog_sub: 'Изменения по всем версиям', clog_load: 'Загрузка…', srv_n: 'лавок', srv_pick: 'Рынок сервера', srv_mine: 'Ваш сервер', srv_back: 'Вернуться к своему серверу', srv_load: 'Загрузка…', srv_none: 'Других серверов с данными пока нет', srv_viewing: 'Вы смотрите рынок другого сервера', srv_wait: 'Ожидание данных…', sort_by: 'Сортировка:', sort_shops: 'Больше лавок', sort_new: 'Недавние', sort_name: 'Имя A–Я', by_lvl: 'По уровням', rng_h: '3 дня (по часам)', rng_d: '90 дней (по дням)', hist: 'История цены', more: 'ещё ▾', less: 'свернуть ▴', hist_none_h: 'Почасовых данных пока нет (сбор начат)', lv_hint: 'нажмите уровень сверху, чтобы выделить линию', lv_avg: 'медиана', lv_avg30: 'медиана 30 дн.', piece_s: 'Предмет в лавке ·', piece_b: 'Скупка в лавке ·', mode_buy_h: 'лавки, которые продают', mode_sell: 'Хочу продать', mode_sell_h: 'лавки, которые скупают', of: 'из', shown: 'показано',
           err_server: 'Сервер не задан (в игре: /lm url <адрес>)', err_bad: 'Неверный или заблокированный код', err_full: 'Ключ уже используется на максимуме персонажей', checking: 'Проверка кода...',
-          need_login: 'Требуется вход', need_sub: 'Войдите, чтобы открыть рынок LavkaMarket', code_title: 'Введите код доступа', back: 'назад', opening: 'Открываю Discord...', have_key: 'Уже есть код? Ввести', or: 'или', waiting: 'Ожидание подтверждения в Discord…', err_oauth: 'Вход через Discord не удался', err_member: 'Вы не в нашем Discord — открываю приглашение', err_oauth_off: 'OAuth выключен — введите код', err_join: 'Приглашение открыто — вступите на сервер, вход произойдёт сам' },
+          need_login: 'Требуется вход', need_sub: 'Войдите, чтобы открыть рынок LavkaMarket', code_title: 'Введите код доступа', back: 'назад', opening: 'Открываю Discord...', have_key: 'Уже есть код? Ввести', or: 'или', waiting: 'Ожидание подтверждения в Discord…', err_oauth: 'Вход через Discord не удался', err_member: 'Вы не в нашем Discord — открываю приглашение', err_oauth_off: 'OAuth выключен — введите код', err_join: 'Приглашение открыто — вступите на сервер, вход произойдёт сам', login_steps: 'Откроется браузер: нажмите «Разрешить» один раз — вас сами добавят на наш Discord-сервер, затем возвращайтесь в игру', use_code: 'Долго ждёте? Войдите по коду от бота', err_denied: 'Вход отменён. Нажмите кнопку выше, чтобы повторить', notice_left: 'Вы вышли с нашего Discord-сервера, поэтому доступ закрыт. Войдите снова — вас добавят обратно', notice_banned: 'Этот аккаунт заблокирован', open_dc: 'Открыть наш Discord (получить код)' },
     en: { title: 'LavkaMarket', sub: 'players’ shared market', login_h: 'Sign in with Discord',
           login_t: 'Get a code from the bot in our Discord and paste it below',
           code_ph: 'Paste your code, e.g. LVKA-XXXX-XXXX', connect: 'Connect', connecting: 'Connecting...',
           consent: 'Connecting = you agree to share market data only (price/count/shop). No personal data is sent',
           search: 'Search item...', buy: 'cheapest', sell: 'highest buy', none: 'No data yet. Open stalls in the market',
           logout: 'Sign out', count: 'items', empty_price: '-', buy_s: 'buy', sell_s: 'sell', profit: 'profit', nosell: 'no sellers',
-          srv_old: 'stale data', n_sell: 'selling', n_buy2: 'buying', view_all: 'all shops', loading: 'loading…', no_sellers: 'no sellers seen', no_buyers: 'no buyers seen', col_shop: 'shop', col_price: 'price', col_qty: 'qty', col_seen: 'seen', n_buy: 'buyer', med: 'median', only_buy: 'no sellers · buyers pay this', shops: 'shops',
-          pull_t: 'Load market data from the pool', pull_h: 'Prices from LavkaMarket players on this server. Market data only (price, amount, shop name), nothing personal', pull_btn: 'Load data', pull_run: 'Loading data from the pool…', pull_ok: 'Done', pull_shops: 'shops', pull_err: "Couldn't load. Try again", pull_retry: 'Try again', pull_now: 'Click to refresh now', pull_busy: 'loading…', pull_wait: 'not loaded', ago_now: 'just now', ago_m: 'min ago', ago_h: 'h ago', ago_d: 'd ago', st_sell: 'on sale', st_buy: 'has buyers', mode_buy: 'I want to buy', tab_home: 'Home', tab_market: 'Market', hello: 'Hello', home_sub: 'Buying or selling today? Pick below', recent: 'Recently seen', updated: 'updated', home_tip: 'All prices come from LavkaMarket players opening stalls in game. Only market data is shared (price, qty, shop name), no personal data. The more stalls opened, the fresher the prices', hist_title: '30-day price history', hist_none: 'No price history for this item yet', hist_low: 'low', hist_high: 'high', hist_last: 'latest', hist_lo_s: 'lowest sell price', hist_hi_b: 'highest buy price', hist_hi_b_fee: 'highest buy (after fee)', k_best_s: 'Lowest price now', k_best_b: 'Highest buy now', k_srv: 'On server', info_title: 'Item info', info_none: 'No info for this item yet — open the in-game "Item info" window once and it will show here', info_bonus: 'Gives when worn', info_up: 'When upgraded', info_desc: 'Description', col_lvl: 'Upgrade/tier', n_lvls: 'levels', brand_sub: 'shop market', sec_main: 'Main', sec_mkt: 'Market', sec_buy: 'Buy', sec_market: 'Market', cat_all: 'All items', m_disc: 'Signed in with Discord', m_sec_app: 'App', m_sec_set: 'Settings', m_ver: 'Version', m_latest: 'You are up to date', m_new: 'New version', m_get: 'Update', m_sync: 'Refresh market now', m_sync_h: 'Refreshes every 10 minutes by itself', u_check: 'Checking version…', u_dl: 'Downloading', u_done: 'Updated, reloading…', u_err: 'Update failed, tap to retry', m_share: 'Share market data', m_share_h: 'Prices/counts/shop names you open go to the shared pool', m_discord: 'LavkaMarket Discord', m_logout: 'Log out', m_logout_q: 'Log out?', m_logout_h: 'You will need to sign in with Discord again', m_cancel: 'Cancel', sec_sell: 'Sell', nav_buy: 'Sellers', nav_sell: 'Buyers', srv_next: 'Next update', srv_upd: 'Data updated', srv_last: 'last', srv_shops: 'Shops in pool', min_u: 'min', uw_title: 'Update LavkaMarket', uw_new: "What's new", uw_files: 'Files to update', uw_go: 'Update now', uw_later: 'Later', uw_close: 'Close', uw_retry: 'Retry', uw_wait: 'waiting', uw_dl: 'downloading…', uw_ok: 'verified', uw_inst: 'installing…', uw_done_f: 'done', uw_done: 'Updated, reloading the script…', uw_err: 'Update failed', uw_latest: 'You have the latest version', uw_nonotes: 'Improvements and fixes', m_history: 'Version history', clog_title: 'Version history', clog_sub: 'Changes across all versions', clog_load: 'Loading…', srv_n: 'shops', srv_pick: 'Server market', srv_mine: 'Your server', srv_back: 'Back to my server', srv_load: 'Loading…', srv_none: 'No other servers with data yet', srv_viewing: 'Viewing another server', srv_wait: 'Waiting for server…', sort_by: 'Sort:', sort_shops: 'Most shops', sort_new: 'Recently updated', sort_name: 'Name A–Z', by_lvl: 'By level', rng_h: '3 days (hourly)', rng_d: '90 days (daily)', hist: 'Price history', more: 'more ▾', less: 'less ▴', hist_none_h: 'No hourly data yet (now collecting)', lv_hint: 'click a level above to highlight its line', lv_avg: 'median', lv_avg30: '30-day median', piece_s: 'Piece sold by ·', piece_b: 'Bought by ·', mode_buy_h: 'shops selling', mode_sell: 'I want to sell', mode_sell_h: 'shops buying', of: 'of', shown: 'shown',
+          kpi_items: 'Items on sale', kpi_buyers: 'Items with buyers', bargain_t: 'Good to buy now', bargain_h: 'Lowest price is 15%+ under the median (at least 3 shops selling)', cheaper: 'under median', goodsell_t: 'Good to sell', goodsell_h: 'Buy price near or above the median', recent_more: 'all', flt_all: 'all', flt_sell: 'on sale', flt_buy: 'has buyers', open_mkt: 'Open market', open_mkt_h: 'sellers and buyers in one place', av_now: 'on the market', av_gone: 'not on the market now', last_seen: 'last seen', last_sell: 'lowest sell (last seen)', last_buy: 'highest buy (last seen)', gone_note: 'No shop sells or buys it right now — prices above are the last ones seen', rng_1d: '1 day', rng_7d: '7 days', rng_30d: '30 days', nav_cars: 'car market', cr_search: 'search cars…', cr_empty: 'No car data yet — walk through the car market (Автобазар) and the signs are read automatically', cr_unit: 'cars', cr_sold24: 'gone in 24 h (sold/removed)', cr_mods: 'mods', cr_plate: 'plate', cr_lo: 'lowest seen', cr_hi: 'highest seen', cr_listed: 'listed', cr_cut: 'was', cr_color: 'color', cr_ad: 'listing', cr_models: 'models', cr_owner: 'seller', cr_auc: 'auction', cr_bid: 'last bid', cr_left: 'left', cr_cam: 'view at car', nav_shops: 'shops', sh_search: 'search shop…', sh_sells: 'selling', sh_buys: 'buying', sh_seen: 'seen', sh_none: 'no shops found', col_item: 'item', sh_open: 'open shop', srv_old: 'stale data', n_sell: 'selling', n_buy2: 'buying', view_all: 'all shops', loading: 'loading…', no_sellers: 'no sellers seen', no_buyers: 'no buyers seen', col_shop: 'shop', col_price: 'price', col_qty: 'qty', col_seen: 'seen', n_buy: 'buyer', med: 'median', only_buy: 'no sellers · buyers pay this', shops: 'shops',
+          pull_t: 'Load market data from the pool', pull_h: 'Prices from LavkaMarket players on this server. Market data only (price, amount, shop name), nothing personal', pull_btn: 'Load data', pull_run: 'Loading data from the pool…', pull_ok: 'Done', pull_shops: 'shops', pull_err: "Couldn't load. Try again", pull_retry: 'Try again', pull_now: 'Click to refresh now', pull_busy: 'loading…', pull_wait: 'not loaded', ago_now: 'just now', ago_m: 'min ago', ago_h: 'h ago', ago_d: 'd ago', st_sell: 'on sale', st_buy: 'has buyers', mode_buy: 'I want to buy', tab_home: 'Home', tab_market: 'Market', hello: 'Hello', home_sub: 'Buying or selling today? Pick below', recent: 'Recently seen', updated: 'updated', home_tip: 'All prices come from LavkaMarket players opening stalls in game. Only market data is shared (price, qty, shop name), no personal data. The more stalls opened, the fresher the prices', hist_title: '30-day price history', hist_none: 'No price history for this item yet', hist_low: 'low', hist_high: 'high', hist_last: 'latest', hist_lo_s: 'lowest sell price', hist_hi_b: 'highest buy price', fee_net: 'after fee', hist_hi_b_fee: 'highest buy (after fee)', k_best_s: 'Lowest price now', k_best_b: 'Highest buy now', k_srv: 'On server', info_title: 'Item info', info_none: 'No info for this item yet — open the in-game "Item info" window once and it will show here', info_bonus: 'Gives when worn', info_up: 'When upgraded', info_desc: 'Description', col_lvl: 'Upgrade/tier', n_lvls: 'levels', brand_sub: 'shop market', sec_main: 'Main', sec_mkt: 'Market', sec_buy: 'Buy', sec_market: 'Market', cat_all: 'All items', m_disc: 'Signed in with Discord', m_sec_app: 'App', m_sec_set: 'Settings', m_ver: 'Version', m_latest: 'You are up to date', m_new: 'New version', m_get: 'Update', m_sync: 'Refresh market now', m_sync_h: 'Refreshes every 10 minutes by itself', u_check: 'Checking version…', u_dl: 'Downloading', u_done: 'Updated, reloading…', u_err: 'Update failed, tap to retry', m_share: 'Share market data', m_share_h: 'Prices/counts/shop names you open go to the shared pool', m_discord: 'LavkaMarket Discord', m_logout: 'Log out', m_logout_q: 'Log out?', m_logout_h: 'You will need to sign in with Discord again', m_cancel: 'Cancel', sec_sell: 'Sell', nav_buy: 'Sellers', nav_sell: 'Buyers', srv_next: 'Next update', srv_upd: 'Data updated', srv_last: 'last', srv_shops: 'Shops in pool', min_u: 'min', uw_title: 'Update LavkaMarket', uw_new: "What's new", uw_files: 'Files to update', uw_go: 'Update now', uw_later: 'Later', uw_close: 'Close', uw_retry: 'Retry', uw_wait: 'waiting', uw_dl: 'downloading…', uw_ok: 'verified', uw_inst: 'installing…', uw_done_f: 'done', uw_done: 'Updated, reloading the script…', uw_err: 'Update failed', uw_latest: 'You have the latest version', uw_nonotes: 'Improvements and fixes', m_history: 'Version history', clog_title: 'Version history', clog_sub: 'Changes across all versions', clog_load: 'Loading…', srv_n: 'shops', srv_pick: 'Server market', srv_mine: 'Your server', srv_back: 'Back to my server', srv_load: 'Loading…', srv_none: 'No other servers with data yet', srv_viewing: 'Viewing another server', srv_wait: 'Waiting for server…', sort_by: 'Sort:', sort_shops: 'Most shops', sort_new: 'Recently updated', sort_name: 'Name A–Z', by_lvl: 'By level', rng_h: '3 days (hourly)', rng_d: '90 days (daily)', hist: 'Price history', more: 'more ▾', less: 'less ▴', hist_none_h: 'No hourly data yet (now collecting)', lv_hint: 'click a level above to highlight its line', lv_avg: 'median', lv_avg30: '30-day median', piece_s: 'Piece sold by ·', piece_b: 'Bought by ·', mode_buy_h: 'shops selling', mode_sell: 'I want to sell', mode_sell_h: 'shops buying', of: 'of', shown: 'shown',
           err_server: 'Server not set (in game: /lm url <address>)', err_bad: 'Invalid or banned code', err_full: 'This key is used on the max number of characters', checking: 'Checking code...',
-          need_login: 'Login required', need_sub: 'Sign in to open the LavkaMarket', code_title: 'Enter your access code', back: 'back', opening: 'Opening Discord...', have_key: 'Already have a key? Enter it', or: 'or', waiting: 'Waiting for Discord confirmation…', err_oauth: 'Discord sign-in failed, try again', err_member: 'You are not in our Discord — opening invite', err_oauth_off: 'OAuth is off — use a key instead', err_join: 'Invite opened — join the server, you will be logged in automatically' }
+          need_login: 'Login required', need_sub: 'Sign in to open the LavkaMarket', code_title: 'Enter your access code', back: 'back', opening: 'Opening Discord...', have_key: 'Already have a key? Enter it', or: 'or', waiting: 'Waiting for Discord confirmation…', err_oauth: 'Discord sign-in failed, try again', err_member: 'You are not in our Discord — opening invite', err_oauth_off: 'OAuth is off — use a key instead', err_join: 'Invite opened — join the server, you will be logged in automatically', login_steps: 'A browser will open: click Authorize once — you will be added to our Discord server automatically, then return to the game', use_code: 'Taking long? Use a code from the bot instead', err_denied: 'Sign-in cancelled. Press the button above to try again', notice_left: 'You left our Discord server, so access is off. Sign in again to be added back', notice_banned: 'This account is blocked', open_dc: 'Open our Discord (get your code)' }
   };
+  T.th.prop = 'ประมูลบ้านและธุรกิจ'; T.ru.prop = 'Аукционы'; T.en.prop = 'Property auctions';
+  T.th.prop_search = 'ค้นหาด้วย ID หรือชื่อเจ้าของ'; T.ru.prop_search = 'Поиск по ID или владельцу'; T.en.prop_search = 'Search by ID or owner';
+  T.th.prop_load = 'โหลดข้อมูล'; T.ru.prop_load = 'Загрузить'; T.en.prop_load = 'Load data';
+  T.th.prop_loading = 'กำลังโหลด…'; T.ru.prop_loading = 'Загрузка…'; T.en.prop_loading = 'Loading…';
+  T.th.prop_error = 'โหลดข้อมูลไม่ได้ ลองใหม่อีกครั้ง'; T.ru.prop_error = 'Не удалось загрузить. Попробуйте снова'; T.en.prop_error = 'Could not load data. Try again';
+  T.th.prop_unknown = 'ไม่รองรับเซิร์ฟเวอร์นี้'; T.ru.prop_unknown = 'Сервер не поддерживается'; T.en.prop_unknown = 'This server is not supported';
+  T.th.prop_house = 'บ้าน'; T.ru.prop_house = 'Дом'; T.en.prop_house = 'House';
+  T.th.prop_business = 'ธุรกิจ'; T.ru.prop_business = 'Бизнес'; T.en.prop_business = 'Business';
+  T.th.prop_owner = 'เจ้าของ'; T.ru.prop_owner = 'Владелец'; T.en.prop_owner = 'Owner';
+  T.th.prop_none = 'ไม่พบข้อมูล'; T.ru.prop_none = 'Ничего не найдено'; T.en.prop_none = 'No results';
+  T.th.prop_prev = 'ก่อนหน้า'; T.ru.prop_prev = 'Назад'; T.en.prop_prev = 'Previous';
+  T.th.prop_next = 'ถัดไป'; T.ru.prop_next = 'Далее'; T.en.prop_next = 'Next';
+  T.th.prop_all = 'ทั้งหมด'; T.ru.prop_all = 'Все'; T.en.prop_all = 'All';
+  T.th.prop_start = 'ราคาจาก API'; T.ru.prop_start = 'Цена из API'; T.en.prop_start = 'API price';
+  T.th.prop_bid = 'ขั้นต่ำการเสนอ'; T.ru.prop_bid = 'Минимальная ставка'; T.en.prop_bid = 'Minimum bid';
+  T.th.prop_end = 'สิ้นสุด'; T.ru.prop_end = 'Окончание'; T.en.prop_end = 'Ends';
+  T.th.prop_empty = 'ไม่มีรายการประมูลที่ตรงกัน'; T.ru.prop_empty = 'Подходящих аукционов нет'; T.en.prop_empty = 'No matching auctions';
+  T.th.prop_source = 'ข้อมูลจากแผนที่ Arizona RP · ราคาและเวลาอาจเปลี่ยนได้'; T.ru.prop_source = 'Данные карты Arizona RP · цены и время могут измениться'; T.en.prop_source = 'Arizona RP map data · prices and times can change';
+  T.th.prop_live = 'รายการประมูล'; T.ru.prop_live = 'Активные аукционы'; T.en.prop_live = 'ACTIVE AUCTIONS';
+  T.th.prop_soon = 'ใกล้สิ้นสุด'; T.ru.prop_soon = 'Скоро завершится'; T.en.prop_soon = 'ENDING SOON';
+  T.th.prop_count = 'รายการ'; T.ru.prop_count = 'лотов'; T.en.prop_count = 'listings';
+  T.th.prop_refresh = 'รีเฟรช'; T.ru.prop_refresh = 'Обновить'; T.en.prop_refresh = 'Refresh';
+  T.th.prop_remaining = 'เหลือเวลา'; T.ru.prop_remaining = 'До завершения'; T.en.prop_remaining = 'Time left';
+  T.th.prop_name = 'ทรัพย์สิน'; T.ru.prop_name = 'Объект'; T.en.prop_name = 'Property';
+  T.th.prop_delay = 'ข้อมูลจากแผนที่ Arizona อาจล่าช้ากว่าในเกม'; T.ru.prop_delay = 'Данные карты Arizona могут отставать от игры'; T.en.prop_delay = 'Arizona map data may lag behind the game';
+  T.th.prop_business_empty = 'แผนที่ Arizona ยังไม่ส่งรายการประมูลธุรกิจ อาจมีรายการในเกมที่ไม่แสดงที่นี่';
+  T.ru.prop_business_empty = 'Карта Arizona не вернула аукционы бизнесов; в игре могут быть другие данные';
+  T.en.prop_business_empty = 'Arizona map returned no business auctions; the game may show additional listings';
+  T.th.prop_expired = 'สิ้นสุดแล้ว'; T.ru.prop_expired = 'Завершён'; T.en.prop_expired = 'Ended';
+  T.th.prop_game = 'จากหน้าประมูลในเกม'; T.ru.prop_game = 'Из окна аукциона в игре'; T.en.prop_game = 'From the in-game auction';
+  T.th.prop_price = 'ราคา'; T.ru.prop_price = 'Цена'; T.en.prop_price = 'Price';
+  T.th.prop_unit_unknown = '(ไม่ระบุหน่วย)'; T.ru.prop_unit_unknown = '(валюта неизвестна)'; T.en.prop_unit_unknown = '(unit unknown)';
+  T.th.prop_unit_saved = '(หน่วยที่เคยอ่าน อาจเก่า)'; T.ru.prop_unit_saved = '(сохранённая валюта, может устареть)'; T.en.prop_unit_saved = '(previously observed unit; may be outdated)';
+  T.th.profile_frame = 'กรอบรูปโปรไฟล์'; T.ru.profile_frame = 'Рамка аватара'; T.en.profile_frame = 'Avatar frame';
+  T.th.profile_frame_hint = 'เอฟเฟกต์เคลื่อนไหวรอบรูปโปรไฟล์'; T.ru.profile_frame_hint = 'Анимированное оформление аватара'; T.en.profile_frame_hint = 'Animated decoration for your avatar';
+  T.th.window_frame = 'กรอบหน้าต่าง LavkaMarket'; T.ru.window_frame = 'Рамка окна LavkaMarket'; T.en.window_frame = 'LavkaMarket window frame';
+  T.th.frame_none = 'ปกติ'; T.ru.frame_none = 'Обычная'; T.en.frame_none = 'Default';
+  T.th.frame_aqua = 'อควา'; T.ru.frame_aqua = 'Аква'; T.en.frame_aqua = 'Aqua';
+  T.th.frame_gold = 'ทอง'; T.ru.frame_gold = 'Золото'; T.en.frame_gold = 'Gold';
+  T.th.frame_violet = 'ม่วง'; T.ru.frame_violet = 'Фиолет'; T.en.frame_violet = 'Violet';
+  T.th.frame_fire = 'ไฟ'; T.ru.frame_fire = 'Огонь'; T.en.frame_fire = 'Fire';
+  T.th.frame_surge = 'พลัง'; T.ru.frame_surge = 'Сила'; T.en.frame_surge = 'Surge';
+  T.th.prop_shared = 'จากกองกลาง (ผู้เล่นเห็นในเกม)'; T.ru.prop_shared = 'Из общего пула (замечено в игре)'; T.en.prop_shared = 'Shared pool (observed in game)';
+  T.th.pull_h = 'แชร์ข้อมูลตลาดและประมูลที่เปิดดูในเกม ไม่แชร์ชื่อเจ้าของประมูลหรือพิกัด';
+  T.ru.pull_h = 'Общий рынок и данные открытых аукционов без имён владельцев и координат';
+  T.en.pull_h = 'Share viewed market and auction data, without auction owner names or coordinates';
+  T.th.prop_map = 'แผนที่'; T.ru.prop_map = 'Карта'; T.en.prop_map = 'Map';
+  T.th.prop_list = 'รายการ'; T.ru.prop_list = 'Список'; T.en.prop_list = 'List';
+  T.th.prop_map_credit = 'แผนที่ชุมชน GTA SA (jakubfalenczyk/gtasa-map) · ตำแหน่งจาก Arizona RP'; T.ru.prop_map_credit = 'Карта сообщества GTA SA (jakubfalenczyk/gtasa-map) · координаты Arizona RP'; T.en.prop_map_credit = 'GTA SA community map (jakubfalenczyk/gtasa-map) · locations from Arizona RP';
+  T.th.prop_map_none = 'ไม่มีตำแหน่งบนแผนที่สำหรับรายการนี้'; T.ru.prop_map_none = 'Нет координат для этих объектов'; T.en.prop_map_none = 'No map locations for these listings';
+  T.th.prop_map_unavailable = 'โหลดภาพแผนที่ไม่ได้ ลองใหม่ภายหลัง'; T.ru.prop_map_unavailable = 'Не удалось загрузить карту'; T.en.prop_map_unavailable = 'Could not load the map image';
+  T.th.prop_map_selected = 'เลือกจุดบนแผนที่เพื่อดูรายละเอียด'; T.ru.prop_map_selected = 'Выберите метку на карте'; T.en.prop_map_selected = 'Select a marker for details';
   function tr(k) { return (T[S.lang] && T[S.lang][k]) || T.en[k] || k; }
   function send(m) { try { window.cef.SendMessage(m, 0); } catch (e) {} }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
@@ -228,6 +298,22 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
       '.lvmLoginLang{position:absolute;top:14px;right:14px;z-index:5}' +
       /* market */
       '.lvmPanel{position:relative;width:1240px;max-width:96vw;height:88vh;background:#0e121b;border:1px solid #222a3a;border-radius:16px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 70px rgba(0,0,0,.6)}' +
+      '#lvmRoot .lvmPanel.frame-aqua{border:2px solid #22cee7;box-shadow:0 0 14px rgba(34,206,231,.46),0 24px 70px rgba(0,0,0,.6);animation:lvmWindowAqua 3s ease-in-out infinite alternate}' +
+      '#lvmRoot .lvmPanel.frame-gold{border:2px solid #eabf50;box-shadow:0 0 14px rgba(234,191,80,.38),0 24px 70px rgba(0,0,0,.6);animation:lvmWindowGold 3s ease-in-out infinite alternate}' +
+      '#lvmRoot .lvmPanel.frame-violet{border:2px solid #ae86ff;box-shadow:0 0 14px rgba(174,134,255,.4),0 24px 70px rgba(0,0,0,.6);animation:lvmWindowViolet 3s ease-in-out infinite alternate}' +
+      '#lvmRoot .lvmPanel.frame-fire{border:2px solid #fa7026;box-shadow:0 0 15px rgba(255,86,18,.55),0 24px 70px rgba(0,0,0,.6);animation:lvmWindowFire 1.2s ease-in-out infinite alternate}' +
+      '#lvmRoot .lvmPanel.frame-surge{border:2px solid #ffd45b;box-shadow:0 0 20px rgba(255,194,45,.5),0 24px 70px rgba(0,0,0,.6)}' +
+      '#lvmRoot .lvmPanel.frame-surge:before{content:"";position:absolute;inset:0;z-index:40;pointer-events:none;background-image:url("https://cdn.discordapp.com/assets/profile_effects/effects/2023-9-25/sayan/loop.png"),url("https://cdn.discordapp.com/assets/profile_effects/effects/2023-9-25/sayan/loop.png");background-size:auto 100%,auto 100%;background-position:left center,right center;background-repeat:no-repeat;-webkit-mask-image:linear-gradient(to right,#000,transparent 12%,transparent 88%,#000);mask-image:linear-gradient(to right,#000,transparent 12%,transparent 88%,#000);opacity:.8}' +
+      '#lvmRoot .lvmPanel.frame-fire:before{content:"";position:absolute;z-index:40;pointer-events:none;left:0;right:0;bottom:0;height:22px;opacity:.8;background:radial-gradient(ellipse 8px 20px at 12px 100%,rgba(255,222,94,.95),rgba(255,91,13,.7) 55%,transparent 72%) 0 0/42px 100% repeat-x,radial-gradient(ellipse 7px 15px at 30px 100%,rgba(255,173,45,.9),rgba(236,55,4,.55) 55%,transparent 75%) 0 0/42px 100% repeat-x;animation:lvmFlameMove .8s linear infinite alternate}' +
+      '@keyframes lvmWindowFire{to{border-color:#ffcc52;box-shadow:0 0 26px rgba(255,74,12,.85),0 24px 70px rgba(0,0,0,.6)}}@keyframes lvmFlameMove{to{background-position:35px 0;opacity:.45}}' +
+      '#lvmRoot .lvmPanel.frame-aqua:after,#lvmRoot .lvmPanel.frame-gold:after,#lvmRoot .lvmPanel.frame-violet:after{content:"";position:absolute;z-index:40;pointer-events:none;width:34px;height:8px;border-radius:50%;transform:translate(-50%,-50%);background:radial-gradient(ellipse,#fff 0%,currentColor 30%,transparent 75%);box-shadow:0 0 12px currentColor;animation:lvmWindowTravel 8s linear infinite}' +
+      '#lvmRoot .lvmPanel.frame-aqua:after{color:#59efff}#lvmRoot .lvmPanel.frame-gold:after{color:#ffda69}#lvmRoot .lvmPanel.frame-violet:after{color:#d4a8ff}' +
+      '@keyframes lvmWindowTravel{0%{left:2%;top:0%;transform:translate(-50%,-50%)}25%{left:98%;top:0%;transform:translate(-50%,-50%)}26%{left:100%;top:2%;transform:translate(-50%,-50%) rotate(90deg)}49%{left:100%;top:98%;transform:translate(-50%,-50%) rotate(90deg)}50%{left:98%;top:100%;transform:translate(-50%,-50%)}75%{left:2%;top:100%;transform:translate(-50%,-50%)}76%{left:0%;top:98%;transform:translate(-50%,-50%) rotate(90deg)}99%{left:0%;top:2%;transform:translate(-50%,-50%) rotate(90deg)}100%{left:2%;top:0%;transform:translate(-50%,-50%)}}' +
+      '@keyframes lvmWindowAqua{to{border-color:#b5f9ff;box-shadow:0 0 24px rgba(34,206,231,.65),0 24px 70px rgba(0,0,0,.6)}}' +
+      '@keyframes lvmWindowGold{to{border-color:#fff0ae;box-shadow:0 0 24px rgba(234,191,80,.6),0 24px 70px rgba(0,0,0,.6)}}' +
+      '@keyframes lvmWindowViolet{to{border-color:#eadcff;box-shadow:0 0 24px rgba(174,134,255,.65),0 24px 70px rgba(0,0,0,.6)}}' +
+      '@media (prefers-reduced-motion:reduce){#lvmRoot .lvmPanel.frame-aqua,#lvmRoot .lvmPanel.frame-gold,#lvmRoot .lvmPanel.frame-violet,#lvmRoot .lvmPanel.frame-fire,#lvmRoot .lvmPanel.frame-fire:before,#lvmRoot .lvmPanel.frame-aqua:after,#lvmRoot .lvmPanel.frame-gold:after,#lvmRoot .lvmPanel.frame-violet:after{animation:none}}' +
+      '@media (prefers-reduced-motion:reduce){#lvmRoot .lvmPanel.frame-surge:before{background-image:none}}' +
       '.lvmTop{display:flex;align-items:center;gap:10px;padding:0 14px 0 0;height:62px;flex:none;border-bottom:1px solid #1d2432;background:#0c1018}' +
       '.lvmSearch{flex:1;min-width:0;max-width:520px;margin-left:16px;margin-right:auto}#lvmRoot .lvmTop .lvmIn{padding:9px 13px}' +
       '#lvmRoot .lvmTop .lvmBrand{width:214px;box-sizing:border-box;height:62px;padding:0 16px;border-right:1px solid #1d2432;flex:none}' +
@@ -250,11 +336,24 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
       '#lvmRoot .lvmMSep{height:1px;background:#1f2636;margin:6px 4px}' +
       '#lvmRoot .lvmSw{flex:none;width:34px;height:20px;border-radius:999px;background:#2b3346;position:relative;transition:background .15s}#lvmRoot .lvmSw:after{content:"";position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:#8a93a6;transition:left .15s,background .15s}' +
       '#lvmRoot .lvmSw.on{background:#1f9d6b}#lvmRoot .lvmSw.on:after{left:17px;background:#fff}' +
+      '#lvmRoot .lvmFramePicker{padding:8px 10px 10px;color:#cfd6e2;font-size:13px}#lvmRoot .lvmFrameChoices{display:flex;gap:5px;margin-top:8px}' +
+      '#lvmRoot .lvmFrameChoice{flex:1;min-width:0;padding:6px 2px;border:1px solid #303c50;border-radius:7px;background:#171f2d;color:#b8c3d4;font-size:11px;cursor:pointer}' +
+      '#lvmRoot .lvmFrameChoice:hover,#lvmRoot .lvmFrameChoice:focus{border-color:#9baec9;outline:none}#lvmRoot .lvmFrameChoice.on{border-color:#36cfe7;color:#e9fdff;background:#183442}' +
       '#lvmRoot .lvmMAsk{padding:14px 10px 8px;text-align:center}#lvmRoot .lvmMAsk b{display:block;font-size:15px;color:#eef1f6}#lvmRoot .lvmMAsk small{display:block;font-size:12px;color:#8a93a6;margin-top:5px}' +
       '#lvmRoot .lvmMBtns{display:flex;gap:8px;margin-top:14px}#lvmRoot .lvmMB{flex:1;padding:9px;border-radius:10px;background:#1b2230;border:1px solid #2b3346;color:#cfd6e2;font-size:13px;font-weight:700;cursor:pointer}#lvmRoot .lvmMB:hover{background:#232b3b}' +
       '#lvmRoot .lvmMB.red{background:#e5484d;border-color:#e5484d;color:#fff}#lvmRoot .lvmMB.red:hover{background:#f05a5f}' +
       '.lvmLogout{color:#6f7a8c;font-size:13px;margin-left:2px}.lvmProf:hover .lvmLogout{color:#e24b4a}' +
       '.lvmAv{width:30px;height:30px;border-radius:50%;background:#5865F2;object-fit:cover}' +
+      '#lvmRoot .lvmAvatarWrap{position:relative;display:inline-flex;align-items:center;justify-content:center;flex:none;width:30px;height:30px;border-radius:50%;isolation:isolate}' +
+      '#lvmRoot .lvmAvatarWrap .lvmAv{position:relative;z-index:1;width:100%;height:100%;display:block}' +
+      '#lvmRoot .lvmAvatarWrap.framed:before{content:"";position:absolute;inset:-4px;border-radius:50%;background:conic-gradient(from 0deg,#164861 0deg,#31e8ff 48deg,#d5fcff 67deg,#12677d 125deg,#10283a 185deg,#24badd 245deg,#d4ffff 263deg,#164861 360deg);box-shadow:0 0 8px rgba(28,207,242,.52);animation:lvmFrameSpin 6s linear infinite}' +
+      '#lvmRoot .lvmAvatarWrap.framed:after{content:"LM";position:absolute;z-index:2;right:-7px;bottom:-4px;min-width:16px;height:11px;padding:0 2px;display:flex;align-items:center;justify-content:center;border-radius:5px;background:#083344;border:1px solid #55e5f6;color:#e8feff;font-size:7px;font-weight:900;letter-spacing:-.3px;line-height:1;box-shadow:0 0 6px rgba(45,221,255,.7);animation:lvmFrameGlow 2.4s ease-in-out infinite alternate}' +
+      '#lvmRoot .lvmAvatarWrap.lamball:after{content:"";position:absolute;z-index:2;inset:-8px;pointer-events:none;background:url("https://cdn.discordapp.com/avatar-decoration-presets/a_949a575b693c81ced8f56a7579d0969f.png?size=256") center/contain no-repeat}' +
+      '#lvmRoot .lvmMHead .lvmAvatarWrap.lamball:after{inset:-10px}' +
+      '#lvmRoot .lvmMHead .lvmAvatarWrap{width:40px;height:40px}' +
+      '@keyframes lvmFrameSpin{to{transform:rotate(360deg)}}@keyframes lvmFrameGlow{to{box-shadow:0 0 11px rgba(45,221,255,1);color:#fff}}' +
+      '@media (prefers-reduced-motion:reduce){#lvmRoot .lvmAvatarWrap.framed:before,#lvmRoot .lvmAvatarWrap.framed:after{animation:none}}' +
+      '@media (prefers-reduced-motion:reduce){#lvmRoot .lvmAvatarWrap.lamball:after{background-image:none}}' +
       '.lvmX{cursor:pointer;color:#8b93a4;font-size:20px;padding:0 4px}.lvmX:hover{color:#fff}' +
       /* stats row + product cards: ยกดีไซน์จากการ์ด LavkaPrices (ui.html .lvStat / .lvqC) */
       '#lvmRoot .lvmSort{display:flex;align-items:center;gap:6px;padding:10px 14px 0;flex:none}#lvmRoot .lvmSortL{font-size:12px;color:#5d6578;margin-right:4px}' +
@@ -296,6 +395,26 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
       '.lvdTop{display:flex;align-items:center;gap:14px;padding:4px 2px 14px;border-bottom:1px solid #1d2432;margin-bottom:14px}' +
       '.lvdBack{padding:8px 13px;border-radius:10px;background:#161a23;border:1px solid rgba(255,255,255,.07);color:#cfd6e2;font-size:13px;font-weight:700;cursor:pointer;flex:none}.lvdBack:hover{background:#1c2130}' +
       '.lvdTitle{min-width:0}.lvdTitle b{display:block;font-size:18px;color:#eef1f6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.lvdTitle small{color:#5d6578;font-size:12px}' +
+      '#lvmRoot .lvqC.gone{opacity:.62}#lvmRoot .lvqC.gone:hover{opacity:1}#lvmRoot .lvqPill.g{background:rgba(138,147,166,.14);color:#aab2c3}' +
+      '#lvmRoot .lvdGone{margin:0 0 12px;padding:10px 14px;border-radius:12px;background:#121620;border:1px solid rgba(255,255,255,.07);color:#8a93a6;font-size:12.5px}' +
+      '#lvmRoot .lvdRng{display:flex;gap:6px;margin:2px 0 10px}#lvmRoot .lvdRng span{flex:1;text-align:center;padding:7px 0;border-radius:9px;background:#161c28;color:#8a93a6;font-size:12px;font-weight:700;cursor:pointer}#lvmRoot .lvdRng span:hover{color:#eef1f6}#lvmRoot .lvdRng span.on{background:#e9edf5;color:#10141c}' +
+      '#lvmRoot .lvdVl{position:absolute;top:0;bottom:26px;width:1px;background:rgba(255,255,255,.28);pointer-events:none;display:none}' +
+      '#lvmRoot .lvdDot{position:absolute;width:9px;height:9px;margin:-4.5px 0 0 -4.5px;border-radius:50%;border:2px solid #fff;pointer-events:none;display:none;box-sizing:border-box}#lvmRoot .lvdDot.s{background:#ffd23f}#lvmRoot .lvdDot.b{background:#2fd18b}' +
+      '#lvmRoot .lvdTip{position:absolute;z-index:3;pointer-events:none;display:none;padding:8px 11px;border-radius:10px;background:#0d1118;border:1px solid rgba(255,255,255,.2);font-size:12px;color:#aab2c3;white-space:nowrap;line-height:1.7}#lvmRoot .lvdTip .lvdTD{color:#eef1f6;font-weight:700}#lvmRoot .lvdTip b{font-variant-numeric:tabular-nums}#lvmRoot .lvdTip b.s{color:#ffd23f}#lvmRoot .lvdTip b.b{color:#2fd18b}#lvmRoot .lvdTip i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}#lvmRoot .lvdTip i.s{background:#ffd23f}#lvmRoot .lvdTip i.b{background:#2fd18b}' +
+      '#lvmRoot .lvcrIm{display:flex;align-items:center;justify-content:center;height:110px}#lvmRoot .lvcrImg{max-width:100%;max-height:100px;object-fit:contain}' +
+      '#lvmRoot .lvcr3d{justify-self:start;padding:3px 10px;border-radius:8px;background:rgba(0,180,216,.15);color:#4fd4ee;font-weight:700;cursor:pointer;font-size:12px}#lvmRoot .lvcr3d:hover{background:rgba(0,180,216,.3)}' +
+      '#lvmRoot .lvcrSw{display:inline-block;width:13px;height:13px;border-radius:4px;vertical-align:-2px;margin-right:5px;border:1px solid rgba(255,255,255,.25)}' +
+      '#lvmRoot .lvcrDet{grid-column:1/-1;display:flex;flex-direction:column;gap:6px;padding-top:8px;border-top:1px solid rgba(255,255,255,.06);font-size:12px}' +
+      '#lvmRoot .lvcrPk{display:flex;flex-direction:column;gap:2px;color:#c9a3ff}' +
+      '#lvmRoot .lvcrGrp{display:flex;flex-wrap:wrap;gap:5px 7px;align-items:center}#lvmRoot .lvcrGrp b{flex:0 0 100%;color:#8a93a6;font-size:11px;font-weight:700}#lvmRoot .lvcrGrp span{padding:2px 8px;border-radius:7px;background:rgba(255,255,255,.06);color:#dfe4ef}#lvmRoot .lvcrGrp em{font-style:normal;color:#8a93a6}' +
+      '#lvmRoot .lvcrPs{display:flex;flex-wrap:wrap;gap:4px 16px;color:#8a93a6}#lvmRoot .lvcrPs b{color:#dfe4ef;font-weight:600}' +
+      '#lvmRoot .lvcrSt{color:#8a93a6;font-size:12px;margin-left:14px;align-self:center}' +
+      '#lvmRoot .lvcrHead{display:flex;gap:22px;align-items:center;margin:6px 0 14px;padding:14px 18px;border-radius:16px;background:#121620;border:1px solid rgba(255,255,255,.06)}#lvmRoot .lvcrBig img{width:220px;max-width:30vw;object-fit:contain}' +
+      '#lvmRoot .lvcrKp{flex:1;min-width:0}#lvmRoot .lvcrLH{display:flex;gap:22px;color:#8a93a6;font-size:12.5px;margin-top:6px}#lvmRoot .lvcrLH b{color:#eef1f6}#lvmRoot .lvcrLH b.s{color:#ffd23f}' +
+      '#lvmRoot .lvcrList{display:flex;flex-direction:column;gap:7px}' +
+      '#lvmRoot .lvcrRow{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px 14px;align-items:center;padding:11px 14px;border-radius:12px;background:#161a23;border:1px solid rgba(255,255,255,.06);font-size:12.5px;color:#aab2c3}' +
+      '#lvmRoot .lvcrRow b.s{color:#ffd23f;font-size:15px;font-variant-numeric:tabular-nums}#lvmRoot .lvcrRow small.g{color:#2fd18b}#lvmRoot .lvcrRow small.r{color:#ff6b6b}#lvmRoot .lvcrRow .m{color:#5d6578}#lvmRoot .lvcrRow b{color:#eef1f6}#lvmRoot .lvcrRow b.s{color:#ffd23f}#lvmRoot .lvcrRow .tg{color:#c9a3ff}' +
+      '#lvmRoot .lvmSortSep{width:1px;height:18px;background:rgba(255,255,255,.12);margin:0 8px;align-self:center}' +
       '.lvmMode{display:flex;align-items:center;gap:12px;min-width:0;padding:11px 15px;border-radius:16px;background:#161a23;border:1px solid rgba(255,255,255,.07);cursor:pointer;transition:background .12s,border-color .12s;opacity:.62}' +
       '.lvmMode:hover{opacity:.9;background:#1a1f2b}.lvmMode.on{opacity:1;cursor:default}' +
       '.lvmMode i{font-style:normal;font-size:22px;flex:none}.lvmMode b{display:block;font-size:16px;color:#eef1f6}.lvmMode small{display:block;color:#8a93a6;font-size:11.5px;margin-top:2px}' +
@@ -358,8 +477,15 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
       '#lvmRoot .lvqImg{flex:1;min-height:88px;height:auto}' +
       /* home */
       '.lvmHome{flex:1;overflow:auto;padding:22px 26px}' +
+      '#lvmRoot .lvpPage{flex:1;min-height:0;display:flex;flex-direction:column;padding:22px 26px;gap:14px}' +
+      '#lvmRoot .lvpHead{display:flex;align-items:center;gap:14px;flex-wrap:wrap}#lvmRoot .lvpHeadText{flex:1;min-width:180px}#lvmRoot .lvpEyebrow{color:#00b4d8;font-size:11px;letter-spacing:.13em;font-weight:800}#lvmRoot .lvpTitle{font-size:25px;line-height:1.2;margin:5px 0;color:#f4f6fa}#lvmRoot .lvpSub{font-size:12px;color:#939db0}' +
+      '#lvmRoot .lvpRefresh,#lvmRoot .lvpTab,#lvmRoot .lvpPageBtn{border:1px solid #30384a;background:#171c28;color:#d5dbe5;border-radius:10px;padding:9px 14px;font-size:13px;font-weight:700;cursor:pointer}#lvmRoot .lvpRefresh:hover,#lvmRoot .lvpTab:hover,#lvmRoot .lvpPageBtn:hover{background:#222a39}#lvmRoot .lvpTab.on{border-color:#c9a838;background:rgba(255,210,63,.12);color:#ffd23f}#lvmRoot .lvpPageBtn:disabled{opacity:.35;cursor:default}' +
+      '#lvmRoot .lvpTools{display:flex;gap:10px;align-items:center;flex-wrap:wrap}#lvmRoot .lvpTabs{display:flex;gap:6px}#lvmRoot .lvpSearch{flex:1;min-width:190px}#lvmRoot .lvpSearch .lvmIn{box-sizing:border-box;padding:10px 13px}' +
+      '#lvmRoot .lvpMeta{color:#929db0;font-size:12px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}#lvmRoot .lvpScroll{flex:1;min-height:0;overflow:auto;padding:2px}#lvmRoot .lvpEmpty{padding:36px;text-align:center;color:#929db0;background:#171c27;border:1px dashed #303849;border-radius:14px}#lvmRoot .lvpPager{color:#929db0;font-size:12px;display:flex;align-items:center;gap:10px}' +
+      '#lvmRoot .lvpTable{width:100%;border-collapse:separate;border-spacing:0 7px;table-layout:fixed}#lvmRoot .lvpTable th{text-align:left;font-size:11px;color:#929db0;padding:6px 12px;font-weight:700}#lvmRoot .lvpTable td{background:#1a2230;padding:13px 12px;color:#dce4ef;font-size:13px;border-top:1px solid #2d3849;border-bottom:1px solid #2d3849;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#lvmRoot .lvpTable td:first-child{border-left:1px solid #2d3849;border-radius:10px 0 0 10px}#lvmRoot .lvpTable td:last-child{border-right:1px solid #2d3849;border-radius:0 10px 10px 0}#lvmRoot .lvpTable .lvpPrice{color:#ffd23f;font-weight:800}#lvmRoot .lvpTable .lvpTime{color:#69d7e8;font-variant-numeric:tabular-nums;font-weight:700}' +
+      '#lvmRoot .lvpView{display:flex;gap:5px;padding:4px;border-radius:11px;background:#151a24}#lvmRoot .lvpView .lvpTab{padding:7px 12px;border-color:transparent;background:transparent}#lvmRoot .lvpView .lvpTab.on{background:#293140;border-color:#374255;color:#fff}#lvmRoot .lvpMapLayout{height:100%;min-height:0;display:flex;gap:12px}#lvmRoot .lvpMapViewport{flex:1;min-width:0;overflow:auto;background:#0d1723;border:1px solid #2b3446;border-radius:14px;padding:10px}#lvmRoot .lvpMapImage{position:relative;max-width:none;margin:0 auto;background:#263b4c}#lvmRoot .lvpMapImage img{display:block;width:100%;height:auto}#lvmRoot .lvpMarker{position:absolute;transform:translate(-50%,-50%);width:22px;height:22px;padding:0;border:2px solid #fff;border-radius:50%;background:#00b4d8;color:#07111b;font-weight:900;font-size:10px;cursor:pointer;box-shadow:0 2px 6px #000b}#lvmRoot .lvpMarker.biz{background:#ffd23f}#lvmRoot .lvpMarker.selected{outline:3px solid #ff9d45;z-index:2}#lvmRoot .lvpMapInfo{width:210px;flex:none;background:#171e2a;border:1px solid #2b3446;border-radius:14px;padding:14px;box-sizing:border-box;color:#dce4ef;font-size:12px;line-height:1.7}#lvmRoot .lvpMapInfo b{color:#ffd23f}#lvmRoot .lvpMapFoot{display:flex;gap:8px;align-items:center;justify-content:space-between;color:#929db0;font-size:11px;flex-wrap:wrap}#lvmRoot .lvpZoom{display:flex;gap:5px}#lvmRoot .lvpZoom button{padding:5px 10px}#lvmRoot .lvpMapError{padding:18px;color:#ffd17d}#lvmRoot .lvpMapMissing{color:#ffca75} @media(max-width:900px){#lvmRoot .lvpMapLayout{flex-direction:column}#lvmRoot .lvpMapInfo{width:auto}}' +
       '.lvhHello b{display:block;font-size:22px;color:#eef1f6}.lvhHello small{color:#8a93a6;font-size:13px}' +
-      '#lvmRoot .lvhGo{display:grid;grid-template-columns:' + (SELL_ON ? '1fr 1fr' : '1fr') + ';gap:14px;margin:18px 0 24px}' +
+      '#lvmRoot .lvhGo{display:grid;grid-template-columns:' + '1fr' + ';gap:14px;margin:18px 0 24px}' +
       '.lvhBig{display:flex;align-items:center;gap:16px;padding:20px 22px;border-radius:18px;background:#161a23;border:1px solid rgba(255,255,255,.07);cursor:pointer;transition:transform .15s,border-color .15s,background .15s}' +
       '.lvhBig:hover{transform:translateY(-3px)}.lvhBig i{font-style:normal;font-size:34px}.lvhBig div{flex:1;min-width:0}' +
       '.lvhBig b{display:block;font-size:19px}.lvhBig small{color:#8a93a6;font-size:12.5px}.lvhBig em{font-style:normal;font-size:26px;color:#5d6578}' +
@@ -370,7 +496,11 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
       '.lvhItem{display:flex;align-items:center;gap:10px;padding:9px;border-radius:13px;background:#161a23;border:1px solid rgba(255,255,255,.06);cursor:pointer;min-width:0}.lvhItem:hover{border-color:rgba(255,255,255,.16)}' +
       '.lvhItem .lvqIco{width:44px;height:44px;border-radius:11px;flex:none}.lvhItem .lvqIco img{width:38px;height:38px}' +
       '.lvhTx{min-width:0}.lvhTx b{display:block;font-size:12.5px;color:#eef1f6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.lvhTx small{color:#5d6578;font-size:11px}' +
-      '#lvmRoot .lvhTip{margin-top:24px;padding:12px 14px;border-radius:12px;background:#121620;border:1px solid rgba(255,255,255,.05);color:#8a93a6;font-size:12.5px;line-height:1.55}' +
+      '#lvmRoot .lvhKpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:0 0 24px}' +
+      '#lvmRoot .lvhK{padding:13px 15px;border-radius:14px;background:#121620;border:1px solid rgba(255,255,255,.06)}#lvmRoot .lvhK small{display:block;color:#8a93a6;font-size:11.5px;margin-bottom:3px}#lvmRoot .lvhK b{font-size:21px;color:#eef1f6}' +
+      '#lvmRoot .lvhSec small.h{margin-left:auto;text-align:right}#lvmRoot .lvhBlk{margin-bottom:24px}' +
+      '#lvmRoot .lvhItem .lvhTx small i{font-style:normal;color:#2fd18b;font-weight:700}#lvmRoot .lvhItem .lvhTx small u{text-decoration:none;color:#ffd23f}' +
+      '#lvmRoot .lvhTip{margin-top:6px;padding:12px 14px;border-radius:12px;background:#121620;border:1px solid rgba(255,255,255,.05);color:#8a93a6;font-size:12.5px;line-height:1.55}' +
       /* การ์ดเริ่มดึงข้อมูล (ติดตั้งใหม่) + อนิเมชันระหว่างดึง */
       '#lvmRoot .lvhStart{margin:18px 0 24px;padding:30px 24px 26px;border-radius:16px;background:#121620;border:1px solid rgba(0,180,216,.18);display:flex;flex-direction:column;align-items:center;text-align:center;-webkit-animation:lvhIn .35s ease-out both;animation:lvhIn .35s ease-out both}' +
       '#lvmRoot .lvhStart .t{display:block;margin-top:14px;font-size:17px;font-weight:700;color:#eef1f6}#lvmRoot .lvhStart small{display:block;max-width:470px;margin-top:6px;color:#8a93a6;font-size:12.5px;line-height:1.55}' +
@@ -450,7 +580,10 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
       '.lvdRow b.s{color:#ffd23f}.lvdRow b.b{color:#2fd18b}.lvdRow .m{color:#8a93a6;font-size:11.5px}' +
       '.lvdRow.best.s{box-shadow:inset 0 0 0 1px rgba(255,210,63,.35)}.lvdRow.best.b{box-shadow:inset 0 0 0 1px rgba(47,209,139,.35)}' +
       '.lvdEmpty{color:#5d6578;font-size:12.5px;text-align:center;padding:22px 0}' +
-      '#lvmRoot .lvmSI.old{opacity:.5}#lvmRoot .lvmSI.old:hover{opacity:.85}' +
+      '#lvmRoot .lvmSI.old{opacity:.5}#lvmRoot .lvmSI.old:hover{opacity:.85}#lvmRoot .lvsBar{flex:none}#lvmRoot .lvsBody{flex:1;min-height:0;overflow-y:auto}#lvmRoot .lvsTop{display:flex;align-items:center;gap:12px;margin-bottom:10px;color:#eef1f6}#lvmRoot .lvsTop small{color:#5d6578;font-size:12px}' +
+      '#lvmRoot .lvsGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;align-content:start;grid-auto-rows:max-content;padding:4px 2px 14px}' +
+      '#lvmRoot .lvsTabs{display:flex;gap:8px;margin:2px 0 12px}#lvmRoot .lvsTab{padding:8px 16px;border-radius:11px;background:#161a23;border:1px solid rgba(255,255,255,.07);color:#aab2c2;font-size:13px;font-weight:800;cursor:pointer}#lvmRoot .lvsTab em{font-style:normal;margin-left:6px;color:#5d6578;font-size:12px}#lvmRoot .lvsTab.on{color:#fff}#lvmRoot .lvsTab.s.on{background:rgba(240,193,75,.14);border-color:rgba(240,193,75,.55);color:#f0c14b}#lvmRoot .lvsTab.b.on{background:rgba(55,200,113,.14);border-color:rgba(55,200,113,.55);color:#37c871}#lvmRoot .lvsSec{margin:12px 2px 6px;font-size:13px;font-weight:800;color:#e9edf5}#lvmRoot .lvsSec em{font-style:normal;color:#5d6578;font-size:12px;margin-left:4px}' +
+      '#lvmRoot .lvsC{min-height:150px}#lvmRoot .lvsIcs{display:flex;justify-content:center;align-items:center;padding:14px 10px 4px;min-height:74px}#lvmRoot .lvsShopIco{width:58px;height:58px;border-radius:16px;display:flex;align-items:center;justify-content:center;color:#f0c14b;background:linear-gradient(145deg,#2a2f3d,#1a1e29);border:1px solid rgba(240,193,75,.35);box-shadow:0 4px 12px rgba(0,0,0,.35)}' +
       '.lvqTag{flex:none;padding:6px 12px;border-radius:11px;font-size:12.5px;font-weight:800}' +
       '.lvqTag.lvqBuy{background:linear-gradient(135deg,#ffd23f,#ffab1f);color:#151515}' +
       '.lvqTag.lvqSell{background:rgba(47,209,139,.15);color:#2fd18b;border:1px solid rgba(47,209,139,.4)}' +
@@ -484,6 +617,7 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
       '<div class="lvmLangMenu">' + opts + '</div></div>';
   }
 
+  var T_NOTICE = { left: 'notice_left', banned: 'notice_banned' };
   function renderLogin(root) {
     root.className = '';
     var step = S.loginStep || 0, inner;
@@ -494,6 +628,7 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
         '<button class="lvmDWhite' + (S.oauthBusy ? ' busy' : '') + '" id="lvmDiscord">' +
           (S.oauthBusy ? '<span class="lvmSpin"></span><span>' + esc(tr('waiting')) + '</span>'
                        : discordSvg('#fff') + '<span>' + esc(tr('login_h')) + '</span>') + '</button>' +
+        '<div style="margin-top:10px;font-size:12px;color:#8b93a7;line-height:1.5;text-align:center">' + esc(tr('login_steps')) + '</div>' +
         '<div class="lvmErr" id="lvmErr"></div>' +
         '<div class="lvmOr"><span>' + esc(tr('or')) + '</span></div>' +
         '<div class="lvmHaveKey" id="lvmHaveKey">' + esc(tr('have_key')) + '</div>';
@@ -501,6 +636,7 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
       inner = LOCK_SVG +
         '<div class="lvmLTitle">' + esc(tr('code_title')) + '</div>' +
         '<div class="lvmLSub">' + esc(tr('login_t')) + '</div>' +
+        '<button class="lvmDWhite" id="lvmOpenDc" style="margin-bottom:12px">' + discordSvg('#fff') + '<span>' + esc(tr('open_dc')) + '</span></button>' +
         '<input id="lvmCode" class="lvmIn" placeholder="' + esc(tr('code_ph')) + '" autocomplete="off">' +
         '<button id="lvmGo" class="lvmGo">' + esc(tr('connect')) + '</button>' +
         '<div class="lvmErr" id="lvmErr"></div>' +
@@ -520,22 +656,26 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
         this.innerHTML = '<span class="lvmSpin"></span><span>' + esc(tr('waiting')) + '</span>';
         var e = document.getElementById('lvmErr'); if (e) e.textContent = '';
         send('lvm|oauth');   // ล็อกอินด้วย Discord จริง (Lua เปิดเบราว์เซอร์ + วนเช็กผล)
+        setTimeout(function () { var h = document.getElementById('lvmHaveKey'); if (h && S.oauthBusy) { h.style.color = '#00b4d8'; h.style.fontWeight = '700'; h.textContent = tr('use_code'); } }, 30000);
       };
-      root.querySelector('#lvmHaveKey').onclick = function () { S.oauthBusy = false; S.loginStep = 1; renderLogin(root); };
+      var nt = S.profile && S.profile.notice, ne = document.getElementById('lvmErr');
+      if (nt && ne && T_NOTICE[nt]) ne.textContent = tr(T_NOTICE[nt]);   // เหตุผลที่ถูกเด้งออก (ออกจากเซิร์ฟ / ถูกระงับ)
+      root.querySelector('#lvmHaveKey').onclick = function () { send('lvm|oauthcancel'); S.oauthBusy = false; S.loginStep = 1; renderLogin(root); };
     } else {
       root.querySelector('#lvmGo').onclick = function () {
         var v = (root.querySelector('#lvmCode').value || '').trim(); if (!v) return;
         this.textContent = tr('checking'); send('lvm|connect:' + v);
       };
       root.querySelector('#lvmBack').onclick = function () { S.loginStep = 0; renderLogin(root); };
+      root.querySelector('#lvmOpenDc').onclick = function () { send('lvm|discord'); };   // เปิดลิงก์เชิญ Discord ของเรา
       var inp = root.querySelector('#lvmCode'); if (inp) setTimeout(function () { try { inp.focus(); } catch (e) {} }, 30);
     }
     bindLangs(root);
   }
 
   function avatarHtml(p) {
-    if (p && p.avatar) return '<img class="lvmAv" src="' + esc(p.avatar) + '" onerror="this.style.visibility=\'hidden\'">';
-    return '<div class="lvmAv"></div>';
+    var avatar = p && p.avatar ? '<img class="lvmAv" src="' + esc(p.avatar) + '" onerror="this.style.visibility=\'hidden\'">' : '<div class="lvmAv"></div>';
+    return '<span class="lvmAvatarWrap' + (S.avatarStyle === 'lm' ? ' framed' : S.avatarStyle === 'lamball' ? ' lamball' : '') + '">' + avatar + '</span>';
   }
 
   function renderMarket(root) {
@@ -544,11 +684,11 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
     var p = S.profile || {};
     var tab = S.tab || 'home';
     function navItem(id, ico, key, m, badge, cat) {
-      var on = tab === id && (!m || m === S.mode) && (!cat || cat === S.cat);
+      var on = tab === id && (!cat || cat === S.cat);
       return '<div class="lvmNav' + (on ? ' on' : '') + '" data-tab="' + id + '"' + (m ? ' data-m="' + m + '"' : '') + (cat ? ' data-cat="' + cat + '"' : '') + '><i>' + icon(ico) + '</i><span>' + esc(tr(key)) + '</span>' +
         (badge ? '<em class="lvmBadge" id="' + badge + '">0</em>' : '') + '</div>';
     }
-    root.innerHTML = '<div class="lvmPanel">' +
+    root.innerHTML = '<div class="lvmPanel frame-' + S.windowFrame + '">' +
       '<div class="lvmTop">' +
         '<div class="lvmBrand"><img src="' + LOGO + '" alt=""><div><b>Lavka<span>Market</span></b><small>' + esc(tr('brand_sub')) + '</small></div></div>' +
         '<div class="lvmSearch"><input id="lvmSearch" class="lvmIn" placeholder="' + esc(tr('search')) + '" autocomplete="off"></div>' +
@@ -561,20 +701,18 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
       '<div class="lvmBody">' +
         '<div class="lvmSide">' +
           '<div class="lvmSideH">' + esc(tr('sec_main')) + '</div>' + navItem('home', 'home', 'tab_home') +
-          '<div class="lvmSideGap"></div>' +
+          '<div class="lvmSideGap"></div>' + (DEV_PAGES ? navItem('property', 'home', 'prop') + navItem('shops', 'cart', 'nav_shops') : '') + (CARS_ON ? navItem('cars', 'car', 'nav_cars') : '') +
           '<div class="lvmNav par' + (tab === 'market' && S.cat === 'all' ? ' on' : '') + (S.catOpen ? ' open' : '') + '" data-tab="market" data-m="buy" data-cat="all" id="lvmCatPar"><i>' + icon('cart') + '</i><span>' + esc(tr('sec_market')) + '</span>' +
             '<em class="lvmBadge" id="lvmBadgeS">0</em><b class="lvmCaret2" id="lvmCatTog">' + icon('caret') + '</b></div>' +
           '<div class="lvmCats' + (S.catOpen ? '' : ' shut') + '" id="lvmCats">' + catNavs() + '</div>' +
-          (SELL_ON ? '<div class="lvmSideH">' + esc(tr('sec_sell')) + '</div>' + navItem('market', 'coin', 'nav_sell', 'sell', 'lvmBadgeB') : '') +
           '<div class="lvmSideF" id="lvmSrv">' + srvHtml() + '</div>' +
         '</div>' +
         '<div class="lvmMain">' +
           '<div class="lvmHome" id="lvmHome"' + (tab === 'home' ? '' : ' style="display:none"') + '></div>' +
+          (DEV_PAGES ? '<div class="lvpPage" id="lvmProperty"' + (tab === 'property' ? '' : ' style="display:none"') + '></div>' : '') +
+          (DEV_PAGES ? '<div class="lvpPage" id="lvmShops"' + (tab === 'shops' ? '' : ' style="display:none"') + '></div>' : '') +
+          (CARS_ON ? '<div class="lvpPage" id="lvmCars"' + (tab === 'cars' ? '' : ' style="display:none"') + '></div>' : '') +
           '<div class="lvmMkt" id="lvmMkt"' + (tab === 'market' ? '' : ' style="display:none"') + '>' +
-            (!SELL_ON ? '' : '<div class="lvmStatbar">' +
-              '<div class="lvmMode s' + (S.mode === 'buy' ? ' on' : '') + '" data-m="buy"><i>🛒</i><div><b>' + esc(tr('mode_buy')) + '</b><small>' + esc(tr('mode_buy_h')) + ' · <span id="lvmNS">0</span> ' + esc(tr('count')) + '</small></div></div>' +
-              '<div class="lvmMode b' + (S.mode === 'sell' ? ' on' : '') + '" data-m="sell"><i>💰</i><div><b>' + esc(tr('mode_sell')) + '</b><small>' + esc(tr('mode_sell_h')) + ' · <span id="lvmNP">0</span> ' + esc(tr('count')) + '</small></div></div>' +
-            '</div>') +
             '<div class="lvmSort" id="lvmSort"></div>' +
             '<div class="lvmList" id="lvmList"></div>' +
             '<div class="lvmDetail" id="lvmDetail" style="display:none"></div>' +
@@ -589,7 +727,6 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
     if (tg) tg.onmousedown = function () { window.__lvmTogHit = true; };
     var navs = root.querySelectorAll('.lvmNav');
     for (var ni = 0; ni < navs.length; ni++) navs[ni].onclick = function () {
-      var m = this.getAttribute('data-m'); if (m) setMode(m);
       var c = this.getAttribute('data-cat');
       if (this.id === 'lvmCatPar') {
         // ลูกศร = พับ/กางอย่างเดียว; กดหัวข้อตอนอยู่หน้า "ทั้งหมด" แล้ว = พับ/กาง, ไม่งั้นไปหน้าทั้งหมด + กางให้เห็นหมวด
@@ -604,7 +741,7 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
     root.querySelector('#lvmHome').onclick = function (e) {
       if (e.target.closest && e.target.closest('[data-pull]')) { startPull(); return; }
       var go = e.target.closest && e.target.closest('[data-go]');
-      if (go) { setMode(go.getAttribute('data-go')); setTab('market'); return; }
+      if (go) { setTab('market'); return; }
       var it = e.target.closest && e.target.closest('[data-v]');
       if (it) { setTab('market'); openDetail(it.getAttribute('data-v')); }
     };
@@ -639,6 +776,8 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
       else if (act === 'cancel') { S.menuAsk = false; paintMenu(); }
       else if (act === 'logout2') { toggleMenu(false); send('lvm|logout'); S.profile = null; S.profileJs = null; S.rows = []; S.oauthBusy = false; S.loginStep = 0; render(); }
       else if (act === 'share') { p.share = !p.share; send('lvm|share:' + (p.share ? 1 : 0)); paintMenu(); }
+      else if (act === 'avatar-style') { var style = a.getAttribute('data-avatar-style'); if (!/^(none|lm|lamball)$/.test(style)) return; S.avatarStyle = style; try { localStorage.setItem('lvmAvatarStyle', style); } catch (e) {} root.querySelectorAll('.lvmAvatarWrap').forEach(function (el) { el.classList.toggle('framed', style === 'lm'); el.classList.toggle('lamball', style === 'lamball'); }); paintMenu(); }
+      else if (act === 'window-frame') { var frame = a.getAttribute('data-frame'); if (!/^(none|aqua|gold|violet|fire|surge)$/.test(frame)) return; S.windowFrame = frame; try { localStorage.setItem('lvmWindowFrame', frame); } catch (e) {} root.querySelector('.lvmPanel').className = 'lvmPanel frame-' + frame; paintMenu(); }
       else if (act === 'sync') { send('lvm|sync'); a.classList.add('busy'); setTimeout(function () { a.classList.remove('busy'); }, 2500); }
       else if (act === 'update') { toggleMenu(false); S.upd = { s: 'check' }; paintUpd(); send('lvm|update'); }
       else if (act === 'discord') send('lvm|discord');
@@ -657,6 +796,10 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
       goPage(+b.getAttribute('data-p'));
     };
     root.querySelector('#lvmSort').onclick = function (e) {
+      var ab = e.target.closest && e.target.closest('[data-avail]');
+      if (ab) { S.avail = ab.getAttribute('data-avail'); S.page = 0; try { localStorage.setItem('lvmAvail', S.avail); } catch (e3) {} paintList(); return; }
+      var fb = e.target.closest && e.target.closest('[data-flt]');
+      if (fb) { S.flt = fb.getAttribute('data-flt'); S.page = 0; try { localStorage.setItem('lvmFlt', S.flt); } catch (e2) {} paintList(); return; }
       var b = e.target.closest && e.target.closest('[data-sort]'); if (!b) return;
       S.sort = b.getAttribute('data-sort'); S.page = 0; paintList();
     };
@@ -670,11 +813,10 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
       if (c) openDetail(c.getAttribute('data-v'));
     };
     si.addEventListener('input', function () { if (S.detail) closeDetail(); });
-    var mbs = root.querySelectorAll('.lvmMode');
-    for (var mi = 0; mi < mbs.length; mi++) mbs[mi].onclick = function () { setMode(this.getAttribute('data-m')); };
     bindLangs(root);
     paintList();
     paintHome();
+    if (S.tab === 'property') paintProperty();
     if (S.detail) { showDetail(true); paintDetail(); }   // เปลี่ยนภาษาระหว่างเปิดรายละเอียด = อยู่หน้าเดิม
   }
   function setMode(m) {
@@ -687,14 +829,234 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
     syncNav();
     if (S.detail) paintDetail(); else paintList();
   }
+  // ===== หน้า "ร้านค้า": การ์ดร้าน -> คลิกดูของที่ร้านนั้นขาย/รับซื้อ (การ์ดไอเทมแบบเดียวกับมาร์เก็ต) =====
+  function isArr(a) { return Object.prototype.toString.call(a) === '[object Array]'; }
+  function shopIcon() {   // ไอคอนร้านค้า (แผงร้านมีหลังคาผ้า) วาดด้วย SVG ในตัว ไม่ต้องโหลดรูป
+    return '<svg viewBox="0 0 64 64" width="46" height="46" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">' +
+      '<path d="M8 24 13 10h38l5 14"/><path d="M8 24a8 8 0 0 0 16 0 8 8 0 0 0 16 0 8 8 0 0 0 16 0"/>' +
+      '<path d="M12 33v21h40V33"/><path d="M26 54V42h12v12"/></svg>';
+  }
+  function shopCardHtml(sh) {
+    return '<div class="lvqC lvsC" data-shop="' + esc(sh.name) + '">' +
+      '<div class="lvsIcs"><span class="lvsShopIco">' + shopIcon() + '</span></div>' +
+      '<div class="lvqB"><div class="lvqN" title="' + esc(sh.name) + '">' + esc(sh.name) + '</div>' +
+        '<div class="lvqId">' + esc(tr('sh_seen')) + ' ' + esc(ago(sh.t)) + '</div>' +
+        '<div class="lvqPills">' + (sh.ns ? '<span class="lvqPill s">' + sh.ns + ' ' + esc(tr('sh_sells')) + '</span>' : '') +
+          (sh.nb ? '<span class="lvqPill b">' + sh.nb + ' ' + esc(tr('sh_buys')) + '</span>' : '') + '</div>' +
+        '<div class="lvqF"><span class="lvqMore">' + esc(tr('sh_open')) + ' ›</span></div></div></div>';
+  }
+  // การ์ดไอเทมของร้าน: หน้าตาเหมือนการ์ดในมาร์เก็ต (card) แต่โชว์ราคา/จำนวนของร้านนี้
+  function shopItemHtml(x, side) {
+    var grade = x.grade ? ' <span class="lvmGi">' + esc(x.grade) + '</span>' : '';
+    var cls = side === 'b' ? 'b' : 's';
+    return '<div class="lvqC lvsI" data-v="' + esc(x.vid || x.base) + '">' +
+      '<div class="lvqImg">' + icoHtml(x) + '</div>' +
+      '<div class="lvqB"><div class="lvqN" title="' + esc(x.name) + '">' + esc(x.name || ('#' + x.base)) + grade + '</div>' +
+        '<div class="lvqId">ID ' + esc(x.base) + '</div>' +
+        '<div class="lvqPills"><span class="lvqPill ' + cls + '">' + money(x.price) + '</span><span class="lvqPill">x' + (x.cnt || 1) + '</span></div>' +
+        '<div class="lvqF"><span class="lvqMore">' + esc(tr('view_all')) + ' ›</span></div></div></div>';
+  }
+  function shopSideHtml(list, side) {
+    list = isArr(list) ? list : [];
+    if (!list.length) return '<div class="lvdEmpty">—</div>';
+    var n = Math.min(list.length, 200), g = '';
+    for (var i = 0; i < n; i++) g += shopItemHtml(list[i], side);
+    if (list.length > n) g += '<div class="lvdEmpty">… +' + (list.length - n) + '</div>';
+    return '<div class="lvsGrid">' + g + '</div>';
+  }
+  function paintShops() {
+    var box = document.getElementById('lvmShops'); if (!box) return;
+    if (!document.getElementById('lvsBody')) {
+      box.innerHTML = '<div class="lvsBar"><input id="lvsQ" class="lvmIn" placeholder="' + esc(tr('sh_search')) + '" autocomplete="off"></div><div class="lvsBody" id="lvsBody"></div>';
+      var q = document.getElementById('lvsQ'); q.value = S.shopQ || '';
+      q.oninput = function () { S.shopQ = (this.value || '').toLowerCase(); if (!S.shopSel) paintShops(); };
+    }
+    var body = document.getElementById('lvsBody'), bar = box.querySelector('.lvsBar');
+    if (S.shopSel) {
+      bar.style.display = 'none';
+      var d = S.shopData && S.shopData.name === S.shopSel ? S.shopData : null;
+      var h = '<div class="lvsTop"><span class="lvdBack" id="lvsBack">‹ ' + esc(tr('back')) + '</span><b>' + esc(S.shopSel) + '</b>' +
+        (d && d.t ? '<small>' + esc(tr('sh_seen')) + ' ' + esc(ago(d.t)) + '</small>' : '') + '</div>';
+      if (d) {
+        if (S.shopSide !== 's' && S.shopSide !== 'b') S.shopSide = d.sell.length || !d.buy.length ? 's' : 'b';   // เปิดครั้งแรก: ฝั่งที่มีของ
+        h += '<div class="lvsTabs"><span class="lvsTab s' + (S.shopSide === 's' ? ' on' : '') + '" data-side="s">' + esc(tr('sh_sells')) + ' <em>' + d.sell.length + '</em></span>' +
+          '<span class="lvsTab b' + (S.shopSide === 'b' ? ' on' : '') + '" data-side="b">' + esc(tr('sh_buys')) + ' <em>' + d.buy.length + '</em></span></div>';
+        h += shopSideHtml(S.shopSide === 'b' ? d.buy : d.sell, S.shopSide);
+      } else h += '<div class="lvdEmpty">' + esc(tr('loading')) + '</div>';
+      body.innerHTML = h;
+      var bk = document.getElementById('lvsBack'); if (bk) bk.onclick = function () { S.shopSel = null; S.shopData = null; S.shopSide = null; paintShops(); };
+      var tbs = body.querySelectorAll('.lvsTab');
+      for (var tb = 0; tb < tbs.length; tb++) tbs[tb].onclick = function () { S.shopSide = this.getAttribute('data-side'); paintShops(); };
+      var cs = body.querySelectorAll('.lvsI');
+      for (var c = 0; c < cs.length; c++) cs[c].onclick = function () {   // คลิกการ์ดไอเทม = เปิดหน้าไอเทมในมาร์เก็ต (ทุกร้านที่ขาย)
+        var v = this.getAttribute('data-v'); setTab('market'); openDetail(v, { shop: S.shopSel, vid: v });
+      };
+      return;
+    }
+    bar.style.display = '';
+    var all = isArr(S.shops) ? S.shops : [], qq = S.shopQ || '', o = '', cnt = 0;
+    for (var i = 0; i < all.length && cnt < 300; i++) {
+      if (qq && String(all[i].name).toLowerCase().indexOf(qq) < 0) continue;
+      o += shopCardHtml(all[i]); cnt++;
+    }
+    body.innerHTML = cnt ? '<div class="lvsGrid">' + o + '</div>' : '<div class="lvdEmpty">' + esc(tr(all.length ? 'sh_none' : 'loading')) + '</div>';
+    var rows = body.querySelectorAll('.lvsC');
+    for (var r = 0; r < rows.length; r++) rows[r].onclick = function () {
+      S.shopSel = this.getAttribute('data-shop'); S.shopData = null; S.shopSide = null; send('lvm|shop:' + S.shopSel); paintShops();
+    };
+  }
   function setTab(t) {
+    if (t !== 'cars' && typeof C3D !== 'undefined' && C3D.cancelThumbnails) C3D.cancelThumbnails();
     S.tab = t;
     syncNav();
-    var h = document.getElementById('lvmHome'), m = document.getElementById('lvmMkt');
+    var h = document.getElementById('lvmHome'), m = document.getElementById('lvmMkt'), p = document.getElementById('lvmProperty');
     if (h) h.style.display = t === 'home' ? '' : 'none';
     if (m) m.style.display = t === 'market' ? '' : 'none';
+    if (p) p.style.display = t === 'property' ? 'flex' : 'none';
+    var sp = document.getElementById('lvmShops'); if (sp) sp.style.display = t === 'shops' ? 'flex' : 'none';
+    var cp = document.getElementById('lvmCars'); if (cp) cp.style.display = t === 'cars' ? 'flex' : 'none';
     if (t === 'market') { if (S.detail) closeDetail(); else fitRows(); }
     if (t === 'home') paintHome();
+  }
+
+  function propertyServer() {
+    var key = String((S.srv || {}).key || '').split('.')[0].toLowerCase().replace(/[^a-z]/g, '');
+    for (var name in SRVNUM) if (name.replace(/[^a-z]/g, '') === key) return SRVNUM[name];
+    return 0;
+  }
+  function requestProperty(force) {
+    var id = propertyServer();
+    if (!id || (!force && (S.property || S.propertyState))) return;
+    S.propertyState = 'loading'; S.propertyRequestedAt = Date.now();
+    send('lvm|property:' + id);
+  }
+  function propertyTime(end) {
+    var n = Math.floor(+end - nowS());
+    if (!(n > 0)) return tr('prop_expired');
+    var hours = Math.floor(n / 3600), minutes = Math.floor(n % 3600 / 60), seconds = n % 60;
+    return hours + ':' + ('0' + minutes).slice(-2) + ':' + ('0' + seconds).slice(-2);
+  }
+  var propertyUnits = {};
+  try { propertyUnits = JSON.parse(localStorage.getItem('lvmAuctionUnits') || '{}') || {}; } catch (e) {}
+  function rememberAuctionUnits(p) {
+    if (!p.server || !p.seen) return;
+    for (var i = 0; i < p.items.length; i++) {
+      var item = p.items[i], end = +item.endTime;
+      if (!/^\d+$/.test(String(item.id)) || !(end > +p.seen) || (!item.priceCurrency && !item.bidCurrency)) continue;
+      propertyUnits[p.server + '|' + p.kind + '|' + item.id] = { end: end, price: item.priceCurrency || '', bid: item.bidCurrency || '' };
+    }
+    try { localStorage.setItem('lvmAuctionUnits', JSON.stringify(propertyUnits)); } catch (e) {}
+  }
+  function propertyMoney(v, unit, saved) {
+    return v == null ? '—' : (unit === '$' || unit === 'VC$' ? esc(unit) + ' ' : '') + money(v) +
+      (unit && unit !== '$' && unit !== 'VC$' ? ' ' + esc(unit) : !unit ? ' <span style="font-size:10px;color:#929db0">' + esc(tr('prop_unit_unknown')) + '</span>' : '') +
+      (unit && saved ? ' <span style="font-size:10px;color:#929db0">' + esc(tr('prop_unit_saved')) + '</span>' : '');
+  }
+  function propertyMap(filtered) {
+    var markers = [], missing = 0, selected = null, selectedKey = S.propertyMapSelected || '';
+    for (var i = 0; i < filtered.length; i++) {
+      var item = filtered[i], x = +item.x, y = +item.y, key = item.kind + ':' + item.id;
+      if (key === selectedKey) selected = item;
+      if (item.x == null || item.y == null || !isFinite(x) || !isFinite(y) || x < -3000 || x > 3000 || y < -3000 || y > 3000) { missing++; continue; }
+      var label = tr(item.kind === 'house' ? 'prop_house' : 'prop_business') + ' #' + item.id;
+      markers.push('<button class="lvpMarker' + (item.kind === 'business' ? ' biz' : '') + (key === selectedKey ? ' selected' : '') + '" style="left:' + ((x + 3000) / 60).toFixed(3) + '%;top:' + ((3000 - y) / 60).toFixed(3) + '%" data-map-index="' + i + '" title="' + esc(label) + '" aria-label="' + esc(label) + '">' + (item.kind === 'house' ? 'H' : 'B') + '</button>');
+    }
+    var detail = selected ? '<b>' + esc(tr(selected.kind === 'house' ? 'prop_house' : 'prop_business')) + ' #' + esc(selected.id) + '</b><div>' + esc(selected.name || '') + '</div><div>' + esc(tr('prop_price')) + ': <b>' + propertyMoney(selected.startPrice, selected.priceCurrency || selected.currency, selected.savedPriceUnit) + '</b></div><div>' + esc(tr('prop_bid')) + ': ' + propertyMoney(selected.minBid, selected.bidCurrency || selected.currency, selected.savedBidUnit) + '</div><div>' + esc(tr('prop_remaining')) + ': <span' + (+selected.endTime > 0 ? ' data-property-end="' + (+selected.endTime) + '"' : '') + '>' + esc(+selected.endTime ? propertyTime(selected.endTime) : '—') + '</span></div>' + (selected.fromGame ? '<div>' + esc(tr('prop_game')) + '</div>' : '') : esc(tr('prop_map_selected'));
+    return '<div class="lvpMapLayout"><div class="lvpMapViewport" id="lvpMapViewport"><div class="lvpMapImage" id="lvpMapImage"><img id="lvpMapBackground" draggable="false" referrerpolicy="no-referrer" alt="' + esc(tr('prop_map')) + '" src="https://raw.githubusercontent.com/jakubfalenczyk/gtasa-map/main/assets/san-andreas-map.png">' + markers.join('') + '</div><div class="lvpMapError" id="lvpMapError" style="display:none">' + esc(tr('prop_map_unavailable')) + '</div></div><aside class="lvpMapInfo">' + detail + '</aside></div>' +
+      '<div class="lvpMapFoot"><span>' + esc(tr('prop_map_credit')) + (missing ? ' · <span class="lvpMapMissing">' + missing + ' ' + esc(tr('prop_map_none')) + '</span>' : '') + '</span><div class="lvpZoom"><button class="lvpPageBtn" id="lvpZoomOut" aria-label="Zoom out">−</button><button class="lvpPageBtn" id="lvpZoomIn" aria-label="Zoom in">+</button></div></div>';
+  }
+  function paintProperty() {
+    var el = document.getElementById('lvmProperty'); if (!el) return;
+    var oldMapViewport = document.getElementById('lvpMapViewport');
+    var oldScrollX = oldMapViewport ? oldMapViewport.scrollLeft : 0, oldScrollY = oldMapViewport ? oldMapViewport.scrollTop : 0;
+    var id = propertyServer(), data = S.property, state = S.propertyState || '';
+    if (data && data.server !== id) data = null;
+    var items = data ? data.items.slice() : [], localData = S.gameAuctions || {}, usedGame = false, view = S.srv || {};
+    var shared = S.auctionPool;
+    if (shared && shared.server === view.key && Array.isArray(shared.items)) {
+      shared.items.forEach(function (item) {
+        if (nowS() < +item.seen - 60 || +item.endTime <= nowS()) return;
+        var index = items.findIndex(function (x) { return x.kind === item.kind && String(x.id) === String(item.id); });
+        if (index >= 0 && +items[index].endTime > 0 && Math.abs(+items[index].endTime - +item.endTime) > 120) return;
+        if (nowS() - +item.seen >= 300) {
+          if (index < 0 || !(+items[index].endTime > 0)) return;
+          var old = Object.assign({}, items[index]);
+          if (!old.priceCurrency && !old.currency && item.priceCurrency) { old.priceCurrency = item.priceCurrency; old.savedPriceUnit = true; }
+          if (!old.bidCurrency && !old.currency && item.bidCurrency) { old.bidCurrency = item.bidCurrency; old.savedBidUnit = true; }
+          items[index] = old;
+          return;
+        }
+        var merged = Object.assign({}, index >= 0 ? items[index] : {}, item, { fromPool: true });
+        if (index >= 0) items[index] = merged; else items.push(merged);
+      });
+    }
+    for (var k in localData) {
+      var snap = localData[k];
+      if (!isOwnKey(view.key) || snap.server !== view.own || nowS() - snap.seen >= 300 || nowS() < snap.seen - 60) continue;
+      items = items.filter(function (x) { return x.kind !== snap.kind; });
+      items = items.concat(snap.items.map(function (x) { x.fromGame = true; return x; }));
+      usedGame = true;
+    }
+    if (!data && (usedGame || items.length)) data = { items: [] };
+    items = items.map(function (item) {
+      var unit = isOwnKey(view.key) && propertyUnits[String(view.own || '') + '|' + item.kind + '|' + item.id];
+      if (item.fromGame || !unit || !(+item.endTime > 0) || Math.abs(+item.endTime - unit.end) > 120) return item;
+      var copy = Object.assign({}, item);
+      if (!copy.priceCurrency && !copy.currency && unit.price) { copy.priceCurrency = unit.price; copy.savedPriceUnit = true; }
+      if (!copy.bidCurrency && !copy.currency && unit.bid) { copy.bidCurrency = unit.bid; copy.savedBidUnit = true; }
+      return copy;
+    });
+    var list = items.filter(function (x) { return !+x.endTime || +x.endTime > nowS(); }), q = String(S.propertyQuery || '').toLowerCase().trim(), kind = S.propertyKind || 'all';
+    var filtered = list.filter(function (x) { return (kind === 'all' || x.kind === kind) && (!q || (/^\d+$/.test(q) ? String(x.id).indexOf(q) >= 0 : String(x.owner).toLowerCase().indexOf(q) >= 0)); });
+    filtered.sort(function (a, b) { return (+a.endTime || Infinity) - (+b.endTime || Infinity); });
+    var page = Math.min(S.propertyPage || 0, Math.max(0, Math.ceil(filtered.length / 100) - 1)); S.propertyPage = page;
+    var rows = filtered.slice(page * 100, (page + 1) * 100).map(function (x) {
+      return '<tr><td title="' + esc(x.fromGame ? tr('prop_game') : x.fromPool ? tr('prop_shared') : (x.name || '')) + '"><b>' + esc(tr(x.kind === 'house' ? 'prop_house' : 'prop_business')) + ' #' + esc(x.id) + '</b>' + (x.name ? ' · ' + esc(x.name) : '') + (x.fromGame || x.fromPool ? ' <span style="color:#69d7e8">●</span>' : '') + '</td>' +
+        '<td class="lvpTime"' + (+x.endTime > 0 ? ' data-property-end="' + esc(x.endTime) + '"' : '') + '>' + esc(+x.endTime > 0 ? propertyTime(x.endTime) : '—') + '</td>' +
+        '<td class="lvpPrice">' + propertyMoney(x.startPrice, x.priceCurrency || x.currency, x.savedPriceUnit) + '</td><td>' + propertyMoney(x.minBid, x.bidCurrency || x.currency, x.savedBidUnit) + '</td></tr>';
+    }).join('');
+    var server = srvParts().short || '—';
+    var status = !id ? tr('prop_unknown') : state === 'loading' ? tr('prop_loading') : state === 'error' ? tr('prop_error') : data ? filtered.length + ' / ' + list.length + ' ' + tr('prop_count') : tr('prop_load');
+    var mapMode = S.propertyView === 'map';
+    el.innerHTML = '<div class="lvpHead"><div class="lvpHeadText"><div class="lvpEyebrow">' + esc(tr('prop_live')) + '</div><h2 class="lvpTitle">' + esc(tr('prop')) + '</h2><div class="lvpSub">' + esc(server) + ' · ' + esc(tr('prop_delay')) + (usedGame ? ' · ' + esc(tr('prop_game')) : '') + '</div></div><div class="lvpView"><button class="lvpTab' + (!mapMode ? ' on' : '') + '" data-property-view="list">' + esc(tr('prop_list')) + '</button><button class="lvpTab' + (mapMode ? ' on' : '') + '" data-property-view="map">' + esc(tr('prop_map')) + '</button></div><button class="lvpRefresh" id="lvmPropLoad">↻ ' + esc(tr('prop_refresh')) + '</button></div>' +
+      '<div class="lvpTools"><div class="lvpTabs">' + ['all', 'house', 'business'].map(function (k) { return '<button class="lvpTab' + (kind === k ? ' on' : '') + '" data-property-kind="' + k + '">' + esc(tr(k === 'all' ? 'prop_all' : k === 'house' ? 'prop_house' : 'prop_business')) + '</button>'; }).join('') + '</div>' +
+      '<div class="lvpSearch"><input class="lvmIn" id="lvmPropSearch" placeholder="' + esc(tr('prop_search')) + '" aria-label="' + esc(tr('prop_search')) + '" value="' + esc(S.propertyQuery || '') + '"></div></div>' +
+      '<div class="lvpMeta"><span>' + esc(status) + '</span></div>' +
+      (mapMode && data ? propertyMap(filtered) : '<div class="lvpScroll">' + (rows ? '<table class="lvpTable"><colgroup><col style="width:34%"><col style="width:19%"><col style="width:25%"><col style="width:22%"></colgroup><thead><tr><th>' + esc(tr('prop_name')) + '</th><th>' + esc(tr('prop_remaining')) + '</th><th>' + esc(tr('prop_price')) + '</th><th>' + esc(tr('prop_bid')) + '</th></tr></thead><tbody>' + rows + '</tbody></table>' : data ? '<div class="lvpEmpty">' + esc(tr(kind === 'business' && !q && !list.some(function (x) { return x.kind === 'business'; }) ? 'prop_business_empty' : 'prop_empty')) + '</div>' : '') + '</div>') +
+      (!mapMode && filtered.length > 100 ? '<div class="lvpPager"><button class="lvpPageBtn" id="lvmPropPrev"' + (page === 0 ? ' disabled' : '') + '>' + esc(tr('prop_prev')) + '</button> ' + (page + 1) + ' / ' + Math.ceil(filtered.length / 100) + ' <button class="lvpPageBtn" id="lvmPropNext"' + ((page + 1) * 100 >= filtered.length ? ' disabled' : '') + '>' + esc(tr('prop_next')) + '</button></div>' : '');
+    document.getElementById('lvmPropLoad').onclick = function () { requestProperty(true); paintProperty(); };
+    var kinds = el.querySelectorAll('[data-property-kind]');
+    for (var ki = 0; ki < kinds.length; ki++) kinds[ki].onclick = function () { S.propertyKind = this.getAttribute('data-property-kind'); S.propertyPage = 0; paintProperty(); };
+    var views = el.querySelectorAll('[data-property-view]');
+    for (var vi = 0; vi < views.length; vi++) views[vi].onclick = function () { S.propertyView = this.getAttribute('data-property-view'); paintProperty(); };
+    if (mapMode && data) {
+      var viewport = document.getElementById('lvpMapViewport'), canvas = document.getElementById('lvpMapImage'), bg = document.getElementById('lvpMapBackground');
+      var size = Math.max(200, Math.min(viewport.clientWidth - 20, viewport.clientHeight - 20));
+      canvas.style.width = Math.round(size * (S.propertyMapZoom || 1)) + 'px';
+      viewport.scrollLeft = oldScrollX; viewport.scrollTop = oldScrollY;
+      bg.onerror = function () { canvas.style.display = 'none'; document.getElementById('lvpMapError').style.display = 'block'; };
+      if (bg.complete && !bg.naturalWidth) bg.onerror();
+      var markerButtons = el.querySelectorAll('[data-map-index]');
+      for (var mi = 0; mi < markerButtons.length; mi++) markerButtons[mi].onclick = function () { var item = filtered[+this.getAttribute('data-map-index')]; if (item) { S.propertyMapSelected = item.kind + ':' + item.id; paintProperty(); } };
+      document.getElementById('lvpZoomIn').onclick = function () { S.propertyMapZoom = Math.min(3, (S.propertyMapZoom || 1) + .5); paintProperty(); };
+      document.getElementById('lvpZoomOut').onclick = function () { S.propertyMapZoom = Math.max(1, (S.propertyMapZoom || 1) - .5); paintProperty(); };
+    }
+    document.getElementById('lvmPropSearch').oninput = function () { var pos = this.selectionStart; S.propertyQuery = this.value; S.propertyPage = 0; paintProperty(); var input = document.getElementById('lvmPropSearch'); input.focus(); input.setSelectionRange(pos, pos); };
+    var prev = document.getElementById('lvmPropPrev'), next = document.getElementById('lvmPropNext');
+    if (prev) prev.onclick = function () { S.propertyPage--; paintProperty(); };
+    if (next) next.onclick = function () { S.propertyPage++; paintProperty(); };
+  }
+  if (!window.__lvmPropertyClock) {
+    window.__lvmPropertyClock = setInterval(function () {
+      var times = document.querySelectorAll('#lvmProperty [data-property-end]');
+      for (var i = 0; i < times.length; i++) times[i].textContent = propertyTime(times[i].getAttribute('data-property-end'));
+      if (S.tab === 'property' && S.propertyState === 'loading' && S.propertyRequestedAt && Date.now() - S.propertyRequestedAt >= 35000) {
+        S.propertyState = 'error'; paintProperty();
+      }
+      if (S.tab === 'property' && S.propertyRequestedAt && Date.now() - S.propertyRequestedAt >= 120000 && S.propertyState !== 'loading') {
+        requestProperty(true); paintProperty();
+      }
+    }, 1000);
   }
   // แถวการ์ดสูงพอดีพื้นที่: 3 แถวเต็มกล่องพอดี (จอเล็กไปก็ไม่บีบต่ำกว่า 208px แต่เลื่อนดูแทน)
   // เขียน HTML ใหม่เฉพาะตอนเนื้อหาเปลี่ยนจริง (เขียนทับของเดิม = รูป/การ์ดโหลดใหม่ = กะพริบ)
@@ -709,16 +1071,16 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
   // หน้าแรก: ทางเข้า 2 โหมด + ไอเทมที่เพิ่งเห็นล่าสุด (ไม่มีราคา) + วิธีที่ข้อมูลเข้ามา
   function paintHome() {
     var box = document.getElementById('lvmHome'); if (!box) return;
-    var p = S.profile || {}, ns = 0, nb = 0, last = 0, recent = [];
+    var p = S.profile || {}, ns = 0, nb = 0, na0 = 0, last = 0, recent = [];
     for (var i = 0; i < S.rows.length; i++) {
       var r = S.rows[i], t = Math.max(+r.st || 0, +r.bt || 0);
-      if (r.sell) ns++; if (r.buy) nb++;
+      if (r.sell) ns++; if (r.buy) nb++; if (r.sell || r.buy) na0++;
       if (t > last) last = t;
       if (t) recent.push({ r: r, t: t });
     }
     recent.sort(function (a, b) { return (b.t - a.t) || ((a.r.__i || 0) - (b.r.__i || 0)); });
     var rec = '';
-    for (var k = 0; k < recent.length && k < 10; k++) {
+    for (var k = 0; k < recent.length && k < 5; k++) {
       var x = recent[k].r;
       rec += '<div class="lvhItem" data-v="' + esc(vidOf(x)) + '">' + icoHtml(x) +
         '<div class="lvhTx"><b title="' + esc(x.name) + '">' + esc(x.name) + (x.grade ? ' <span class="lvmGi">' + esc(x.grade) + '</span>' : '') + '</b><small>ID ' + esc(x.base) + ' · ' + esc(ago(recent[k].t)) + '</small></div></div>';
@@ -728,11 +1090,10 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
     if (sp) { setHtml(box, hello + sp + '<div class="lvhTip">' + esc(tr('home_tip')) + '</div>'); countUp(); return; }
     setHtml(box, hello +
       '<div class="lvhGo">' +
-        '<div class="lvhBig s" data-go="buy"><i>🛒</i><div><b>' + esc(tr('mode_buy')) + '</b><small>' + money(ns) + ' ' + esc(tr('count')) + ' · ' + esc(tr('mode_buy_h')) + '</small></div><em>›</em></div>' +
-        (!SELL_ON ? '' : '<div class="lvhBig b" data-go="sell"><i>💰</i><div><b>' + esc(tr('mode_sell')) + '</b><small>' + money(nb) + ' ' + esc(tr('count')) + ' · ' + esc(tr('mode_sell_h')) + '</small></div><em>›</em></div>') +
+        '<div class="lvhBig s" data-go="market"><i>🛒</i><div><b>' + esc(tr('open_mkt')) + '</b><small>' + money(na0) + ' ' + esc(tr('count')) + ' · ' + esc(tr('open_mkt_h')) + '</small></div><em>›</em></div>' +
       '</div>' +
-      '<div class="lvhSec"><b>' + esc(tr('recent')) + '</b><small>' + (last ? esc(tr('updated')) + ' ' + esc(ago(last)) : '') + '</small></div>' +
-      (rec ? '<div class="lvhRecent">' + rec + '</div>' : '<div class="lvdEmpty">' + esc(tr('none')) + '</div>') +
+      '<div class="lvhBlk"><div class="lvhSec"><b>' + esc(tr('recent')) + '</b><small>' + (last ? esc(tr('updated')) + ' ' + esc(ago(last)) : '') + '</small></div>' +
+      (rec ? '<div class="lvhRecent">' + rec + '</div>' : '<div class="lvdEmpty">' + esc(tr('none')) + '</div>') + '</div>' +
       '<div class="lvhTip">' + esc(tr('home_tip')) + '</div>');
   }
 
@@ -793,14 +1154,22 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
   // การ์ด 1 ใบต่อไอเทม (ทุกระดับ 0 / +N / ★N รวมกัน) เหมือนไอเทมธรรมดา; ระดับไปแยกดูในหน้ารายละเอียด
   function mergeRows(a) {
     if (Object.prototype.toString.call(a) !== '[object Array]') return [];
-    var by = {}, out = [];
+    var by = {}, out = [], live = {};
     S.bgv = {};
+    for (var li = 0; li < a.length; li++) if (!a[li].gone) live[String(a[li].base || a[li].vid)] = 1;
     for (var i = 0; i < a.length; i++) {
       var x = a[i], b = String(x.base || x.vid), v = String(x.vid || b);
+      if (x.gone && live[b]) continue;   // ระดับที่เคยเห็นของไอเทมที่ยังมีในตลาด: ไม่แยกเป็นการ์ดใหม่
       if (x.bg) S.bgv[v] = x.bg;
       var m = by[b];
       if (!m) { m = by[b] = { vid: b, base: b, name: x.name, bg: null, ns: 0, nb: 0, nlv: 0, st: 0, bt: 0 }; out.push(m); }
       m.nlv++;
+      if (x.gone) {   // เก็บวันที่เห็นล่าสุดและราคาครั้งล่าสุดของระดับที่เห็นล่าสุด
+        m.gone = true;
+        if (!m.gd || String(x.gd || '') > m.gd) { m.gd = String(x.gd || ''); m.gs = x.gs || null; m.gb = x.gb || null; }
+        if (!m.bg) m.bg = x.bg || m.bg;
+        continue;
+      }
       if (v === b || !m.bg) m.bg = x.bg || m.bg;   // สีของตัวปกติก่อน
       if (x.sell && (!m.sell || x.sell < m.sell)) { m.sell = x.sell; m.sellShop = x.sellShop; m.sellCnt = x.sellCnt; }
       if (x.buy && (!m.buy || x.buy > m.buy)) { m.buy = x.buy; m.buyShop = x.buyShop; m.buyCnt = x.buyCnt; }
@@ -812,14 +1181,16 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
     return out;
   }
   // หน้าแรก: การ์ดไอเทมไม่มีราคา (รูป ชื่อ ID จำนวนร้าน) กดแล้วเปิดรายการร้านทั้งหมด
+  function dayShort(d) { var m = /^\d{4}-(\d{2})-(\d{2})$/.exec(d || ''); return m ? m[2] + '/' + m[1] : ''; }
   function card(r) {
     var fav = S.fav[r.base] ? 1 : 0;
     var badge = '';
     var grade = r.grade ? ' <span class="lvmGi">' + esc(r.grade) + '</span>' : '';
-    var pills = S.mode === 'sell'
-      ? '<span class="lvqPill b">' + (r.nb || 1) + ' ' + esc(tr('n_buy2')) + '</span>'
-      : '<span class="lvqPill s">' + (r.ns || 1) + ' ' + esc(tr('n_sell')) + '</span>';
-    return '<div class="lvqC" data-v="' + esc(vidOf(r)) + '">' +
+    var pills = (r.sell ? '<span class="lvqPill s">' + (r.ns || 1) + ' ' + esc(tr('n_sell')) + '</span>' : '') +
+      (r.buy ? '<span class="lvqPill b">' + (r.nb || 1) + ' ' + esc(tr('n_buy2')) + '</span>' : '');
+    if (r.gone) pills = '<span class="lvqPill g">' + esc(tr('last_seen')) + ' ' + esc(dayShort(r.gd)) + '</span>' +
+      (r.gs ? '<span class="lvqPill s">' + money(r.gs) + '</span>' : r.gb ? '<span class="lvqPill b">' + money(r.gb) + '</span>' : '');
+    return '<div class="lvqC' + (r.gone ? ' gone' : '') + '" data-v="' + esc(vidOf(r)) + '">' +
       '<div class="lvqImg">' + badge +
         '<span class="lvmStar' + (fav ? ' on' : '') + '" data-b="' + esc(r.base) + '">' + (fav ? '★' : '☆') + '</span>' +
         icoHtml(r) + '</div>' +
@@ -921,7 +1292,7 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
   function shopRows(list, cls, emptyKey) {
     if (!list) return '<div class="lvdEmpty">' + esc(tr('loading')) + '</div>';
     if (!list.length) return '<div class="lvdEmpty">' + esc(tr(emptyKey)) + '</div>';
-    var base = S.detail.base, cur = curLv(), multi = false, anyLvl = !!upMaxOf(base);
+    var base = S.detail.base, cur = curLv(), multi = false, anyLvl = false;   // ซ่อนคอลัมน์ระดับเมื่อทุกร้านเป็นของ +0 (ไอเทมธรรมดา) แสดงเมื่อมีร้านที่ระดับต่างจากฐาน
     for (var i = 0; i < list.length; i++) { var v0 = String(list[i].vid || base); if (v0 !== String(list[0].vid || base)) multi = true; if (v0 !== String(base)) anyLvl = true; }
     var cols = anyLvl ? ' lv' : '';
     var h = '<div class="lvdHead' + cols + '"><span>' + esc(tr('col_shop')) + '</span>' + (anyLvl ? '<span>' + esc(tr('col_lvl')) + '</span>' : '') +
@@ -951,7 +1322,7 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
     var sell = S.mode !== 'sell', v = String(x.vid || vidOf(S.detail)), L = lvlOf(v, S.detail.base);
     return '<div class="lviPiece"><div class="lviPh">' + esc(tr(sell ? 'piece_s' : 'piece_b')) + ' <b>' + esc(x.shop) + '</b></div>' +
       '<div class="lviPg">' +
-        '<div><small>' + esc(tr('col_lvl')) + '</small><b class="lv">' + esc(L ? L.txt : '—') + '</b></div>' +
+        ((L && L.cls === 'z' && levelOrder().length < 2) ? '' : '<div><small>' + esc(tr('col_lvl')) + '</small><b class="lv">' + esc(L ? L.txt : '—') + '</b></div>') +
         '<div><small>' + esc(tr('col_price')) + '</small><b class="' + (sell ? 's' : 'b') + '">' + money(x.price) + '</b></div>' +
         '<div><small>' + esc(tr('col_qty')) + '</small><b>x' + (x.cnt || 1) + '</b></div>' +
         '<div><small>' + esc(tr('col_seen')) + '</small><b>' + esc(ago(x.t)) + '</b></div>' +
@@ -960,7 +1331,13 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
   function paintDetail() {
     var box = document.getElementById('lvmDetail'); if (!box) return;
     var r = S.detail, d = S.detailData && S.detailData.vid === vidOf(r) ? S.detailData : null;
-    var CL = lvlOf(curLv(), r.base);   // ระดับที่กำลังดูอยู่ (เปลี่ยนตามแถว/แถบที่กด ไม่เปลี่ยนหน้า)
+    // จำตำแหน่งเลื่อน (หน้า + รายการร้านแต่ละกล่อง) ไว้ วาดใหม่แล้วใส่คืน — คลิกร้านแล้วไม่เด้งกลับไปบนสุด
+    var keepSc = [], keepIn = [];
+    for (var se = box; se; se = se.parentElement) if (se.scrollTop) keepSc.push([se, se.scrollTop]);
+    var oldIn = box.querySelectorAll('.lvdShops');
+    for (var si = 0; si < oldIn.length; si++) keepIn.push(oldIn[si].scrollTop);
+    var CL = lvlOf(curLv(), r.base);   // ระดับที่กำลังดูอยู่
+    if (CL && CL.cls === 'z' && levelOrder().length < 2) CL = null;   // ไอเทมปกติที่มีแต่ +0 ไม่ต้องโชว์ 0/13 (เปลี่ยนตามแถว/แถบที่กด ไม่เปลี่ยนหน้า)
     var grade = CL ? ' <span class="lvmGi">' + esc(CL.txt) + '</span>' : '';
     box.innerHTML =
       '<div class="lvdTop">' +
@@ -970,23 +1347,32 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
         '<div class="lvdKpis">' + kpis(r, d) + '</div>' +
       '</div>' +
       // แสดงฝั่งเดียวตามโหมด: ซ้าย = กราฟ 30 วัน + รายการร้าน, ขวา = ข้อมูลไอเทม (เหมือนหน้าต่างข้อมูลในเกม)
+      (r.gone ? '<div class="lvdGone">' + esc(tr('gone_note')) + '</div>' : '') +
       '<div class="lvdGrid"><div class="lvdLeft">' +
         '<div class="lvdCol lvdHist"><div class="lvdCap ' + (S.mode === 'sell' ? 'b' : 's') + '">' + esc(tr('hist_title')) + (CL && levelOrder().length < 2 ? ' <i>' + esc(CL.txt) + '</i>' : '') + '</div>' +
           levelBar(d) +
+          '<div class="lvdRng">' + ['1d', '7d', '30d'].map(function (k) { return '<span data-rng="' + k + '"' + ((S.rng || '30d') === k ? ' class="on"' : '') + '>' + esc(tr('rng_' + k)) + '</span>'; }).join('') + '</div>' +
           '<div class="lvdChart" id="lvdChart"></div><div id="lvdSumBox"></div></div>' +
         '<div class="lvdCol lvdShops lvdSellCol"><div class="lvdCap s">' + esc(tr('n_sell')) + (d ? ' <i>' + curCount(d.sell) + '</i>' : '') + '</div>' + shopRows(d && d.sell, 's', 'no_sellers') + '</div>' +
         '<div class="lvdCol lvdShops lvdBuyCol"><div class="lvdCap b">' + esc(tr('n_buy2')) + (d ? ' <i>' + curCount(d.buy) + '</i>' : '') + '</div>' + shopRows(d && d.buy, 'b', 'no_buyers') + '</div>' +
       '</div><div class="lvdCol lvdInfo">' + pieceHtml(pickedRow(d)) + infoHtml(r) + '</div></div>';
     box.querySelector('#lvdBack').onclick = closeDetail;
     // คลิกร้าน = ดูชิ้นของร้านนั้น + กราฟ/ข้อมูลเปลี่ยนเป็นระดับของชิ้นนั้น (อยู่หน้าเดิม ไม่สลับหน้า)
-    var rws = box.querySelectorAll((S.mode === 'sell' ? '.lvdBuyCol' : '.lvdSellCol') + ' .lvdRow[data-shop]');
+    var rws = box.querySelectorAll('.lvdRow[data-shop]');
     for (var i = 0; i < rws.length; i++) rws[i].onclick = function () {
+      var inBuy = !!(this.closest && this.closest('.lvdBuyCol'));
+      S.mode = inBuy ? 'sell' : 'buy';   // กดแถวฝั่งไหน มุมมอง (ระดับ/กราฟ/กล่องชิ้นที่เลือก) ตามฝั่งนั้น
       S.pick = { shop: this.getAttribute('data-shop'), vid: this.getAttribute('data-vid'), price: this.getAttribute('data-price') };
       S.lv = S.pick.vid; paintDetail();
     };
+    var rgs = box.querySelectorAll('.lvdRng [data-rng]');
+    for (var rk = 0; rk < rgs.length; rk++) rgs[rk].onclick = function () { S.rng = this.getAttribute('data-rng'); try { localStorage.setItem('lvmRng', S.rng); } catch (e) {} paintDetail(); };
     var lvc = box.querySelectorAll('.lvdLvc[data-lv]');
     for (var k = 0; k < lvc.length; k++) lvc[k].onclick = function () { S.lv = this.getAttribute('data-lv'); S.pick = null; paintDetail(); };
     drawChart();
+    var newIn = box.querySelectorAll('.lvdShops');
+    for (var sj = 0; sj < newIn.length && sj < keepIn.length; sj++) newIn[sj].scrollTop = keepIn[sj];
+    for (var sk = 0; sk < keepSc.length; sk++) keepSc[sk][0].scrollTop = keepSc[sk][1];
   }
   // จำนวนร้าน (ไม่ใช่จำนวนแถว: ร้านเดียวหลายราคา = 1 ร้าน)
   function curCount(list) {
@@ -1001,10 +1387,34 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
     if (sb) sb.innerHTML = histChart(curLv(), 600, 200).sum || '';
     c.innerHTML = '';
     var o = histChart(curLv(), Math.max(320, c.clientWidth), Math.max(110, c.clientHeight));
-    c.innerHTML = o.svg;
+    c.innerHTML = o.svg + '<div class="lvdVl"></div><div class="lvdDot s"></div><div class="lvdDot b"></div><div class="lvdTip"></div>';
+    var M = o.model; c.onmousemove = null; c.onmouseleave = null;
+    if (!M || !M.length) return;
+    var vl = c.querySelector('.lvdVl'), ds = c.querySelector('.lvdDot.s'), db = c.querySelector('.lvdDot.b'), tip = c.querySelector('.lvdTip');
+    function hide() { vl.style.display = ds.style.display = db.style.display = tip.style.display = 'none'; }
+    c.onmouseleave = hide;
+    c.onmousemove = function (e) {
+      var rc = c.getBoundingClientRect(), mx = e.clientX - rc.left, best = M[0], bd = Infinity;
+      for (var i = 0; i < M.length; i++) { var dd = Math.abs(M[i].x - mx); if (dd < bd) { bd = dd; best = M[i]; } }
+      vl.style.left = best.x + 'px'; vl.style.display = 'block';
+      if (best.s != null) { ds.style.left = best.x + 'px'; ds.style.top = best.ys + 'px'; ds.style.display = 'block'; } else ds.style.display = 'none';
+      if (best.b != null) { db.style.left = best.x + 'px'; db.style.top = best.yb + 'px'; db.style.display = 'block'; } else db.style.display = 'none';
+      tip.innerHTML = '<div class="lvdTD">' + esc(best.lab) + '</div>' +
+        (best.s != null ? '<div><i class="s"></i>' + esc(tr('hist_lo_s')) + ' <b class="s">' + money(best.s) + '</b></div>' : '') +
+        (best.b != null ? '<div><i class="b"></i>' + esc(tr('hist_hi_b')) + ' <b class="b">' + money(best.b) + '</b> <small>· ' + esc(tr('fee_net')) + ' ' + money(Math.round(best.bn)) + '</small></div>' : '');
+      tip.style.display = 'block';
+      var tw = tip.offsetWidth, left = best.x + 14; if (left + tw > c.clientWidth - 4) left = best.x - tw - 14; if (left < 4) left = 4;
+      tip.style.left = left + 'px'; tip.style.top = '8px';
+    };
   }
   // ตัวเลขหัวหน้า: ฝั่งเดียวตามโหมด (ไม่มีกำไร/ไม่เทียบสองฝั่ง)
   function kpis(r, d) {
+    if (r.gone) {
+      var gk = '<div class="lvdKpi"><small>' + esc(tr('last_seen')) + '</small><b>' + esc(dayShort(r.gd)) + '</b></div>';
+      if (r.gs) gk += '<div class="lvdKpi"><small>' + esc(tr('last_sell')) + '</small><b class="s">' + money(r.gs) + '</b></div>';
+      if (r.gb) gk += '<div class="lvdKpi"><small>' + esc(tr('last_buy')) + '</small><b class="b">' + money(r.gb) + '</b></div>';
+      return gk;
+    }
     var sell = S.mode !== 'sell', cls = sell ? 's' : 'b', inf = infoOf(r);
     var best = sell ? r.sell : r.buy, n = d ? curCount(sell ? d.sell : d.buy) : (sell ? r.ns : r.nb);
     var h = '<div class="lvdKpi"><small>' + esc(tr(sell ? 'k_best_s' : 'k_best_b')) + '</small><b class="' + cls + '">' + (best ? money(best) : '—') + '</b></div>';
@@ -1071,28 +1481,53 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
     }
     return pts;
   }
+  function hourNum(s) { var m = /^(\d{4})-(\d{2})-(\d{2}) (\d{2})$/.exec(s || ''); return m ? Math.round(Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4]) / 3600000) : null; }
+  // จุดกราฟแบบแกนเวลา: t = ชั่วโมงนับจาก epoch (เวลามอสโก) ; รายวัน = 00:00 ของวันนั้น
+  function histPts2(D, sell, hourly) {
+    var pts = [];
+    for (var i = 0; i < (D || []).length; i++) {
+      var x = D[i], v = sell ? x.s : x.b, m = sell ? x.sm : x.bm, n = sell ? x.sn : x.bn;
+      var t = hourly ? hourNum(x.d) : (dayNum(x.d) == null ? null : dayNum(x.d) * 24);
+      if (v && t != null) pts.push({ d: x.d, t: t, v: +(m || v), n: n || 0 });
+    }
+    return pts;
+  }
+  function fmtT(t, hourly) {
+    var d = new Date(t * 3600000), p2 = function (n) { return ('0' + n).slice(-2); };
+    var ds = p2(d.getUTCDate()) + '/' + p2(d.getUTCMonth() + 1);
+    return hourly ? ds + ' ' + p2(d.getUTCHours()) + ':00' : ds + '/' + d.getUTCFullYear();
+  }
   function histChart(vid, W, Ht) {
-    // สองเส้นของเกรดที่กำลังดู: เหลือง = ขายถูกสุด, เขียว = รับซื้อสูงสุด (หักค่าธรรมเนียม)
+    // สองเส้นของเกรดที่กำลังดู: เหลือง = ขายถูกสุด, เขียว = รับซื้อสูงสุด (หักค่าธรรมเนียม) ; ปุ่มช่วงเวลา 1 วัน (รายชั่วโมง) / 7 วัน / 30 วัน
     var H = S.hist && S.detail && S.hist.base === String(S.detail.base) ? S.hist : null;
     if (!H) return { svg: '<div class="lvdEmpty">' + esc(tr('loading')) + '</div>' };
-    var today = Math.round((Date.now() / 1000 + 3 * 3600) / 86400 - 0.5);
-    function series(isSell, fee) {   // v = ราคาหลัก (ขายถูกสุด / รับซื้อสูงสุด) หักค่าธรรมเนียมถ้ามี
-      var raw = histPts(H.levels[vid], isSell), o = [];
-      for (var i = 0; i < raw.length; i++) { var r = raw[i]; if (r.dn < today - 29) continue; o.push({ d: r.d, dn: r.dn, v: r.m * (1 - (fee || 0)), n: r.n }); }
+    var rng = S.rng || '30d', hourly = rng === '1d';
+    var nowH = Math.floor(Date.now() / 3600000) + 3, today = Math.floor(nowH / 24);
+    var t0, t1 = hourly ? nowH : today * 24;
+    function series(isSell, fee) {   // v = ราคาหลัก (ขายถูกสุด / รับซื้อสูงสุด) หักค่าธรรมเนียมถ้ามี ; raw = ราคาก่อนหัก
+      var src = hourly ? ((H.hours || {})[vid]) : H.levels[vid], a = histPts2(src, isSell, hourly), o = [];
+      var lim = hourly ? nowH - 24 : (rng === '7d' ? (today - 6) * 24 : (today - 29) * 24);
+      for (var i = 0; i < a.length; i++) if (a[i].t >= lim) o.push({ d: a[i].d, t: a[i].t, v: a[i].v * (1 - (fee || 0)), raw: a[i].v, n: a[i].n });
       return o;
     }
     var SELL = '#ffd23f', BUY = '#2fd18b';
     var sellP = series(true, 0), buyP = series(false, BUY_FEE);
-    if (sellP.length < 1 && buyP.length < 1) return { svg: '<div class="lvdEmpty">' + esc(tr('hist_none')) + '</div>' };
-    var first = Infinity;
-    if (sellP.length) first = Math.min(first, sellP[0].dn);
-    if (buyP.length) first = Math.min(first, buyP[0].dn);
-    var span = Math.min(29, Math.max(6, Math.ceil((today - first) * 1.08))), d0 = today - span;
+    if (sellP.length < 1 && buyP.length < 1) return { svg: '<div class="lvdEmpty">' + esc(tr(hourly ? 'hist_none_h' : 'hist_none')) + '</div>' };
+    if (hourly) t0 = nowH - 24;
+    else if (rng === '7d') t0 = (today - 6) * 24;
+    else {
+      var first = Infinity;
+      if (sellP.length) first = Math.min(first, sellP[0].t);
+      if (buyP.length) first = Math.min(first, buyP[0].t);
+      var spanD = Math.min(29, Math.max(6, Math.ceil((t1 - first) / 24 * 1.08)));
+      t0 = t1 - spanD * 24;
+    }
+    var rngT = Math.max(1, t1 - t0);
     var L = 62, R = 14, Tp = 12, B = 26, lo = Infinity, hi = -Infinity;
     function bound(a) { for (var j = 0; j < a.length; j++) { lo = Math.min(lo, a[j].v); hi = Math.max(hi, a[j].v); } }
     bound(sellP); bound(buyP);
     var pad = (hi - lo) * 0.12 || hi * 0.1 || 1; lo = Math.max(0, lo - pad); hi += pad;
-    function X(dn) { return L + (W - L - R) * Math.min(1, Math.max(0, (dn - d0) / span)); }
+    function X(tt) { return L + (W - L - R) * Math.min(1, Math.max(0, (tt - t0) / rngT)); }
     function Y(v) { return Tp + (Ht - Tp - B) * (1 - (v - lo) / (hi - lo)); }
     var g = '', gN = Ht > 260 ? 5 : 3;
     for (var k = 0; k <= gN; k++) {
@@ -1100,29 +1535,59 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
       g += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + gy + '" y2="' + gy + '" stroke="rgba(255,255,255,.06)"/>' +
         '<text x="' + (L - 8) + '" y="' + gy + '" dy="4" text-anchor="end" fill="#5d6578" font-size="11">' + axisK(gv, hi - lo) + '</text>';
     }
-    var xN = W > 640 ? 6 : 2;
+    var xN = hourly ? 4 : (W > 640 ? 6 : 2);
     for (var q = 0; q <= xN; q++) {
-      var dd = Math.round(d0 + q * span / xN), dt = new Date(dd * 86400000), lb = ('0' + dt.getUTCDate()).slice(-2) + '/' + ('0' + (dt.getUTCMonth() + 1)).slice(-2);
-      g += '<text x="' + X(dd).toFixed(1) + '" y="' + (Ht - 6) + '" text-anchor="' + (q === 0 ? 'start' : q === xN ? 'end' : 'middle') + '" fill="#5d6578" font-size="11">' + lb + '</text>';
+      var tq = Math.round(t0 + q * rngT / xN), dtq = new Date(tq * 3600000), p2 = function (n) { return ('0' + n).slice(-2); };
+      var lb = hourly ? p2(dtq.getUTCHours()) + ':00' : p2(dtq.getUTCDate()) + '/' + p2(dtq.getUTCMonth() + 1);
+      g += '<text x="' + X(tq).toFixed(1) + '" y="' + (Ht - 6) + '" text-anchor="' + (q === 0 ? 'start' : q === xN ? 'end' : 'middle') + '" fill="#5d6578" font-size="11">' + lb + '</text>';
     }
-    function pathOf(a) { var p = ''; for (var i = 0; i < a.length; i++) p += (i ? 'L' : 'M') + X(a[i].dn).toFixed(1) + ' ' + Y(a[i].v).toFixed(1); return p; }
-    function dotsOf(a, col, lab) { var s = ''; for (var i = 0; i < a.length; i++) s += '<circle cx="' + X(a[i].dn).toFixed(1) + '" cy="' + Y(a[i].v).toFixed(1) + '" r="2.7" fill="' + col + '"><title>' + a[i].d + ' · ' + lab + ' ' + money(a[i].v) + ' · ' + a[i].n + ' ' + tr('shops') + '</title></circle>'; return s; }
-    var sellLab = tr('hist_lo_s'), buyLab = BUY_FEE > 0 ? tr('hist_hi_b_fee') : tr('hist_hi_b');
+    // เส้นแบบขั้นบันได: ราคาคงเดิมจนกว่าจะเห็นราคาใหม่ (ต่อถึงขอบขวา = ราคาล่าสุดที่เห็น)
+    function pathOf(a) { var s = ''; for (var i = 0; i < a.length; i++) { var x = X(a[i].t).toFixed(1), y = Y(a[i].v).toFixed(1); s += i ? 'H' + x + 'V' + y : 'M' + x + ' ' + y; } return s + 'H' + X(t1).toFixed(1); }
+    function dotsOf(a, col) { var s = ''; for (var i = 0; i < a.length; i++) s += '<circle cx="' + X(a[i].t).toFixed(1) + '" cy="' + Y(a[i].v).toFixed(1) + '" r="2.4" fill="' + col + '"/>'; return s; }
+    var sellLab = tr('hist_lo_s');
     var svg = '<svg class="lvdSvg" width="' + W + '" height="' + Ht + '" viewBox="0 0 ' + W + ' ' + Ht + '" style="position:absolute;left:0;top:0;width:' + W + 'px;height:' + Ht + 'px">' + g;
-    if (buyP.length > 1) svg += '<path d="' + pathOf(buyP) + '" fill="none" stroke="' + BUY + '" stroke-width="2" stroke-linejoin="round"/>';
-    if (sellP.length > 1) svg += '<path d="' + pathOf(sellP) + '" fill="none" stroke="' + SELL + '" stroke-width="2.3" stroke-linejoin="round"/>';
-    svg += dotsOf(buyP, BUY, buyLab) + dotsOf(sellP, SELL, sellLab) + '</svg>';
+    if (buyP.length) svg += '<path d="' + pathOf(buyP) + '" fill="none" stroke="' + BUY + '" stroke-width="2" stroke-linejoin="round"/>';
+    if (sellP.length) svg += '<path d="' + pathOf(sellP) + '" fill="none" stroke="' + SELL + '" stroke-width="2.3" stroke-linejoin="round"/>';
+    svg += dotsOf(buyP, BUY) + dotsOf(sellP, SELL) + '</svg>';
+    // โมเดลสำหรับป้ายลอยตอนชี้: ทุกเวลาที่มีจุดของเส้นใดเส้นหนึ่ง + ราคาของแต่ละเส้น ณ เวลานั้น (ค่าล่าสุดก่อนหน้า)
+    var ts = {}, i0;
+    for (i0 = 0; i0 < sellP.length; i0++) ts[sellP[i0].t] = 1;
+    for (i0 = 0; i0 < buyP.length; i0++) ts[buyP[i0].t] = 1;
+    var tl = []; for (var tk in ts) tl.push(+tk); tl.sort(function (a, b) { return a - b; });
+    function at(a, tt) { var r = null; for (var i = 0; i < a.length; i++) { if (a[i].t <= tt) r = a[i]; else break; } return r; }
+    var model = [];
+    for (var mi = 0; mi < tl.length; mi++) {
+      var sp = at(sellP, tl[mi]), bp = at(buyP, tl[mi]);
+      model.push({ x: X(tl[mi]), lab: fmtT(tl[mi], hourly), s: sp ? sp.v : null, ys: sp ? Y(sp.v) : null, b: bp ? bp.raw : null, bn: bp ? bp.v : null, yb: bp ? Y(bp.v) : null });
+    }
     var sLast = sellP[sellP.length - 1], bLast = buyP[buyP.length - 1];
+    // ตัวเลขข้างป้าย = ราคาปัจจุบันจากรายการร้านของระดับนี้ (ตรงกับตารางด้านล่าง) ; ไม่มีรายการ -> ใช้จุดล่าสุดของกราฟ
+    var DD = S.detailData && S.detail && S.detailData.vid === vidOf(S.detail) ? S.detailData : null;
+    function curBest(list, isMin) {
+      var b = null, bv = String(S.detail ? S.detail.base : '');
+      for (var i = 0; i < (list || []).length; i++) {
+        if (String(list[i].vid || bv) !== String(vid)) continue;
+        var pv = +list[i].price; if (!pv) continue;
+        if (b === null || (isMin ? pv < b : pv > b)) b = pv;
+      }
+      return b;
+    }
+    var sNow = DD ? curBest(DD.sell, true) : null, bNow = DD ? curBest(DD.buy, false) : null;
+    var sShow = sNow !== null ? sNow : (sLast ? sLast.v : null);
+    var bShow = bNow !== null ? bNow : (bLast ? bLast.raw : null);
+    var bNet = bShow !== null ? Math.round(bShow * (1 - BUY_FEE)) : null;
     var sum = '<div class="lvdSum">' +
-      '<span class="lvdLeg"><em style="border-color:' + SELL + '"></em>' + esc(sellLab) + (sLast ? ' <b style="color:' + SELL + '">' + money(sLast.v) + '</b>' : '') + '</span>' +
-      '<span class="lvdLeg"><em style="border-color:' + BUY + '"></em>' + esc(buyLab) + (bLast ? ' <b style="color:' + BUY + '">' + money(bLast.v) + '</b>' : '') + '</span></div>';
-    return { svg: svg, sum: sum };
+      '<span class="lvdLeg"><em style="border-color:' + SELL + '"></em>' + esc(sellLab) + (sShow !== null ? ' <b style="color:' + SELL + '">' + money(sShow) + '</b>' : '') + '</span>' +
+      '<span class="lvdLeg"><em style="border-color:' + BUY + '"></em>' + esc(tr('hist_hi_b')) + (bShow !== null ? ' <b style="color:' + BUY + '">' + money(bShow) + '</b>' : '') +
+      (BUY_FEE > 0 && bNet !== null ? ' <small style="color:#8a93a8">· ' + esc(tr('fee_net')) + ' ' + money(bNet) + '</small>' : '') + '</span></div>';
+    return { svg: svg, sum: sum, model: model };
   }
   function openDetail(vid, pick) {
     var r = null;
     for (var i = 0; i < S.rows.length; i++) if (vidOf(S.rows[i]) === vid) { r = S.rows[i]; break; }
     if (!r) return;
     S.detail = r; S.detailData = null; S.hist = null; S.pick = pick || null; S.lv = null; S.infoOpen = false;
+    S.mode = (!r.sell && r.buy) ? 'sell' : 'buy';   // ไอเทมที่มีแต่คนรับซื้อ: มุมมองฝั่งรับซื้อ
     setTimeout(function () {   // server ไม่ตอบ = บอกว่ายังไม่มีประวัติ แทนหมุนค้าง
       if (S.detail === r && !S.hist) { S.hist = { base: String(r.base), levels: {} }; paintDetail(); }
     }, 8000);
@@ -1140,12 +1605,12 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
   }
   function paintList() {
     var list = document.getElementById('lvmList'); if (!list) return;
-    var q = S.query, rows = [], ns = 0, np = 0, cn = {};
+    var q = S.query, rows = [], ns = 0, np = 0, na = 0, cn = {};
     for (var i = 0; i < S.rows.length; i++) {
       var r = S.rows[i];
       if (q && (String(r.name || '').toLowerCase().indexOf(q) < 0) && (String(r.base || '').indexOf(q) < 0)) continue;
-      if (r.sell) ns++; if (r.buy) np++;
-      if (!sideOf(r)) continue;   // เฉพาะไอเทมที่มีฝั่งของโหมดนี้
+      if (r.sell) ns++; if (r.buy) np++; if (r.sell || r.buy) na++;
+      if (!sideOf(r)) continue;   // เฉพาะไอเทมที่ผ่านตัวกรอง
       var rc = catOf(r); cn[rc] = (cn[rc] || 0) + 1;
       if (S.cat !== 'all' && rc !== S.cat) continue;
       rows.push(r);
@@ -1153,15 +1618,28 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
     // sort แบบ stable (CEF ในเกมเป็น Chromium เก่า sort ไม่ stable) = ลำดับไม่สลับไปมาระหว่างหน้า
     for (var k = 0; k < rows.length; k++) rows[k].__i = k;
     // เรียง: ร้านเยอะสุด / อัปเดตล่าสุด / ชื่อ (ไม่มีเรียงตามราคา/กำไร = ไม่ใช่ที่ล่าดีล)
-    var srt = S.sort || 'shops', sl = S.mode !== 'sell';
-    function key(r) { return srt === 'new' ? -(+(sl ? r.st : r.bt) || 0) : srt === 'name' ? 0 : -(+(sl ? r.ns : r.nb) || 0); }
+    var srt = S.sort || 'shops', fl = S.flt;
+    function key(r) {
+      if (S.avail === 'gone') return srt === 'name' ? 0 : -(parseInt(String(r.gd || '0').replace(/-/g, ''), 10) || 0);   // ล่าสุดก่อน
+      if (srt === 'new') return -(fl === 'sell' ? (+r.st || 0) : fl === 'buy' ? (+r.bt || 0) : Math.max(+r.st || 0, +r.bt || 0));
+      if (srt === 'name') return 0;
+      return -(fl === 'sell' ? (+r.ns || 0) : fl === 'buy' ? (+r.nb || 0) : (+r.ns || 0) + (+r.nb || 0));
+    }
     rows.sort(function (a, b) {
       return ((S.fav[b.base] ? 1 : 0) - (S.fav[a.base] ? 1 : 0)) || (key(a) - key(b)) ||
         (srt === 'name' ? (String(a.name).toLowerCase() < String(b.name).toLowerCase() ? -1 : String(a.name).toLowerCase() > String(b.name).toLowerCase() ? 1 : 0) : 0) || (a.__i - b.__i);
     });
     var so = document.getElementById('lvmSort');
     if (so) {
-      var opts = [['shops', 'sort_shops'], ['new', 'sort_new'], ['name', 'sort_name']], sh = '<span class="lvmSortL">' + esc(tr('sort_by')) + '</span>';
+      var sh = '', av = [['now', 'av_now'], ['gone', 'av_gone']];
+      for (var ai = 0; ai < av.length; ai++) sh += '<span class="lvmSortB flt' + (S.avail === av[ai][0] ? ' on' : '') + '" data-avail="' + av[ai][0] + '">' + esc(tr(av[ai][1])) + '</span>';
+      sh += '<span class="lvmSortSep"></span>';
+      var fo = [['all', 'flt_all'], ['sell', 'flt_sell'], ['buy', 'flt_buy']];
+      if (S.avail === 'now') {
+        for (var fi = 0; fi < fo.length; fi++) sh += '<span class="lvmSortB flt' + (S.flt === fo[fi][0] ? ' on' : '') + '" data-flt="' + fo[fi][0] + '">' + esc(tr(fo[fi][1])) + '</span>';
+        sh += '<span class="lvmSortSep"></span>';
+      }
+      var opts = [['shops', 'sort_shops'], ['new', 'sort_new'], ['name', 'sort_name']]; sh += '<span class="lvmSortL">' + esc(tr('sort_by')) + '</span>';
       for (var oi = 0; oi < opts.length; oi++) sh += '<span class="lvmSortB' + (srt === opts[oi][0] ? ' on' : '') + '" data-sort="' + opts[oi][0] + '">' + esc(tr(opts[oi][1])) + '</span>';
       setHtml(so, sh);
     }
@@ -1178,10 +1656,7 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
       list.__cs = cs.length ? cs : null;
       setHtml(list, cs.join('') || ('<div class="lvmEmpty">' + esc(tr('none')) + '</div>'));
     }
-    var e1 = document.getElementById('lvmNS'); if (e1) e1.textContent = money(ns);
-    var e2 = document.getElementById('lvmNP'); if (e2) e2.textContent = money(np);
-    var b1 = document.getElementById('lvmBadgeS'); if (b1) b1.textContent = money(ns);
-    var b2 = document.getElementById('lvmBadgeB'); if (b2) b2.textContent = money(np);
+    var b1 = document.getElementById('lvmBadgeS'); if (b1) b1.textContent = money(na);
     for (var ck = 0; ck < CATS.length; ck++) {
       var cb = document.getElementById('lvmCatN_' + CATS[ck].id), cv = cn[CATS[ck].id] || 0;
       if (cb && cb.textContent !== money(cv)) { cb.textContent = money(cv); cb.parentNode.classList.toggle('zero', !cv); }
@@ -1229,6 +1704,7 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
   // เลขเซิร์ฟ Arizona ตามชื่อ (จากรายชื่อเซิร์ฟของลันเชอร์) -> โลโก้ทางการของเซิร์ฟ
   var SRVNUM = {"phoenix":1,"tucson":2,"scottdale":3,"chandler":4,"brainburg":5,"saint-rose":6,"mesa":7,"red-rock":8,"yuma":9,"surprise":10,"prescott":11,"glendale":12,"kingman":13,"winslow":14,"payson":15,"gilbert":16,"show low":17,"casa-grande":18,"page":19,"sun-city":20,"queen-creek":21,"sedona":22,"holiday":23,"wednesday":24,"yava":25,"faraway":26,"bumble bee":27,"christmas":28,"mirage":29,"love":30,"drake":31,"space":32,"home":33};
   var SRVICO = 'https://cdn.azresources.cloud/projects/arizona-rp/assets/images/project_icons/';
+  var SRVICON = { vicecity: 'vc' };   // เซิร์ฟพิเศษที่ไม่มีเลข: ชื่อไฟล์ไอคอนบน CDN (Vice City = vc.webp, สกุลเงิน VC ไม่ใช่ SA)
   var SRVNORM = null;   // SRVNUM with only a-z in the names: casa-grande / saint-rose / sun-city / bumble bee ... match their hostnames
   function srvNum(name) {
     if (!SRVNORM) { SRVNORM = {}; for (var n in SRVNUM) SRVNORM[n.replace(/[^a-z]/g, '')] = SRVNUM[n]; }
@@ -1244,8 +1720,9 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
     return { short: short || key, num: num, key: key };
   }
   function srvLogo(num, short) {
+    var ico = num || SRVICON[String(short || '').toLowerCase().replace(/[^a-z]/g, '')] || '';   // เลข หรือชื่อไอคอนพิเศษ (vc)
     return '<span class="lvmSrvNo">' + esc(num || (String(short).charAt(0) || '?').toUpperCase()) +
-      (num ? '<img src="' + SRVICO + esc(num) + '.webp" onerror="this.parentNode.removeChild(this)">' : '') + '</span>';
+      (ico ? '<img src="' + SRVICO + esc(ico) + '.webp" onerror="this.parentNode.removeChild(this)">' : '') + '</span>';
   }
   function isOwnKey(k) { var o = String((S.srv || {}).own || ''); k = String(k || ''); return !!o && (k === o || k === o.slice(0, 16)); }
   function nowS() { return Date.now() / 1000 + (S.skew || 0); }
@@ -1359,6 +1836,7 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
   var ICO = {
     shop: '<path d="M4 9l1.5-5h13L20 9"/><path d="M4 9a2.7 2.7 0 0 0 5.3 0 2.7 2.7 0 0 0 5.4 0 2.7 2.7 0 0 0 5.3 0"/><path d="M5 11v9h14v-9"/><path d="M10 20v-5h4v5"/>',
     home: '<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/>',
+    car: '<path d="M4 16v-4l2-5h12l2 5v4"/><path d="M3 16h18"/><circle cx="7.5" cy="17.5" r="1.5"/><circle cx="16.5" cy="17.5" r="1.5"/><path d="M6 12h12"/>',
     cart: '<path d="M3 4h2l2.4 11h10.2L20 8H6.2"/><circle cx="9" cy="19" r="1.4"/><circle cx="17" cy="19" r="1.4"/>',
     caret: '<path d="M8 10l4 4 4-4"/>',
     menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
@@ -1475,6 +1953,8 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
       '<div class="lvmMI" data-act="sync"><i>' + icon('sync') + '</i><span>' + esc(tr('m_sync')) + '<small>' + esc(tr('m_sync_h')) + '</small></span></div>' +
       '<div class="lvmMI" data-act="changelog"><i>' + icon('upd') + '</i><span>' + esc(tr('m_history')) + '</span><em class="arr">›</em></div>' +
       '<div class="lvmMSec">' + esc(tr('m_sec_set')) + '</div>' +
+      '<div class="lvmFramePicker"><span>' + esc(tr('window_frame')) + '</span><div class="lvmFrameChoices">' + ['none', 'aqua', 'gold', 'violet', 'fire', 'surge'].map(function (frame) { return '<button type="button" class="lvmFrameChoice' + (S.windowFrame === frame ? ' on' : '') + '" data-act="window-frame" data-frame="' + frame + '" aria-pressed="' + (S.windowFrame === frame ? 'true' : 'false') + '">' + esc(tr('frame_' + frame)) + '</button>'; }).join('') + '</div></div>' +
+      '<div class="lvmFramePicker"><span>' + esc(tr('profile_frame')) + '</span><div class="lvmFrameChoices">' + ['none', 'lm', 'lamball'].map(function (style) { var label = style === 'none' ? tr('frame_none') : style === 'lm' ? 'LavkaMarket' : 'Lamball'; return '<button type="button" class="lvmFrameChoice' + (S.avatarStyle === style ? ' on' : '') + '" data-act="avatar-style" data-avatar-style="' + style + '" aria-pressed="' + (S.avatarStyle === style ? 'true' : 'false') + '">' + esc(label) + '</button>'; }).join('') + '</div></div>' +
       '<div class="lvmMI" data-act="share"><i>' + icon('share') + '</i><span>' + esc(tr('m_share')) + '<small>' + esc(tr('m_share_h')) + '</small></span><b class="lvmSw' + (p.share ? ' on' : '') + '"></b></div>' +
       '<div class="lvmMI" data-act="discord"><i>' + discordSvg('currentColor') + '</i><span>' + esc(tr('m_discord')) + '</span><em class="arr">›</em></div>' +
       '<div class="lvmMSep"></div>' +
@@ -1503,7 +1983,7 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
     for (var i = 0; i < navs.length; i++) {
       var m = navs[i].getAttribute('data-m');
       var c = navs[i].getAttribute('data-cat');
-      navs[i].classList.toggle('on', navs[i].getAttribute('data-tab') === S.tab && (!m || m === S.mode) && (!c || c === S.cat));
+      navs[i].classList.toggle('on', navs[i].getAttribute('data-tab') === S.tab && (!c || c === S.cat));
     }
   }
   function render() {
@@ -1532,7 +2012,8 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
       }, true);
     }
   }
-  function hide() { var r = root(); if (r) r.remove(); }
+  function hide() { if (typeof C3D !== 'undefined' && C3D.cancelThumbnails) C3D.cancelThumbnails(); var r = root(); if (r) r.remove(); }
+
 
   window.LVM = {
     __v: 1,
@@ -1555,9 +2036,12 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
     },
     server: function (js) {
       var g0 = S.srv && +S.srv.gate;
+      var oldPropertyServer = propertyServer();
       try { S.srv = JSON.parse(js); } catch (e) {}
+      if (oldPropertyServer !== propertyServer()) { S.property = null; S.propertyState = ''; S.propertyPage = 0; S.propertyMapSelected = ''; S.propertyMapZoom = 1; }
       if (S.srv && S.srv.now) S.skew = S.srv.now - Date.now() / 1000;   // นาฬิกาเกม vs หน้าเว็บ
       paintSrv(); paintSrvMenu();
+      if (S.tab === 'property') { requestProperty(); paintProperty(); }
       if (g0 !== (S.srv && +S.srv.gate)) paintHome();
     },
     // ผลการดึงกองกลาง: { s: 'run' | 'ok' | 'err', n }
@@ -1571,6 +2055,9 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
       }
       paintHome(); paintSrv(true);
     },
+    auctionSeen: function (js) { var p; try { p = JSON.parse(js); } catch (e) { return; } if (!p || (p.kind !== 'house' && p.kind !== 'business') || !Array.isArray(p.items)) return; rememberAuctionUnits(p); S.gameAuctions = S.gameAuctions || {}; S.gameAuctions[p.kind] = p; if (S.tab === 'property') paintProperty(); },
+    auctionPool: function (js) { var p; try { p = JSON.parse(js); } catch (e) { return; } if (!p || !p.ok || p.server !== (S.srv || {}).key || !Array.isArray(p.items)) return; S.auctionPool = p; if (S.tab === 'property') paintProperty(); },
+    property: function (js) { var p; try { p = JSON.parse(js); } catch (e) { p = null; } if (!p || p.server !== propertyServer()) return; if (p.ok && !Array.isArray(p.items)) p.items = []; S.property = p.ok ? p : null; S.propertyState = p.ok ? '' : 'error'; paintProperty(); },
     status: function (t) { S.status = t || ''; var s = document.getElementById('lvmStat'); if (s) s.textContent = S.status; },
     chunk: function (s) { S.buf += s; },
     recv: function () { var a; try { a = JSON.parse(S.buf) || []; } catch (e) { a = []; } S.buf = ''; S.rows = mergeRows(a); paintList(); paintHome(); },
@@ -1609,6 +2096,17 @@ local EMBED = { stamp = "0.5.6-cde05037", files = {
       if (d.info && isArr(d.info.lines)) S.info[String(d.info.vid)] = d.info;
       if (isArr(d.infos)) for (var j = 0; j < d.infos.length; j++) if (d.infos[j] && isArr(d.infos[j].lines)) S.info[String(d.infos[j].vid)] = d.infos[j];
       paintDetail();
+    },
+    shops: function (js) {   // รายชื่อร้านทั้งหมดที่ยังสด (ตอบกลับจาก lvm|shops)
+      var d = null; try { d = JSON.parse(js); } catch (x) {}
+      S.shops = isArr(d) ? d : [];
+      if (S.tab === 'shops' && !S.shopSel) paintShops();
+    },
+    shop: function (js) {    // ของที่ร้านหนึ่งขาย/รับซื้อ (ตอบกลับจาก lvm|shop:<ชื่อ>)
+      var d = null; try { d = JSON.parse(js); } catch (x) {}
+      if (!d || d.name !== S.shopSel) return;
+      d.sell = isArr(d.sell) ? d.sell : []; d.buy = isArr(d.buy) ? d.buy : [];
+      S.shopData = d; paintShops();
     },
     item: function (js) {   // รายการร้านของไอเทมที่เปิดอยู่ (ตอบกลับจาก lvm|item:<vid>)
       var d = null; try { d = JSON.parse(js); } catch (e) {}
@@ -1649,7 +2147,7 @@ end
 pcall(extractEmbed)
 local STATIC = (type(EMBED) == 'table' and EMBED.static == true)   -- เวอร์ชัน static (blast.hk): ไม่มีตัวอัปเดตในตัว + ฝัง items.json ครบ
 local CLOG = (type(EMBED) == 'table') and EMBED.clog or nil        -- changelog ฝังในตัว (static) -> หน้าประวัติใช้ได้ออฟไลน์
-local BUILD_STAMP = (type(EMBED) == 'table') and EMBED.stamp or nil   -- รหัสรุ่นที่ build ไว้รายงานเวอร์ชัน
+local BUILD_STAMP = (type(EMBED) == 'table') and EMBED.stamp or nil   -- รหัสรุ่นที่ build (เช่น 0.5.5-695805fc / 0.5.5-dev-...) ไว้รายงานเวอร์ชัน
 EMBED = nil   -- ไม่ต้องถือข้อมูล ~1 MB ไว้ในหน่วยความจำ
 
 -- ไฟล์ตั้งค่า ini แบบง่าย (มีแค่หมวด [main]) - ไม่พึ่ง inicfg เพราะ inicfg บังคับอยู่ใน moonloader\config
@@ -1893,9 +2391,12 @@ local function mergedShops()
     -- ข้อมูลร้านที่ไม่มีใครอัปเดตเกิน maxAge ชั่วโมง (ค่าเริ่มต้น 24 ; 0 = ไม่จำกัด) ไม่แสดง
     -- ซ่อนเฉพาะตอนแสดงผล: ข้อมูลในไฟล์/บนกองกลางไม่ถูกลบ ถ้ามีใครส่งฉบับใหม่มา ร้านจะกลับมาเอง
     local h = tonumber(cfg.main.maxAge); if h == nil then h = 24 end
-    if h > 0 then
-        local lim = os.time() - h * 3600
-        for name, s in pairs(out) do if type(s) == 'table' and (tonumber(s.t) or 0) < lim then out[name] = nil end end
+    local lim = h > 0 and (os.time() - h * 3600) or nil
+    for name, s in pairs(out) do
+        if type(s) == 'table' then
+            local t = tonumber(s.t) or 0
+            if (lim and t < lim) or (tonumber(s.closed) and tonumber(s.closed) >= t) then out[name] = nil end
+        end
     end
     return out
 end
@@ -1935,6 +2436,17 @@ local function buildMarket()
         end
         e.sp = nil
         MARKET[#MARKET + 1] = e
+    end
+    -- ไอเทมที่เคยมีคนขาย/รับซื้อ (จากประวัติบนกองกลาง) แต่ตอนนี้ไม่มีร้านเลย = "ยังไม่มีในตลาดตอนนี้" (เก็บไว้ดูราคาอ้างอิง)
+    local G = type(LVMQ) == 'table' and LVMQ.gone
+    if type(G) == 'table' then
+        for id, g in pairs(G) do
+            if not idx[id] then
+                local base, grade = splitVid(id)
+                MARKET[#MARKET + 1] = { vid = id, base = base, grade = grade, name = nameOf(base), gone = true,
+                                        goneDay = g.d, goneSell = g.s, goneBuy = g.b }
+            end
+        end
     end
     table.sort(MARKET, function(a, b) return (a.name or '') < (b.name or '') end)
     uiDirty = true
@@ -2217,15 +2729,17 @@ local function cefEval(code)
 end
 local B64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
 local function b64(data)
-    local out = {}
+    local out, blocks = {}, {}
     for i = 1, #data, 3 do
         local a, b, c = data:byte(i, i + 2)
         local n = a * 65536 + (b or 0) * 256 + (c or 0)
         local c1, c2, c3, c4 = math.floor(n / 262144) % 64, math.floor(n / 4096) % 64, math.floor(n / 64) % 64, n % 64
         out[#out + 1] = B64:sub(c1 + 1, c1 + 1) .. B64:sub(c2 + 1, c2 + 1) ..
             (b and B64:sub(c3 + 1, c3 + 1) or '=') .. (c and B64:sub(c4 + 1, c4 + 1) or '=')
+        if #out == 4096 then blocks[#blocks + 1] = table.concat(out); out = {} end
     end
-    return table.concat(out)
+    blocks[#blocks + 1] = table.concat(out)
+    return table.concat(blocks)
 end
 local function jsText(str)   -- UTF-8 -> ปลอดภัยใน '...' (non-ASCII -> \uXXXX)
     local out, i, n = {}, 1, #str
@@ -2254,7 +2768,7 @@ local function sendBig(varName, applyJs, utf8)
         cefEval('window.' .. varName .. "+='" .. enc:sub(i, j) .. "';")
         i = j + 1
     end
-    cefEval('try{var __s=decodeURIComponent(escape(atob(window.' .. varName .. ')));' .. applyJs ..
+    cefEval('try{var __b=atob(window.' .. varName .. '),__a=new Uint8Array(__b.length);for(var __i=0;__i<__b.length;__i++)__a[__i]=__b.charCodeAt(__i);var __s=new TextDecoder("utf-8").decode(__a);' .. applyJs ..
         '}catch(e){try{cef.SendMessage("lvm|err:"+e.message,0)}catch(x){}}window.' .. varName .. "='';")
 end
 
@@ -2305,13 +2819,23 @@ local function pushPull(s, n)
     if panelOpen then cefEval("if(window.LVM&&LVM.pull)LVM.pull('" .. jsText(encodeJson({ s = s, n = n or 0 })) .. "')") end
 end
 local function pushRows()
-    local rows, n = {}, 0
+    local rows, n, ng = {}, 0, 0
     for _, e in ipairs(MARKET) do
-        n = n + 1; if n > 2000 then break end   -- หน้าเว็บแบ่งหน้าเอง (20 ใบ/หน้า)
-        rows[#rows + 1] = { vid = e.vid, base = e.base, name = e.name, grade = e.grade ~= '' and e.grade or nil, bg = bgOf(e.vid),
-            sell = e.sellMin, sellShop = e.sellShop, sellCnt = e.sellCnt,
-            buy = e.buyMax, buyShop = e.buyShop, buyCnt = e.buyCnt,
-            ns = e.ns, nb = e.nb, med = e.med, st = e.sellT, bt = e.buyT, ty = ITEMTYPE[tostring(e.base)] }
+        if e.gone then
+            ng = ng + 1
+            if ng <= 2500 then
+                rows[#rows + 1] = { vid = e.vid, base = e.base, name = e.name, grade = e.grade ~= '' and e.grade or nil, bg = bgOf(e.vid),
+                    gone = 1, gd = e.goneDay, gs = e.goneSell, gb = e.goneBuy, ty = ITEMTYPE[tostring(e.base)] }
+            end
+        else
+            n = n + 1
+            if n <= 2000 then   -- หน้าเว็บแบ่งหน้าเอง (20 ใบ/หน้า)
+                rows[#rows + 1] = { vid = e.vid, base = e.base, name = e.name, grade = e.grade ~= '' and e.grade or nil, bg = bgOf(e.vid),
+                    sell = e.sellMin, sellShop = e.sellShop, sellCnt = e.sellCnt,
+                    buy = e.buyMax, buyShop = e.buyShop, buyCnt = e.buyCnt,
+                    ns = e.ns, nb = e.nb, med = e.med, st = e.sellT, bt = e.buyT, ty = ITEMTYPE[tostring(e.base)] }
+            end
+        end
     end
     local json = encodeJson(rows)
     uiDirty = false
@@ -2355,6 +2879,47 @@ local function pushItem(vid)
     sendBig('__lvmI', 'if(window.LVM)LVM.item(__s)', encodeJson({ vid = vid, sell = sells, buy = buys }))
 end
 
+-- หน้า "ร้านค้า": รายชื่อร้าน + ของที่ร้านนั้นขาย/รับซื้อ (global เพราะ main() ใกล้เพดานตัวแปร 60 ตัวแล้ว)
+function LVM_pushShops()
+    local list = {}
+    for name, s in pairs(mergedShops()) do
+        if type(s) == 'table' then
+            local ns, nb = 0, 0
+            for _ in pairs(type(s.sell) == 'table' and s.sell or {}) do ns = ns + 1 end
+            for _ in pairs(type(s.buy) == 'table' and s.buy or {}) do nb = nb + 1 end
+            if ns + nb > 0 then list[#list + 1] = { name = name, t = tonumber(s.t), ns = ns, nb = nb } end
+        end
+    end
+    table.sort(list, function(a, b) if (a.t or 0) ~= (b.t or 0) then return (a.t or 0) > (b.t or 0) end return a.name < b.name end)
+    sendBig('__lvmS', 'if(window.LVM)LVM.shops(__s)', encodeJson(list))
+end
+function LVM_pushShop(name)
+    local s = mergedShops()[name]
+    local sells, buys = {}, {}
+    local function add(out, best, bq, lv)
+        for k, p in pairs(type(best) == 'table' and best or {}) do
+            if tonumber(p) then
+                local base, grade = splitVid(tostring(k))
+                local function row(price, cnt)
+                    out[#out + 1] = { vid = tostring(k), base = base, name = nameOf(base), grade = grade ~= '' and grade or nil,
+                                      bg = bgOf(tostring(k)), price = price, cnt = cnt }
+                end
+                local L = type(lv) == 'table' and lv[k]
+                if type(L) == 'table' and L[1] then
+                    for _, e in ipairs(L) do if type(e) == 'table' and tonumber(e[1]) then row(tonumber(e[1]), tonumber(e[2]) or 1) end end
+                else
+                    row(tonumber(p), (bq and tonumber(bq[k])) or 1)
+                end
+            end
+        end
+    end
+    if type(s) == 'table' then add(sells, s.sell, s.sq, s.sl); add(buys, s.buy, s.bq, s.bl) end
+    table.sort(sells, function(a, b) if (a.name or '') ~= (b.name or '') then return (a.name or '') < (b.name or '') end return a.price < b.price end)
+    table.sort(buys, function(a, b) if (a.name or '') ~= (b.name or '') then return (a.name or '') < (b.name or '') end return a.price > b.price end)
+    sendBig('__lvmP', 'if(window.LVM)LVM.shop(__s)', encodeJson({ name = name, t = type(s) == 'table' and tonumber(s.t) or nil, sell = sells, buy = buys }))
+end
+
+
 local function setCursor(on)
     -- Arizona CEF: window.executeEvent('cef.toggleServerCursor', `[แสดง, ล็อกกล้อง]`)  (arg เป็น backtick JSON)
     local a = on and '[true, true]' or '[false, false]'
@@ -2397,6 +2962,7 @@ local function httpWorker()
         -- UA แบบเบราว์เซอร์: กัน Cloudflare Browser Integrity Check (error 1010) บล็อก client
         local opt = { headers = { ['content-type'] = 'application/json',
             ['user-agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36' } }
+        if url:match('^https://n%-api%.arizona%-rp%.com/api/map/%d+$') then opt.headers['referer'] = 'https://arizona-rp.com/' end
         if key and key ~= '' then opt.headers['x-lvm-key'] = key; if ver and ver ~= '' then opt.headers['x-lvm-ver'] = ver end end   -- รหัสอยู่ใน header ไม่อยู่ใน URL = ไม่ติดล็อกใคร
         if body then opt.data = body end
         local ok, r = pcall(requests.request, method, url, opt)
@@ -2410,7 +2976,8 @@ local function httpCall(method, url, body, cb)
     -- แนบรหัสเฉพาะคำขอที่ไปเซิร์ฟเวอร์ของเราเท่านั้น
     local base, key = srvUrl(), tostring(cfg.main.code or '')
     if base == '' or url:sub(1, #base + 1) ~= base .. '/' then key = '' end
-    -- เวอร์ชันสคริปต์ (เช่น 0.5.6-xxxx|static) ส่งไปกับคำขอที่ไปเซิร์ฟเวอร์เราเท่านั้น ไว้ดูว่าใครใช้รุ่นไหน ไม่มีข้อมูลส่วนตัว
+    if url:match('^https://n%-api%.arizona%-rp%.com/api/map/%d+$') then key = '' end
+    -- เวอร์ชันสคริปต์ (เช่น 0.5.5-695805fc|static) ส่งไปกับคำขอที่ไปเซิร์ฟเวอร์เราเท่านั้น ไว้ดูว่าใครใช้รุ่นไหน ไม่มีข้อมูลส่วนตัว
     local ver = ''
     if key ~= '' then ver = tostring(BUILD_STAMP or thisScript().version or '') .. (STATIC and '|static' or '') end
     local th = httpWorker()(method, url, body, key, ver)
@@ -2420,6 +2987,166 @@ local function httpCall(method, url, body, cb)
         netBusy = false
         local ok, codeN, text = th:get()
         pcall(cb, ok, codeN, text)
+    end)
+end
+
+-- Arizona map data stays local; only auction fields observed in the game may be shared.
+local propertyPending
+local gameAuction = {}
+local auctionPositions, auctionPositionsServer = {}, nil
+local auctionUpload, auctionPull = {}, nil
+local auctionUploadAfter = 0
+local function pushGameAuction()
+    for _, snapshot in pairs(gameAuction) do
+        if snapshot.server == serverKey() and os.time() - snapshot.seen < 300 then
+            if snapshot.server == auctionPositionsServer then
+                for _, item in ipairs(snapshot.items) do
+                    local pos = auctionPositions[snapshot.kind .. ':' .. item.id]
+                    if pos then item.x, item.y = pos.x, pos.y end
+                end
+            end
+            sendBig('__lvmAG', 'if(window.LVM&&LVM.auctionSeen)LVM.auctionSeen(__s)', encodeJson(snapshot))
+        end
+    end
+end
+local function captureAuctionDialog(title, text)
+    local heading = cp2u(title)
+    local isAuction = heading:find('аукцион', 1, true) or heading:find('Аукцион', 1, true) or heading:find('АУКЦИОН', 1, true)
+    local kind = (heading:find('бизнес', 1, true) or heading:find('Бизнес', 1, true) or heading:find('БИЗНЕС', 1, true)) and 'business'
+        or (heading:find('дома', 1, true) or heading:find('Дома', 1, true) or heading:find('ДОМА', 1, true)) and 'house'
+    if not isAuction or not kind then return end
+    local items, now = {}, os.time()
+    local clean = cp2u(text):gsub('{%x%x%x%x%x%x}', '')
+    for line in (clean .. '\n'):gmatch('(.-)\n') do
+        local a, b, h, m, s = line:find('(%d+):(%d%d):(%d%d)')
+        local shortClock = false
+        if not a then
+            local minutes, seconds
+            a, b, minutes, seconds = line:find('(%d+):(%d%d)')
+            if a then h, m, s, shortClock = '0', minutes, seconds, true end
+        end
+        if a then
+            local prefix, suffix = line:sub(1, a - 1), line:sub(b + 1)
+            local id = prefix:match('(%d+)')
+            local a1, b1, p1 = suffix:find('(%d[%d%.,]*)')
+            local a2, b2, p2
+            if b1 then a2, b2, p2 = suffix:find('(%d[%d%.,]*)', b1 + 1) end
+            if id and p1 and p2 and (shortClock or tonumber(m) < 60) and tonumber(s) < 60 then
+                local name = prefix:match('%d+%]?%s*(.-)%s*$') or ''
+                name = name:gsub('^[%]%s%-%:]+', ''):sub(1, 100)
+                local function currency(part)
+                    local upper = part:upper()
+                    if upper:find('VC$', 1, true) then return 'VC$' end
+                    if upper:find('BTC', 1, true) then return 'BTC' end
+                    if upper:find('$', 1, true) or upper:find(':CASH:', 1, true) then return '$' end
+                    local token = upper:match('%f[%a]([A-Z][A-Z][A-Z]+)%f[%A]')
+                    if token and #token <= 8 then return token end
+                end
+                local bridge = suffix:sub(b1 + 1, a2 - 1)
+                local firstCurrency = currency(suffix:sub(1, a1 - 1)) or currency(bridge)
+                local secondCurrency = currency(suffix:sub(b2 + 1))
+                    or currency(bridge:match('(%S+)%s*$') or '')
+                items[#items + 1] = { id = id, name = name, owner = '', kind = kind,
+                    startPrice = tonumber((p1:gsub('[%.,]', ''))), minBid = tonumber((p2:gsub('[%.,]', ''))),
+                    priceCurrency = firstCurrency, bidCurrency = secondCurrency,
+                    endTime = now + tonumber(h) * 3600 + tonumber(m) * 60 + tonumber(s) }
+            end
+        end
+    end
+    if #items == 0 then return end
+    gameAuction[kind] = { server = serverKey(), kind = kind, seen = now, items = items }
+    if tonumber(cfg.main.share) == 1 and serverKey() ~= '?' then
+        local clean = {}
+        for _, item in ipairs(items) do
+            clean[#clean + 1] = { kind = kind, id = item.id, seen = now, endTime = item.endTime,
+                startPrice = item.startPrice, minBid = item.minBid,
+                priceCurrency = item.priceCurrency, bidCurrency = item.bidCurrency }
+        end
+        auctionUpload[kind] = { server = serverKey(), items = clean }
+    end
+    pcall(pushGameAuction)
+end
+function auctionPoolStep()
+    if netBusy or not okEffil or srvUrl() == '' or tostring(cfg.main.code or '') == '' then return end
+    if tonumber(cfg.main.share) == 1 and os.clock() >= auctionUploadAfter then
+        for kind, batch in pairs(auctionUpload) do
+            auctionUpload[kind] = nil
+            auctionUploadAfter = os.clock() + 6
+            httpCall('POST', srvUrl() .. '/auction/submit', encodeJson(batch), function(ok, status)
+                if (not ok or status == 429 or status >= 500) and not auctionUpload[kind] and os.time() - (batch.items[1].seen or 0) < 300 then auctionUpload[kind] = batch end
+            end)
+            return
+        end
+    elseif tonumber(cfg.main.share) ~= 1 then
+        auctionUpload = {}
+    end
+    if auctionPull then
+        local key = auctionPull; auctionPull = nil
+        if not key:match('^[%w%.%-:]+$') then return end
+        httpCall('GET', srvUrl() .. '/auction/pool?server=' .. key, nil, function(ok, status, text)
+            if ok and status == 200 and text and panelOpen then
+                sendBig('__lvmAP', 'if(window.LVM&&LVM.auctionPool)LVM.auctionPool(__s)', text)
+            end
+        end)
+    end
+end
+function propertyStep()
+    if not propertyPending or netBusy then return end
+    local id = propertyPending
+    propertyPending = nil
+    local requestedKey = viewKey()
+    auctionPull = requestedKey
+    pcall(pushGameAuction)
+    if not okEffil then
+        if panelOpen then sendBig('__lvmP', 'if(window.LVM&&LVM.property)LVM.property(__s)', encodeJson({ server = id, ok = false })) end
+        return
+    end
+    httpCall('GET', 'https://n-api.arizona-rp.com/api/map/' .. id, nil, function(ok, code, text)
+        local out = { server = id, items = {}, ok = false }
+        if ok and code == 200 and text then
+            local valid, data = pcall(decodeJson, text)
+            if valid and type(data) == 'table' and type(data.houses) == 'table' and type(data.businesses) == 'table' then
+                local function add(list, kind)
+                    if type(list) ~= 'table' then return end
+                    for _, item in ipairs(list) do
+                        if type(item) == 'table' and item.id ~= nil then
+                            -- Arizona map IDs are one higher than the in-game auction IDs.
+                            local displayId = tonumber(item.id)
+                            if displayId and displayId >= 1 then displayId = displayId - 1 end
+                            out.items[#out.items + 1] = { id = tostring(displayId or item.id), owner = tostring(item.owner or ''),
+                                name = tostring(item.name or ''), kind = kind, startPrice = tonumber(item.auStartPrice),
+                                minBid = tonumber(item.auMinBet), endTime = tonumber(item.auTimeEnd),
+                                x = tonumber(item.lx), y = tonumber(item.ly) }
+                        end
+                    end
+                end
+                add(data.houses.onAuction, 'house')
+                add(data.businesses.onAuction, 'business')
+                -- Cache only public property locations locally, for matching game-dialog auction rows.
+                if requestedKey == serverKey() then
+                    local locations = {}
+                    local function collect(list, kind)
+                        if type(list) ~= 'table' then return end
+                        for _, item in ipairs(list) do
+                            if type(item) == 'table' then
+                                local pid, x, y = tonumber(item.id), tonumber(item.lx), tonumber(item.ly)
+                                if pid and pid >= 1 and x and y then locations[kind .. ':' .. tostring(pid - 1)] = { x = x, y = y } end
+                            end
+                        end
+                    end
+                    for _, list in pairs(data.houses) do collect(list, 'house') end
+                    for key, list in pairs(data.businesses) do
+                        if key == 'noAuction' and type(list) == 'table' then
+                            for _, group in pairs(list) do collect(group, 'business') end
+                        else collect(list, 'business') end
+                    end
+                    auctionPositions, auctionPositionsServer = locations, requestedKey
+                    pcall(pushGameAuction)
+                end
+                out.ok = true
+            end
+        end
+        if panelOpen then sendBig('__lvmP', 'if(window.LVM&&LVM.property)LVM.property(__s)', encodeJson(out)) end
     end)
 end
 function doMe()
@@ -2434,7 +3161,9 @@ function doMe()
             end
         elseif ok and codeN == 403 then
             -- รหัสโดนแบน/ไม่ถูกต้องแล้ว: เด้งออกไปหน้าล็อกอินเอง (ไม่เตะคนที่เน็ตหลุดชั่วคราว)
-            cfg.main.code = ''; profile = { connected = false }
+            local why; local okj, d = pcall(decodeJson, text or '')
+            if okj and type(d) == 'table' and d.reason then why = tostring(d.reason) end
+            cfg.main.code = ''; profile = { connected = false, notice = why }   -- notice = เหตุผลที่ถูกเด้งออก (left/banned) ให้หน้าล็อกอินบอกผู้ใช้
             saveCfg()
             if panelOpen then pushProfile() end
         end
@@ -2608,6 +3337,33 @@ function LVM_pumpDlgInfo()
     if prev and prev.k == k and os.clock() - prev.t < 1800 then return end
     infoSent[key] = { k = k, t = os.clock() }
     httpCall('POST', url .. '/info', encodeJson({ server = serverKey(), base = base, vid = key, lines = lines }), function() end)
+end
+
+-- ร้านของเราถูกลบ / หมดสัญญาเช่าแผง: เซิร์ฟเวอร์ส่งข้อความแจ้งในแชต -> แจ้งกองกลางให้ซ่อนร้านเราทันที (ไม่รอ 24 ชม.)
+-- ตรวจแค่วลีสั้น ๆ ในข้อความเดียว ไม่เก็บ ไม่บันทึก และไม่ส่งข้อความแชตของใครเลย ส่งเฉพาะ "ชื่อร้านของเราเอง"
+local CLOSE_PHRASES = { 'удалил вашу лавку', 'Лавка была удалена', 'лавка была удалена', 'время аренды аксессуара вышло' }
+function LVM_chatShopClosed(text)
+    if type(text) ~= 'string' or #text > 600 then return end
+    local u = cp2u(text)
+    for _, ph in ipairs(CLOSE_PHRASES) do
+        if u:find(ph, 1, true) then
+            LVMQ = LVMQ or {}
+            if not LVMQ.closedAt or os.clock() - LVMQ.closedAt > 60 then LVMQ.closed = true; LVMQ.closedAt = os.clock() end
+            return
+        end
+    end
+end
+function LVM_pumpClosed()
+    if netBusy then return end
+    LVMQ.closed = nil
+    local name = myNick()
+    if not name or name == '' then return end
+    local shop = (myShops())[name]
+    if type(shop) == 'table' then shop.closed = os.time(); dbDirty = true end     -- ซ่อนในเครื่องเรา (ข้อมูลเดิมยังอยู่ในไฟล์)
+    buildMarket()
+    local url = srvUrl()
+    if url == '' or tostring(cfg.main.code or '') == '' or tonumber(cfg.main.share) ~= 1 then return end
+    httpCall('POST', url .. '/shop/closed', encodeJson({ server = serverKey(), name = name }), function() end)
 end
 
 -- ===== อัปเดตสคริปต์ในตัว (ไฟล์จากเซิร์ฟเวอร์เราเท่านั้น: LavkaMarket.lua + LavkaMarket/web/*) =====
@@ -2794,6 +3550,25 @@ local function loadPoolCache(key)
     POOL = c.shops; lastPullAt = t; pcall(buildMarket); uiDirty = true
     return true
 end
+-- ประวัติ "เคยเห็น": ดึงจากกองกลาง (/gone) ตอนดึง pool เสร็จ ; ขับจาก main loop ไม่เรียก httpCall ซ้อนใน callback
+function LVM_pumpGone()
+    if netBusy or not okEffil or type(LVMQ) ~= 'table' or not LVMQ.wantGone then return end
+    local want = LVMQ.wantGone; LVMQ.wantGone = nil
+    local url, code = srvUrl(), tostring(cfg.main.code or '')
+    if url == '' or code == '' then return end
+    httpCall('GET', url .. '/gone?server=' .. want, nil, function(ok, codeN, text)
+        if not (ok and codeN == 200 and text) then return end
+        local okj, d = pcall(decodeJson, text)
+        if not (okj and type(d) == 'table' and type(d.items) == 'table') or want ~= viewKey() then return end
+        local g = {}
+        for _, it in ipairs(d.items) do
+            if type(it) == 'table' and it.v then g[tostring(it.v)] = { d = it.d, s = tonumber(it.s), b = tonumber(it.b) } end
+        end
+        LVMQ.gone = g
+        pcall(buildMarket)
+        if panelOpen then pcall(pushRows) end
+    end)
+end
 local function doPull()
     local url, code = srvUrl(), tostring(cfg.main.code or '')
     if url == '' or code == '' then return end
@@ -2805,6 +3580,7 @@ local function doPull()
             local okj, d = pcall(decodeJson, text)
             if okj and type(d) == 'table' and type(d.shops) == 'table' and want == viewKey() then
                 POOL = d.shops; buildMarket(); lastPullAt = os.time()
+                LVMQ = LVMQ or {}; LVMQ.wantGone = want
                 poolMem[want] = { shops = POOL, t = lastPullAt }
                 if not viewSrv then pcall(savePoolCache, want) end   -- ไฟล์เก็บเฉพาะเซิร์ฟตัวเอง (รีโหลดแล้วกลับมาที่เซิร์ฟตัวเองเสมอ)
                 local c = 0; for _ in pairs(mergedShops()) do c = c + 1 end
@@ -2838,6 +3614,7 @@ local function oauthPollOnce()
             oauthState = nil
             if d.reason == 'banned' then cefEval("if(window.LVM)LVM.loginError('err_bad')")
             elseif d.reason == 'timeout' then cefEval("if(window.LVM)LVM.loginError('err_member')")
+            elseif d.reason == 'denied' then cefEval("if(window.LVM)LVM.loginError('err_denied')")   -- กดยกเลิกที่หน้า Discord
             else cefEval("if(window.LVM)LVM.loginError('err_oauth')") end
         elseif type(d) == 'table' and d.status == 'join' then
             if not oauthJoinOpened then oauthJoinOpened = true; openUrl(DISCORD_INVITE) end   -- เปิดลิงก์เชิญครั้งเดียว
@@ -2846,7 +3623,7 @@ local function oauthPollOnce()
             oauthNextAt = os.clock() + 3
         else
             oauthN = (oauthN or 0) + 1
-            if oauthN > 60 then oauthState = nil; cefEval("if(window.LVM)LVM.loginError('err_oauth')")
+            if oauthN > 150 then oauthState = nil; cefEval("if(window.LVM)LVM.loginError('err_oauth')")
             else oauthNextAt = os.clock() + 2 end
         end
     end)
@@ -2909,6 +3686,9 @@ function onSendPacket(id, bs)
                 cefEval("if(window.LVM)LVM.loginError('" .. ek .. "')")
             end
         end)
+        return false
+    elseif str == 'lvm|oauthcancel' then
+        oauthState = nil           -- ผู้ใช้ย้อนกลับ/เปลี่ยนไปใช้โค้ด: เลิกคำขอเก่า ปุ่ม Discord กดใหม่ได้ทันที
         return false
     elseif str == 'lvm|oauth' then
         doOAuth()                      -- ล็อกอินด้วย Discord (OAuth) -> ได้คีย์อัตโนมัติ
@@ -3076,6 +3856,7 @@ if okEv and sampev then
         elseif ownAsk and ownAsk.id == id then ownAsk = nil end
     end
     sampev.onShowDialog = function(id, style, title, b1, b2, text)
+        if LVM_carsDialog then pcall(LVM_carsDialog, title, text) end
         pcall(ownLog, ('DLG id=%s style=%s title=%s | %s'):format(tostring(id), tostring(style), tostring(title), tostring(text):gsub('\n', ' / ')))
         if cp2u(text):find('Управление продажей товаров', 1, true) then ownOpenAt = os.clock() end
         if cp2u(title):find('Снятие со скупки', 1, true) then pcall(ownCancelShow, id, text) end
@@ -3104,6 +3885,9 @@ if okEv and sampev then
         if not n and style == 0 then n = 1 end   -- กล่องข้อความไม่มีช่องใส่จำนวน = มีชิ้นเดียว
         if n then pcall(applyStock, openShop.name, click.slot, n) end
         pcall(LVM_dlgInfo, openShop.name, click.slot, 'sell', text)
+    end
+    sampev.onServerMessage = function(color, text)   -- ดูเฉพาะวลี 'ร้านถูกลบ/หมดสัญญา' ; ไม่แก้และไม่บล็อกข้อความ
+        pcall(LVM_chatShopClosed, text)
     end
 end
 
@@ -3160,7 +3944,9 @@ function main()
         if dbDirty and os.clock() - lastSave > 10 then pcall(saveDB); lastSave = os.clock() end
         if panelOpen and uiDirty then pcall(pushRows) end
         if wantItem then local v = wantItem; wantItem = nil; if panelOpen then pcall(pushItem, v) end end
+        if LVMQ and LVMQ.closed then pcall(LVM_pumpClosed) end
         if LVMQ and LVMQ.dinfo and #LVMQ.dinfo > 0 then pcall(LVM_pumpDlgInfo) end
+        if LVMQ and LVMQ.wantGone then pcall(LVM_pumpGone) end
         if wantHist and not netBusy then local v = wantHist; wantHist = nil; if panelOpen and v:match('^[%d~et]+$') then pcall(doHist, v) end end
         if oauthState and oauthNextAt and os.clock() >= oauthNextAt and not netBusy then
             oauthNextAt = os.clock() + 3      -- กันยิงซ้ำระหว่างรอผล
